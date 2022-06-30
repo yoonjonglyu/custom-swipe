@@ -40,5 +40,9 @@
   "bugs": {
     "url": "https://github.com/yoonjonglyu/react-simple-swipe/issues"
   },
-  "homepage": "https://github.com/yoonjonglyu/react-simple-swipe#readme"
+  "homepage": "https://github.com/yoonjonglyu/react-simple-swipe#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
 }
