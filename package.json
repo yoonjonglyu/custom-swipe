@@ -3,7 +3,19 @@
   "version": "1.0.0",
   "description": "react custom swipe",
   "main": "index.ts",
-  "devDependencies": {},
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/plugin-transform-react-jsx"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.6",
+    "@babel/core": "^7.18.6",
+    "@babel/plugin-transform-react-jsx": "^7.18.6",
+    "@babel/preset-react": "^7.18.6",
+    "typescript": "^4.7.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
