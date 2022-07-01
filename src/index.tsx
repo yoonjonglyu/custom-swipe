@@ -1,9 +1,7 @@
 import React from 'react';
-interface asd {
-  a?: string
-}
-const A: React.FC<asd> = () => {
-  return <div></div>;
-};
+import { createRoot } from 'react-dom/client';
 
-export default A;
+const root = document.querySelector('#app');
+if (root !== null) {
+  createRoot(root).render(<div>app</div>);
+} else console.error('루트노드를 찾을 수 없습니다.');
