@@ -7,9 +7,9 @@ export interface UseSwipeEvents<T> {
   onTouchMove: React.TouchEventHandler<T>;
   onTouchEnd: React.TouchEventHandler<T>;
   onTouchCancel: React.TouchEventHandler<T>;
-  onPointerDown: React.MouseEventHandler<T>;
-  onPointerMove: React.MouseEventHandler<T>;
-  onPointerUp: React.MouseEventHandler<T>;
+  onPointerDown: React.PointerEventHandler<T>;
+  onPointerMove: React.PointerEventHandler<T>;
+  onPointerUp: React.PointerEventHandler<T>;
 }
 
 export default function useSwipe(
