@@ -27,5 +27,7 @@ export default function useSwipe(
     onPointerDown: Events.desktopStart,
     onPointerMove: Events.desktopMove,
     onPointerUp: Events.desktopEnd,
+    onPointerLeave: Events.desktopEnd,
+    onPointerCancle: Events.desktopEnd,
   } as unknown as UseSwipeEvents<typeof dom.current>;
 }
