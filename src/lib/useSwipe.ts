@@ -17,6 +17,7 @@ export default function useSwipe(
   length: number,
 ) {
   const Events = SwipeEvents(dom, length);
+  window.addEventListener('resize', Events.resize);
 
   return {
     onTouchStart: Events.mobileStart,
