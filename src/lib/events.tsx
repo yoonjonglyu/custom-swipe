@@ -21,7 +21,12 @@ export default function SwipeEvents(
       e.type === 'touchstart' && e.targetTouches
         ? e.targetTouches[0].pageX
         : e.pageX || 0;
+    const y =
+      e.type === 'touchstart' && e.targetTouches
+        ? e.targetTouches[0].pageY
+        : e.pageY || 0;
     swipeState.startX = x;
+    swipeState.startY = y;
     swipeState.isSwipe = true;
     swipeState.swipeTime = Date.now();
   };
@@ -31,9 +36,12 @@ export default function SwipeEvents(
         e.type === 'touchmove' && e.targetTouches
           ? e.targetTouches[0].pageX
           : e.pageX || 0;
-
+      const y =
+        e.type === 'touchmove' && e.targetTouches
+          ? e.targetTouches[0].pageY
+          : e.pageY || 0;
       const offset = x - swipeState.startX - swipeState.currentX;
-      if (Container.current) {
+      if (Container.current && Math.abs(swipeState.startY - y) < 20) {
         Container.current.style.transition = 'none';
         Container.current.style.transform = `translateX(${offset}px)`;
       }
@@ -45,11 +53,17 @@ export default function SwipeEvents(
         e.type === 'touchend' && e.changedTouches
           ? e.changedTouches[0].pageX
           : e.pageX || 0;
+      const y =
+        e.type === 'touchend' && e.changedTouches
+          ? e.changedTouches[0].pageY
+          : e.pageY || 0;
       const viewport = e.target as any;
       const offset = swipeState.startX - x;
+
       if (
-        Math.abs(offset) >= viewport.clientWidth / 2 ||
-        Date.now() - swipeState.swipeTime < 200
+        (Math.abs(offset) >= viewport.clientWidth / 2 ||
+          Date.now() - swipeState.swipeTime < 200) &&
+        Math.abs(swipeState.startY - y) < 20
       ) {
         if (offset < 0 && swipeState.currentStep > 0) {
           swipeState.currentStep--;
