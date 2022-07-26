@@ -4,11 +4,14 @@ export default function SwipeEvents(
   Container: React.RefObject<HTMLElement>,
   itemLength: number,
 ) {
-  let isSwipe = false;
-  let initOffset = 0;
-  let currentStep = 0;
-  let currentOffset = 0;
-  let swipeTime = 0;
+  const swipeState = {
+    isSwipe: false,
+    startX: 0,
+    startY: 0,
+    currentX: 0,
+    currentStep: 0,
+    swipeTime: 0,
+  };
 
   /**
    * @description 스와이프 기능(플립액션)과 리사이즈 관련 된 로직들
@@ -18,18 +21,18 @@ export default function SwipeEvents(
       e.type === 'touchstart' && e.targetTouches
         ? e.targetTouches[0].pageX
         : e.pageX || 0;
-    initOffset = x;
-    isSwipe = true;
-    swipeTime = Date.now();
+    swipeState.startX = x;
+    swipeState.isSwipe = true;
+    swipeState.swipeTime = Date.now();
   };
   const handleMove = (e: Partial<TouchEvent & MouseEvent>) => {
-    if (isSwipe) {
+    if (swipeState.isSwipe) {
       const x =
         e.type === 'touchmove' && e.targetTouches
           ? e.targetTouches[0].pageX
           : e.pageX || 0;
 
-      const offset = x - initOffset - currentOffset;
+      const offset = x - swipeState.startX - swipeState.currentX;
       if (Container.current) {
         Container.current.style.transition = 'none';
         Container.current.style.transform = `translateX(${offset}px)`;
@@ -37,39 +40,38 @@ export default function SwipeEvents(
     }
   };
   const handleEnd = (e: Partial<TouchEvent & MouseEvent>) => {
-    if (isSwipe) {
+    if (swipeState.isSwipe) {
       const x =
         e.type === 'touchend' && e.changedTouches
           ? e.changedTouches[0].pageX
           : e.pageX || 0;
       const viewport = e.target as any;
-      const offset = initOffset - x;
+      const offset = swipeState.startX - x;
       if (
         Math.abs(offset) >= viewport.clientWidth / 2 ||
-        Date.now() - swipeTime < 200
+        Date.now() - swipeState.swipeTime < 200
       ) {
-        if (offset < 0 && currentStep > 0) {
-          currentStep--;
-          currentOffset = currentStep * viewport.clientWidth;
-        } else if (offset > 0 && currentStep < itemLength - 1) {
-          currentStep++;
-          currentOffset = currentStep * viewport.clientWidth;
+        if (offset < 0 && swipeState.currentStep > 0) {
+          swipeState.currentStep--;
+        } else if (offset > 0 && swipeState.currentStep < itemLength - 1) {
+          swipeState.currentStep++;
         }
+        swipeState.currentX = swipeState.currentStep * viewport.clientWidth;
       }
       if (Container.current) {
         Container.current.style.transition = '400ms';
-        Container.current.style.transform = `translateX(-${currentOffset}px)`;
+        Container.current.style.transform = `translateX(-${swipeState.currentX}px)`;
       }
-      isSwipe = false;
-      swipeTime = 0;
+      swipeState.isSwipe = false;
+      swipeState.swipeTime = 0;
     }
   };
   const handleResize = (e: Event) => {
     const viewport = e.target as any;
-    currentOffset = currentStep * viewport.innerWidth;
+    swipeState.currentX = swipeState.currentStep * viewport.innerWidth;
     if (Container.current) {
       Container.current.style.transition = 'none';
-      Container.current.style.transform = `translateX(-${currentOffset}px)`;
+      Container.current.style.transform = `translateX(-${swipeState.currentX}px)`;
     }
   };
 
