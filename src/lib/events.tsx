@@ -13,31 +13,47 @@ export default function SwipeEvents(
   /**
    * @description 스와이프 기능(플립액션)과 리사이즈 관련 된 로직들
    */
-  const handleStart = (x: number) => {
-    isSwipe = true;
+  const handleStart = (e: Partial<TouchEvent & MouseEvent>) => {
+    const x =
+      e.type === 'touchstart' && e.targetTouches
+        ? e.targetTouches[0].pageX
+        : e.pageX || 0;
     initOffset = x;
+    isSwipe = true;
     swipeTime = Date.now();
   };
-  const handleMove = (x: number) => {
+  const handleMove = (e: Partial<TouchEvent & MouseEvent>) => {
     if (isSwipe) {
-      const offset = initOffset - x - currentOffset;
+      const x =
+        e.type === 'touchmove' && e.targetTouches
+          ? e.targetTouches[0].pageX
+          : e.pageX || 0;
+
+      const offset = x - initOffset - currentOffset;
       if (Container.current) {
         Container.current.style.transition = 'none';
         Container.current.style.transform = `translateX(${offset}px)`;
       }
     }
   };
-  const handleEnd = (x: number) => {
+  const handleEnd = (e: Partial<TouchEvent & MouseEvent>) => {
     if (isSwipe) {
-      const viewport = window.innerWidth > 500 ? 720 : 360;
+      const x =
+        e.type === 'touchend' && e.changedTouches
+          ? e.changedTouches[0].pageX
+          : e.pageX || 0;
+      const viewport = e.target as any;
       const offset = initOffset - x;
-      if (Math.abs(offset) >= viewport / 2 || Date.now() - swipeTime < 200) {
-        if (offset > 0 && currentStep > 0) {
+      if (
+        Math.abs(offset) >= viewport.clientWidth / 2 ||
+        Date.now() - swipeTime < 200
+      ) {
+        if (offset < 0 && currentStep > 0) {
           currentStep--;
-          currentOffset = currentStep * viewport;
-        } else if (offset < 0 && currentStep < itemLength - 1) {
+          currentOffset = currentStep * viewport.clientWidth;
+        } else if (offset > 0 && currentStep < itemLength - 1) {
           currentStep++;
-          currentOffset = currentStep * viewport;
+          currentOffset = currentStep * viewport.clientWidth;
         }
       }
       if (Container.current) {
@@ -48,9 +64,9 @@ export default function SwipeEvents(
       swipeTime = 0;
     }
   };
-  const handleResize = () => {
-    const viewport = window.innerWidth > 500 ? 720 : 360;
-    currentOffset = currentStep * viewport;
+  const handleResize = (e: Event) => {
+    const viewport = e.target as any;
+    currentOffset = currentStep * viewport.innerWidth;
     if (Container.current) {
       Container.current.style.transition = 'none';
       Container.current.style.transform = `translateX(-${currentOffset}px)`;
@@ -59,25 +75,25 @@ export default function SwipeEvents(
 
   return {
     desktopStart: (e: MouseEvent) => {
-      handleStart(e.pageX);
+      !/iPhone|iPad|Android/g.test(navigator.userAgent) && handleStart(e);
     },
     desktopMove: (e: MouseEvent) => {
-      handleMove(e.pageX);
+      !/iPhone|iPad|Android/g.test(navigator.userAgent) && handleMove(e);
     },
     desktopEnd: (e: MouseEvent) => {
-      if (!/iPhone|iPad|Android/g.test(navigator.userAgent)) handleEnd(e.pageX);
+      !/iPhone|iPad|Android/g.test(navigator.userAgent) && handleEnd(e);
     },
     mobileStart: (e: TouchEvent) => {
-      handleStart(e.touches[0].pageX);
+      handleStart(e);
     },
     mobileMove: (e: TouchEvent) => {
-      handleMove(e.targetTouches[0].pageX);
+      handleMove(e);
     },
     mobileEnd: (e: TouchEvent) => {
-      handleEnd(e.changedTouches[0].pageX);
+      handleEnd(e);
     },
-    resize: () => {
-      handleResize();
+    resize: (e: Event) => {
+      handleResize(e);
     },
   };
 }
