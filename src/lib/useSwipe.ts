@@ -16,9 +16,7 @@ export default function useSwipe(
   dom: React.RefObject<HTMLElement>,
   length: number,
 ) {
-  const Events = dom.current
-    ? SwipeEvents(dom.current, length)
-    : SwipeEvents(document.createElement('div'), length);
+  const Events = SwipeEvents(dom, length);
 
   return {
     onTouchStart: Events.mobileStart,

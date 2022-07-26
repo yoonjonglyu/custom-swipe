@@ -10,7 +10,6 @@ const Swipe: React.FC<SwipeProps> = (props) => {
   const { item } = props;
   const ref = createRef<HTMLUListElement>();
   const SwipeEvents = useSwipe(ref, 5);
-
   return (
     <div className='swipe-container'>
       <ul className='swipe-wrap' ref={ref} {...SwipeEvents}>

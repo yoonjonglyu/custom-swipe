@@ -1,5 +1,7 @@
+import React from 'react';
+
 export default function SwipeEvents(
-  Container: HTMLElement,
+  Container: React.RefObject<HTMLElement>,
   itemLength: number,
 ) {
   let isSwipe = false;
@@ -19,8 +21,10 @@ export default function SwipeEvents(
   const handleMove = (x: number) => {
     if (isSwipe) {
       const offset = initOffset - x - currentOffset;
-      Container.style.transition = 'none';
-      Container.style.transform = `translateX(${offset}px)`;
+      if (Container.current) {
+        Container.current.style.transition = 'none';
+        Container.current.style.transform = `translateX(${offset}px)`;
+      }
     }
   };
   const handleEnd = (x: number) => {
@@ -36,8 +40,10 @@ export default function SwipeEvents(
           currentOffset = currentStep * viewport;
         }
       }
-      Container.style.transition = '400ms';
-      Container.style.transform = `translateX(-${currentOffset}px)`;
+      if (Container.current) {
+        Container.current.style.transition = '400ms';
+        Container.current.style.transform = `translateX(-${currentOffset}px)`;
+      }
       isSwipe = false;
       swipeTime = 0;
     }
@@ -45,8 +51,10 @@ export default function SwipeEvents(
   const handleResize = () => {
     const viewport = window.innerWidth > 500 ? 720 : 360;
     currentOffset = currentStep * viewport;
-    Container.style.transition = '0';
-    Container.style.transform = `translateX(-${currentOffset}px)`;
+    if (Container.current) {
+      Container.current.style.transition = 'none';
+      Container.current.style.transform = `translateX(-${currentOffset}px)`;
+    }
   };
 
   return {
