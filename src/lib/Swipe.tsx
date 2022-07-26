@@ -15,8 +15,8 @@ const Swipe: React.FC<SwipeProps> = (props) => {
     <div
       className='swipe-container'
       style={{
-        display: 'flex',
         position: 'relative',
+        display: 'flex',
         padding: 0,
         overflow: 'hidden',
         zIndex: 1,
@@ -24,13 +24,14 @@ const Swipe: React.FC<SwipeProps> = (props) => {
       <ul
         className='swipe-wrap'
         style={{
+          position: 'relative',
+          zIndex: 1,
           display: 'flex',
           width: '100%',
           height: '100%',
-          listStyle: 'none',
-          position: 'relative',
           margin: '0 auto',
-          zIndex: 1,
+          padding: 0,
+          listStyle: 'none',
           transitionProperty: 'transform',
           boxSizing: 'content-box',
         }}
