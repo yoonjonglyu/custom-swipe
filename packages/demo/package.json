@@ -24,7 +24,10 @@
     "url": "https://github.com/yoonjonglyu/webpack-init-template/issues"
   },
   "homepage": "https://github.com/yoonjonglyu/webpack-init-template#readme",
-  "dependencies": {},
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.8",
