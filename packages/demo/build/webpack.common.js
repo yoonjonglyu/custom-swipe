@@ -7,6 +7,9 @@ const config = {
     path: commonPaths.outputPath,
     publicPath: '/',
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', 'jsx'],
+  },
   module: {
     rules: [
       {
