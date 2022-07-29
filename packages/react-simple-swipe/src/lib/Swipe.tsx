@@ -3,22 +3,25 @@ import React, { createRef } from 'react';
 import useSwipe from './useSwipe';
 
 export interface SwipeProps {
+  containerProps?: React.HTMLAttributes<HTMLDivElement>;
+  itemProps?: React.HTMLAttributes<HTMLLIElement>;
   item: Array<React.ReactNode>;
 }
 
-const Swipe: React.FC<SwipeProps> = (props) => {
-  const { item } = props;
+const Swipe: React.FC<SwipeProps> = ({ containerProps, itemProps, item }) => {
   const ref = createRef<HTMLUListElement>();
 
   return (
     <div
       className='swipe-container'
+      {...containerProps}
       style={{
         position: 'relative',
         display: 'flex',
         padding: 0,
         overflow: 'hidden',
         zIndex: 1,
+        ...containerProps?.style,
       }}>
       <ul
         className='swipe-wrap'
@@ -41,14 +44,14 @@ const Swipe: React.FC<SwipeProps> = (props) => {
             <li
               key={key}
               className='swipe-item'
+              {...itemProps}
               style={{
                 position: 'relative',
                 flexShrink: 0,
                 width: '100%',
                 height: '100%',
-                minHeight: '360px',
-                border: '1px solid',
                 textAlign: 'center',
+                ...itemProps?.style,
               }}>
               {item}
             </li>
