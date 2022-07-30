@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Swipe from '../../react-custom-swipe/src';
+import ReactSwipe from 'react-custom-swipe';
 
 import cat1 from './image/cat1.jpg';
 import cat2 from './image/cat2.jpg';
@@ -19,7 +20,7 @@ const App: React.FC = () => {
   return (
     <div>
       <h1>샘플 데모</h1>
-      <Swipe
+      <ReactSwipe
         item={[
           cat1,
           cat2,

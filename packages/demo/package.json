@@ -26,6 +26,7 @@
   "homepage": "https://github.com/yoonjonglyu/webpack-init-template#readme",
   "dependencies": {
     "react": "^18.2.0",
+    "react-custom-swipe": "^1.0.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
