@@ -1,5 +1,5 @@
 {
-  "name": "react-simple-swipe",
+  "name": "react-custom-swipe",
   "version": "1.0.0",
   "description": "react custom swipe",
   "main": "dist/index.js",
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yoonjonglyu/react-simple-swipe.git"
+    "url": "git+https://github.com/yoonjonglyu/react-custom-swipe.git"
   },
   "keywords": [
     "react",
@@ -41,9 +41,9 @@
   "author": "ISA",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yoonjonglyu/react-simple-swipe/issues"
+    "url": "https://github.com/yoonjonglyu/react-custom-swipe/issues"
   },
-  "homepage": "https://github.com/yoonjonglyu/react-simple-swipe#readme",
+  "homepage": "https://github.com/yoonjonglyu/react-custom-swipe#readme",
   "dependencies": {
     "react": "^18.2.0"
   }
