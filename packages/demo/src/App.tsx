@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Swipe from '../../react-simple-swipe/src';
+import Swipe from '../../react-custom-swipe/src';
 
 import cat1 from './image/cat1.jpg';
 import cat2 from './image/cat2.jpg';
