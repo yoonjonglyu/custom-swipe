@@ -35,9 +35,14 @@ const App: React.FC = () => {
           iu1,
           iu2,
         ].map((src, key) => (
-          <img key={key} src={src} alt={src} />
+          <img
+            key={key}
+            src={src}
+            alt={src}
+            style={{ width: '100%', maxWidth: '100%' }}
+          />
         ))}
-        itemProps={{ style: { border: '1px solid', minHeight: '360px' } }}
+        itemProps={{ style: { border: '1px solid' } }}
       />
     </div>
   );
