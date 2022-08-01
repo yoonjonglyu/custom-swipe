@@ -35,12 +35,25 @@ const App: React.FC = () => {
           iu1,
           iu2,
         ].map((src, key) => (
-          <img
-            key={key}
-            src={src}
-            alt={src}
-            style={{ width: '100%', maxWidth: '100%' }}
-          />
+          <div>
+            <img
+              key={key}
+              src={src}
+              alt={src}
+              style={{ width: '100%', maxWidth: '100%' }}
+            />
+            <div>
+              <h2>example {key}</h2>
+              {Array.from({ length: 10 }, (_, key) => (
+                <img
+                  key={key}
+                  src={src}
+                  alt={src}
+                  style={{ width: '100%', maxWidth: '100%' }}
+                />
+              ))}
+            </div>
+          </div>
         ))}
         itemProps={{ style: { border: '1px solid' } }}
       />
