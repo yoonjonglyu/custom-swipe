@@ -7,8 +7,15 @@ Basic Swipe and Infinite Scroll Swipe are provided as components and custom hook
 
 ## Install
 
+1.yarn
+
 ```shell
 yarn add react-custom-swipe
+```
+
+2.npm
+
+```shell
 npm install react-custom-swipe
 ```
 
