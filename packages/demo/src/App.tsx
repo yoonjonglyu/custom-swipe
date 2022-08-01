@@ -1,4 +1,5 @@
 import React from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import Swipe from '../../react-custom-swipe/src';
 import ReactSwipe from 'react-custom-swipe';
@@ -16,9 +17,21 @@ import cat10 from './image/cat10.jpg';
 import iu1 from './image/iu1.jpg';
 import iu2 from './image/iu2.jpg';
 
+const Style = createGlobalStyle`
+  *{
+    -webkit-user-drag: none;
+  }
+`;
+const Wrap = styled.div`
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+`;
+
 const App: React.FC = () => {
   return (
-    <div>
+    <Wrap>
+      <Style />
       <h1>샘플 데모</h1>
       <ReactSwipe
         item={[
@@ -57,7 +70,7 @@ const App: React.FC = () => {
         ))}
         itemProps={{ style: { border: '1px solid' } }}
       />
-    </div>
+    </Wrap>
   );
 };
 
