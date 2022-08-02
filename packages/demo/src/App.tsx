@@ -32,7 +32,7 @@ const App: React.FC = () => {
   return (
     <Wrap>
       <Style />
-      <h1>샘플 데모</h1>
+      <h1>swipe demo</h1>
       <Swipe
         item={[
           cat1,
