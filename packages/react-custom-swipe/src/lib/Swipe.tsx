@@ -51,6 +51,7 @@ const Swipe: React.FC<SwipeProps> = ({ containerProps, itemProps, item }) => {
                 width: '100%',
                 height: '100%',
                 textAlign: 'center',
+                boxSizing: 'border-box',
                 ...itemProps?.style,
               }}>
               {item}
