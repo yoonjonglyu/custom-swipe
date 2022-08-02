@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "yarn workspace react-custom-swipe publish:npm",
-    "postbuild": "yarn workspace react-custom-swipe publish:type"
+    "postbuild": "yarn workspace react-custom-swipe publish:type",
+    "publish:swipe": "yarn workspace react-custom-swipe publish"
   }
 }
