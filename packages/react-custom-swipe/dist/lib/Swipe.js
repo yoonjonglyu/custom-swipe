@@ -65,7 +65,8 @@ var Swipe = function Swipe(_ref) {
         flexShrink: 0,
         width: '100%',
         height: '100%',
-        textAlign: 'center'
+        textAlign: 'center',
+        boxSizing: 'border-box'
       }, itemProps === null || itemProps === void 0 ? void 0 : itemProps.style)
     }), item);
   })));

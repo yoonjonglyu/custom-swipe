@@ -6,5 +6,5 @@ export default function SwipeEvents(Container: React.RefObject<HTMLElement>, ite
     mobileStart: (e: TouchEvent) => void;
     mobileMove: (e: TouchEvent) => void;
     mobileEnd: (e: TouchEvent) => void;
-    resize: (e: Event) => void;
+    resize: () => void;
 };

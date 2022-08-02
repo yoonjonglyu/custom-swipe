@@ -28,12 +28,12 @@ function SwipeEvents(Container, itemLength) {
   };
 
   var handleMove = function handleMove(e) {
-    if (swipeState.isSwipe) {
+    if (swipeState.isSwipe && Container.current !== null) {
       var x = e.type === 'touchmove' && e.targetTouches ? e.targetTouches[0].pageX : e.pageX || 0;
       var y = e.type === 'touchmove' && e.targetTouches ? e.targetTouches[0].pageY : e.pageY || 0;
       var offset = x - swipeState.startX - swipeState.currentX;
 
-      if (Container.current && Math.abs(swipeState.startY - y) < 20) {
+      if (Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)) {
         Container.current.style.transition = 'none';
         Container.current.style.transform = "translateX(".concat(offset, "px)");
       }
@@ -41,37 +41,26 @@ function SwipeEvents(Container, itemLength) {
   };
 
   var handleEnd = function handleEnd(e) {
-    if (swipeState.isSwipe) {
+    if (swipeState.isSwipe && Container.current !== null) {
       var x = e.type === 'touchend' && e.changedTouches ? e.changedTouches[0].pageX : e.pageX || 0;
       var y = e.type === 'touchend' && e.changedTouches ? e.changedTouches[0].pageY : e.pageY || 0;
-      var viewport = e.target;
       var offset = swipeState.startX - x;
 
-      if ((Math.abs(offset) >= viewport.clientWidth / 2 || Date.now() - swipeState.swipeTime < 200) && Math.abs(swipeState.startY - y) < 20) {
-        if (offset < 0 && swipeState.currentStep > 0) {
-          swipeState.currentStep--;
-        } else if (offset > 0 && swipeState.currentStep < itemLength - 1) {
-          swipeState.currentStep++;
-        }
-
-        swipeState.currentX = swipeState.currentStep * viewport.clientWidth;
-      }
-
-      if (Container.current) {
-        Container.current.style.transition = '400ms';
-        Container.current.style.transform = "translateX(-".concat(swipeState.currentX, "px)");
+      if ((Math.abs(offset) >= Container.current.clientWidth / 2 || Date.now() - swipeState.swipeTime < 200) && Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)) {
+        if (offset < 0 && swipeState.currentStep > 0) swipeState.currentStep--;else if (offset > 0 && swipeState.currentStep < itemLength - 1) swipeState.currentStep++;
       }
 
       swipeState.isSwipe = false;
       swipeState.swipeTime = 0;
+      swipeState.currentX = swipeState.currentStep * parseFloat(getComputedStyle(Container.current).width);
+      Container.current.style.transition = '333ms';
+      Container.current.style.transform = "translateX(-".concat(swipeState.currentX, "px)");
     }
   };
 
-  var handleResize = function handleResize(e) {
-    var viewport = e.target;
-    swipeState.currentX = swipeState.currentStep * viewport.innerWidth;
-
-    if (Container.current) {
+  var handleResize = function handleResize() {
+    if (Container.current !== null) {
+      swipeState.currentX = swipeState.currentStep * parseFloat(getComputedStyle(Container.current).width);
       Container.current.style.transition = 'none';
       Container.current.style.transform = "translateX(-".concat(swipeState.currentX, "px)");
     }
@@ -96,8 +85,8 @@ function SwipeEvents(Container, itemLength) {
     mobileEnd: function mobileEnd(e) {
       handleEnd(e);
     },
-    resize: function resize(e) {
-      handleResize(e);
+    resize: function resize() {
+      handleResize();
     }
   };
 }
