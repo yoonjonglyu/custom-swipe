@@ -7,6 +7,8 @@ package-lock.json
 
 # 개발 관련 문서 무시
 /docs
+# 배포 관련 무시
+/dist
 
 # 테스트 관련
 /coverage
