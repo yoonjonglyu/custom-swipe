@@ -1,15 +1,17 @@
 {
-  "name": "webpack-init-template",
+  "name": "react-custom-swipe-demo",
   "version": "1.0.0",
-  "description": "> 기본 환경 템플릿",
-  "main": "index.js",
+  "description": "demo",
+  "main": "index.tsx",
   "scripts": {
     "dev": "webpack-dev-server --env env=dev",
     "dev:bundleanalyzer": "npm run dev -- --env addons=bundleanalyzer",
     "prebuild": "rimraf dist",
     "build": "cross-env NODE_ENV=production webpack --progress --env env=prod",
     "build:bundleanalyzer": "npm run build -- --env addons=bundleanalyzer",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -23,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/yoonjonglyu/webpack-init-template/issues"
   },
-  "homepage": "https://github.com/yoonjonglyu/webpack-init-template#readme",
+  "homepage": "https://yoonjonglyu.github.io/react-custom-swipe/",
   "dependencies": {
     "react": "^18.2.0",
     "react-custom-swipe": "^1.0.1",
@@ -50,6 +52,7 @@
     "eslint-plugin-jsdoc": "^38.1.4",
     "eslint-plugin-prettier": "^4.0.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^4.5.2",
     "jest": "^27.5.1",
     "mini-css-extract-plugin": "^0.11.3",
