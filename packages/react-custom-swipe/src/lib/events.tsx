@@ -31,7 +31,7 @@ export default function SwipeEvents(
     swipeState.swipeTime = Date.now();
   };
   const handleMove = (e: Partial<TouchEvent & MouseEvent>) => {
-    if (swipeState.isSwipe) {
+    if (swipeState.isSwipe && Container.current !== null) {
       const x =
         e.type === 'touchmove' && e.targetTouches
           ? e.targetTouches[0].pageX
@@ -41,17 +41,14 @@ export default function SwipeEvents(
           ? e.targetTouches[0].pageY
           : e.pageY || 0;
       const offset = x - swipeState.startX - swipeState.currentX;
-      if (
-        Container.current &&
-        Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)
-      ) {
+      if (Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)) {
         Container.current.style.transition = 'none';
         Container.current.style.transform = `translateX(${offset}px)`;
       }
     }
   };
   const handleEnd = (e: Partial<TouchEvent & MouseEvent>) => {
-    if (swipeState.isSwipe) {
+    if (swipeState.isSwipe && Container.current !== null) {
       const x =
         e.type === 'touchend' && e.changedTouches
           ? e.changedTouches[0].pageX
@@ -60,32 +57,31 @@ export default function SwipeEvents(
         e.type === 'touchend' && e.changedTouches
           ? e.changedTouches[0].pageY
           : e.pageY || 0;
-      const viewport = e.target as any;
       const offset = swipeState.startX - x;
 
       if (
-        (Math.abs(offset) >= viewport.clientWidth / 2 ||
+        (Math.abs(offset) >= Container.current.clientWidth / 2 ||
           Date.now() - swipeState.swipeTime < 200) &&
         Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)
       ) {
-        if (offset < 0 && swipeState.currentStep > 0) {
-          swipeState.currentStep--;
-        } else if (offset > 0 && swipeState.currentStep < itemLength - 1) {
+        if (offset < 0 && swipeState.currentStep > 0) swipeState.currentStep--;
+        else if (offset > 0 && swipeState.currentStep < itemLength - 1)
           swipeState.currentStep++;
-        }
-        swipeState.currentX = swipeState.currentStep * viewport.clientWidth;
-      }
-      if (Container.current) {
-        Container.current.style.transition = '333ms';
-        Container.current.style.transform = `translateX(-${swipeState.currentX}px)`;
       }
       swipeState.isSwipe = false;
       swipeState.swipeTime = 0;
+      swipeState.currentX =
+        swipeState.currentStep *
+        parseFloat(getComputedStyle(Container.current).width);
+      Container.current.style.transition = '333ms';
+      Container.current.style.transform = `translateX(-${swipeState.currentX}px)`;
     }
   };
-  const handleResize = (e: Event) => {
-    if (Container.current) {
-      swipeState.currentX = swipeState.currentStep * Container.current?.clientWidth;
+  const handleResize = () => {
+    if (Container.current !== null) {
+      swipeState.currentX =
+        swipeState.currentStep *
+        parseFloat(getComputedStyle(Container.current).width);
       Container.current.style.transition = 'none';
       Container.current.style.transform = `translateX(-${swipeState.currentX}px)`;
     }
@@ -110,8 +106,8 @@ export default function SwipeEvents(
     mobileEnd: (e: TouchEvent) => {
       handleEnd(e);
     },
-    resize: (e: Event) => {
-      handleResize(e);
+    resize: () => {
+      handleResize();
     },
   };
 }
