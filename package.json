@@ -6,5 +6,9 @@
   ],
   "devDependencies": {
     "lerna": "^5.2.0"
+  },
+  "scripts": {
+    "build": "yarn workspace react-custom-swipe publish:npm",
+    "postbuild": "yarn workspace react-custom-swipe publish:type"
   }
 }
