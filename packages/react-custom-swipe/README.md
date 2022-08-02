@@ -22,6 +22,7 @@ npm install react-custom-swipe
 1. Use Component
 
 ```jsx
+import React from 'react';
 import ReactSwipe from 'react-custom-swipe';
 
 const App = () => {
@@ -40,9 +41,12 @@ const App = () => {
 2. Use Hook
 
 ```jsx
+import React, { createRef } from 'react';
 import { useSwipe } from 'react-custom-swipe';
 
 const App = () => {
+  const ref = createRef<HTMLUListElement>();
+
   return (
     <div>
       <h1>Hook Demo</h1>
