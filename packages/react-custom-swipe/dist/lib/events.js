@@ -19,12 +19,14 @@ function SwipeEvents(Container, itemLength) {
    */
 
   var handleStart = function handleStart(e) {
-    var x = e.type === 'touchstart' && e.targetTouches ? e.targetTouches[0].pageX : e.pageX || 0;
-    var y = e.type === 'touchstart' && e.targetTouches ? e.targetTouches[0].pageY : e.pageY || 0;
-    swipeState.startX = x;
-    swipeState.startY = y;
-    swipeState.isSwipe = true;
-    swipeState.swipeTime = Date.now();
+    if (swipeState.isSwipe === false) {
+      var x = e.type === 'touchstart' && e.targetTouches ? e.targetTouches[0].pageX : e.pageX || 0;
+      var y = e.type === 'touchstart' && e.targetTouches ? e.targetTouches[0].pageY : e.pageY || 0;
+      swipeState.startX = x;
+      swipeState.startY = y;
+      swipeState.isSwipe = true;
+      swipeState.swipeTime = Date.now();
+    }
   };
 
   var handleMove = function handleMove(e) {
@@ -50,11 +52,14 @@ function SwipeEvents(Container, itemLength) {
         if (offset < 0 && swipeState.currentStep > 0) swipeState.currentStep--;else if (offset > 0 && swipeState.currentStep < itemLength - 1) swipeState.currentStep++;
       }
 
-      swipeState.isSwipe = false;
+      swipeState.isSwipe = null;
       swipeState.swipeTime = 0;
       swipeState.currentX = swipeState.currentStep * parseFloat(getComputedStyle(Container.current).width);
       Container.current.style.transition = '333ms';
       Container.current.style.transform = "translateX(-".concat(swipeState.currentX, "px)");
+      setTimeout(function () {
+        return swipeState.isSwipe = false;
+      }, 333);
     }
   };
 
