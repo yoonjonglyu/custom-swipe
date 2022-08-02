@@ -1,5 +1,14 @@
 import React from 'react';
 
+interface SwipeStateProps {
+  isSwipe: boolean | null;
+  startX: number;
+  startY: number;
+  currentX: number;
+  currentStep: number;
+  swipeTime: number;
+}
+
 export default function SwipeEvents(
   Container: React.RefObject<HTMLElement>,
   itemLength: number,
@@ -11,24 +20,26 @@ export default function SwipeEvents(
     currentX: 0,
     currentStep: 0,
     swipeTime: 0,
-  };
+  } as SwipeStateProps;
 
   /**
    * @description 스와이프 기능(플립액션)과 리사이즈 관련 된 로직들
    */
   const handleStart = (e: Partial<TouchEvent & MouseEvent>) => {
-    const x =
-      e.type === 'touchstart' && e.targetTouches
-        ? e.targetTouches[0].pageX
-        : e.pageX || 0;
-    const y =
-      e.type === 'touchstart' && e.targetTouches
-        ? e.targetTouches[0].pageY
-        : e.pageY || 0;
-    swipeState.startX = x;
-    swipeState.startY = y;
-    swipeState.isSwipe = true;
-    swipeState.swipeTime = Date.now();
+    if (swipeState.isSwipe === false) {
+      const x =
+        e.type === 'touchstart' && e.targetTouches
+          ? e.targetTouches[0].pageX
+          : e.pageX || 0;
+      const y =
+        e.type === 'touchstart' && e.targetTouches
+          ? e.targetTouches[0].pageY
+          : e.pageY || 0;
+      swipeState.startX = x;
+      swipeState.startY = y;
+      swipeState.isSwipe = true;
+      swipeState.swipeTime = Date.now();
+    }
   };
   const handleMove = (e: Partial<TouchEvent & MouseEvent>) => {
     if (swipeState.isSwipe && Container.current !== null) {
@@ -68,13 +79,14 @@ export default function SwipeEvents(
         else if (offset > 0 && swipeState.currentStep < itemLength - 1)
           swipeState.currentStep++;
       }
-      swipeState.isSwipe = false;
+      swipeState.isSwipe = null;
       swipeState.swipeTime = 0;
       swipeState.currentX =
         swipeState.currentStep *
         parseFloat(getComputedStyle(Container.current).width);
       Container.current.style.transition = '333ms';
       Container.current.style.transform = `translateX(-${swipeState.currentX}px)`;
+      setTimeout(() => (swipeState.isSwipe = false), 333);
     }
   };
   const handleResize = () => {
