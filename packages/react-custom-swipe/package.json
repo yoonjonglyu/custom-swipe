@@ -1,7 +1,7 @@
 {
   "name": "react-custom-swipe",
   "version": "1.0.1",
-  "description": "react custom swipe",
+  "description": "react custom swipe as components and Hooks",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -38,7 +38,9 @@
     "react",
     "swipe",
     "simple",
-    "custom"
+    "custom",
+    "react-custom-swipe",
+    "basicSwipe"
   ],
   "author": "ISA",
   "license": "MIT",
