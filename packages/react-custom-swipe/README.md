@@ -1,9 +1,7 @@
 # react-simple-swipe
 
-<p>
 react-simple-swipe is light and simple custom React library.
 Basic Swipe and Infinite Scroll Swipe are provided as components and custom hook.
-</p>
 
 ## Install
 
@@ -96,12 +94,21 @@ const App = () => {
 };
 ```
 
+## PROPS
+
+1. Swipe(component)
+   1. `items`: `Array<React.ReactNode>`
+   2. `containerProps?`: `React.HTMLAttributes<HTMLDivElement>`
+   3. `itemProps?`: `React.HTMLAttributes<HTMLLIElement>`
+2. useSwipe(hook)
+   1. `dom`: `React.RefObject<HTMLElement>`
+   2. `length`: `number`
+
 ## Feature
 
 1. swipe
 2. infinite swipe(scroll)
-3. nav
-4. etc
+3. etc
 
 ## LICENSE
 
