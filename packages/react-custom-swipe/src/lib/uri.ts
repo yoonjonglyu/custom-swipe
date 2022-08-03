@@ -22,3 +22,10 @@ export function setHistory(data: { [key: string]: string }, url?: string) {
     url !== undefined ? url : getURL() + formatQueryString(data),
   );
 }
+export function changeHistory(data: { [key: string]: string }, url?: string) {
+  history.replaceState(
+    data,
+    '',
+    url !== undefined ? url : getURL() + formatQueryString(data),
+  );
+}
