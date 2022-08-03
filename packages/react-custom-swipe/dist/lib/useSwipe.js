@@ -12,6 +12,9 @@ var _events = _interopRequireDefault(require("./events"));
 function useSwipe(dom, length) {
   var Events = (0, _events["default"])(dom, length);
   window.addEventListener('resize', Events.resize);
+  setTimeout(function () {
+    return Events.init();
+  }, 0);
   return {
     onTouchStart: Events.mobileStart,
     onTouchMove: Events.mobileMove,

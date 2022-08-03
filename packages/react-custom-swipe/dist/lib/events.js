@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = SwipeEvents;
 
+var _uri = require("./uri");
+
 function SwipeEvents(Container, itemLength) {
   var swipeState = {
     isSwipe: false,
@@ -57,6 +59,7 @@ function SwipeEvents(Container, itemLength) {
       swipeState.currentX = swipeState.currentStep * parseFloat(getComputedStyle(Container.current).width);
       Container.current.style.transition = '333ms';
       Container.current.style.transform = "translateX(-".concat(swipeState.currentX, "px)");
+      handleHistory();
       setTimeout(function () {
         return swipeState.isSwipe = false;
       }, 333);
@@ -69,6 +72,21 @@ function SwipeEvents(Container, itemLength) {
       Container.current.style.transition = 'none';
       Container.current.style.transform = "translateX(-".concat(swipeState.currentX, "px)");
     }
+  };
+
+  var handleInit = function handleInit() {
+    var params = (0, _uri.getSearchParams)();
+
+    if (params['index'] !== undefined) {
+      swipeState.currentStep = parseInt(params['index']);
+      handleResize();
+    } else handleHistory();
+  };
+
+  var handleHistory = function handleHistory() {
+    var params = (0, _uri.getSearchParams)();
+    params['index'] = swipeState.currentStep.toString();
+    (0, _uri.setHistory)(params);
   };
 
   return {
@@ -92,6 +110,9 @@ function SwipeEvents(Container, itemLength) {
     },
     resize: function resize() {
       handleResize();
+    },
+    init: function init() {
+      return handleInit();
     }
   };
 }
