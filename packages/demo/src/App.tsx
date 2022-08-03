@@ -55,7 +55,7 @@ const App: React.FC = () => {
         swipe demo <button onClick={handleAddItem}>add item</button>
       </h1>
       <Swipe
-        item={item.map((src, key) => (
+        item={item.map((src, key) => (  
           <div>
             <img
               key={key}
