@@ -8,3 +8,6 @@ export declare function formatQueryString(obj: {
 export declare function setHistory(data: {
     [key: string]: string;
 }, url?: string): void;
+export declare function changeHistory(data: {
+    [key: string]: string;
+}, url?: string): void;

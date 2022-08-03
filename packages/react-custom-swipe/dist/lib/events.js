@@ -86,7 +86,7 @@ function SwipeEvents(Container, itemLength) {
   var handleHistory = function handleHistory() {
     var params = (0, _uri.getSearchParams)();
     params['index'] = swipeState.currentStep.toString();
-    (0, _uri.setHistory)(params);
+    true ? (0, _uri.changeHistory)(params) : (0, _uri.setHistory)(params);
   };
 
   return {

@@ -5,6 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.changeHistory = changeHistory;
 exports.formatQueryString = formatQueryString;
 exports.getSearchParams = getSearchParams;
 exports.getURL = getURL;
@@ -63,4 +64,8 @@ function formatQueryString(obj) {
 
 function setHistory(data, url) {
   history.pushState(data, '', url !== undefined ? url : getURL() + formatQueryString(data));
+}
+
+function changeHistory(data, url) {
+  history.replaceState(data, '', url !== undefined ? url : getURL() + formatQueryString(data));
 }
