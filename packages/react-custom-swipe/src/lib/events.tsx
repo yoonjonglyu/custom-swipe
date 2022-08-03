@@ -1,5 +1,5 @@
 import React from 'react';
-import { getURL, getSearchParams, setHistory } from './uri';
+import { getSearchParams, setHistory } from './uri';
 
 interface SwipeStateProps {
   isSwipe: boolean | null;
@@ -87,6 +87,7 @@ export default function SwipeEvents(
         parseFloat(getComputedStyle(Container.current).width);
       Container.current.style.transition = '333ms';
       Container.current.style.transform = `translateX(-${swipeState.currentX}px)`;
+      handleHistory();
       setTimeout(() => (swipeState.isSwipe = false), 333);
     }
   };
@@ -104,7 +105,12 @@ export default function SwipeEvents(
     if (params['index'] !== undefined) {
       swipeState.currentStep = parseInt(params['index']);
       handleResize();
-    }
+    } else handleHistory();
+  };
+  const handleHistory = () => {
+    const params = getSearchParams();
+    params['index'] = swipeState.currentStep.toString();
+    setHistory(params);
   };
 
   return {
