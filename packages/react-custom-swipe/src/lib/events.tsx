@@ -1,5 +1,5 @@
 import React from 'react';
-import { getSearchParams, setHistory } from './uri';
+import { getSearchParams, setHistory, changeHistory } from './uri';
 
 interface SwipeStateProps {
   isSwipe: boolean | null;
@@ -110,7 +110,7 @@ export default function SwipeEvents(
   const handleHistory = () => {
     const params = getSearchParams();
     params['index'] = swipeState.currentStep.toString();
-    setHistory(params);
+    true ? changeHistory(params) : setHistory(params);
   };
 
   return {
