@@ -1,4 +1,5 @@
 import React from 'react';
+import { getURL, getSearchParams, setHistory } from './uri';
 
 interface SwipeStateProps {
   isSwipe: boolean | null;
@@ -98,6 +99,13 @@ export default function SwipeEvents(
       Container.current.style.transform = `translateX(-${swipeState.currentX}px)`;
     }
   };
+  const handleInit = () => {
+    const params = getSearchParams();
+    if (params['index'] !== undefined) {
+      swipeState.currentStep = parseInt(params['index']);
+      handleResize();
+    }
+  };
 
   return {
     desktopStart: (e: MouseEvent) => {
@@ -121,5 +129,6 @@ export default function SwipeEvents(
     resize: () => {
       handleResize();
     },
+    init: () => handleInit(),
   };
 }
