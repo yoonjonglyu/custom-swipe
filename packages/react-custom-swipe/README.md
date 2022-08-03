@@ -1,6 +1,6 @@
-# react-simple-swipe
+# react-custom-swipe
 
-react-simple-swipe is light and simple custom React library.  
+react-custom-swipe is light and simple custom React library.  
 Basic Swipe and Infinite Scroll Swipe are provided as components and custom hook.  
 [demo](https://yoonjonglyu.github.io/react-custom-swipe/)  
 
