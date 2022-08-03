@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import Swipe from '../../react-custom-swipe/src';
@@ -27,27 +27,35 @@ const Wrap = styled.div`
   max-width: 720px;
   margin: 0 auto;
 `;
+const dumy = [
+  cat1,
+  cat2,
+  cat3,
+  cat4,
+  cat5,
+  cat6,
+  cat7,
+  cat8,
+  cat9,
+  cat10,
+  iu1,
+  iu2,
+];
 
 const App: React.FC = () => {
+  const [item, setItem] = useState(dumy);
+  const handleAddItem = () => {
+    setItem(prev => [...prev, ...dumy]);
+  };
+
   return (
     <Wrap>
       <Style />
-      <h1>swipe demo</h1>
+      <h1>
+        swipe demo <button onClick={handleAddItem}>add item</button>
+      </h1>
       <Swipe
-        item={[
-          cat1,
-          cat2,
-          cat3,
-          cat4,
-          cat5,
-          cat6,
-          cat7,
-          cat8,
-          cat9,
-          cat10,
-          iu1,
-          iu2,
-        ].map((src, key) => (
+        item={item.map((src, key) => (
           <div>
             <img
               key={key}
