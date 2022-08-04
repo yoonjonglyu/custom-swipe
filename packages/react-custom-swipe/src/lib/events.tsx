@@ -9,10 +9,16 @@ interface SwipeStateProps {
   currentStep: number;
   swipeTime: number;
 }
+export interface ConfigProps {
+  isHistory: boolean;
+  paramName?: string;
+  historyCallback?: Function;
+}
 
 export default function SwipeEvents(
   Container: React.RefObject<HTMLElement>,
   itemLength: number,
+  config?: ConfigProps,
 ) {
   const swipeState = {
     isSwipe: false,
@@ -22,7 +28,7 @@ export default function SwipeEvents(
     currentStep: 0,
     swipeTime: 0,
   } as SwipeStateProps;
-
+  const index = config?.paramName ? config.paramName : 'index';
   /**
    * @description 스와이프 기능(플립액션)과 리사이즈 관련 된 로직들
    */
@@ -102,18 +108,16 @@ export default function SwipeEvents(
   };
   const handleInit = () => {
     const params = getSearchParams();
-    if (
-      params['index'] !== undefined &&
-      parseInt(params['index']) < itemLength
-    ) {
-      swipeState.currentStep = parseInt(params['index']);
+    if (params[index] !== undefined && parseInt(params[index]) < itemLength) {
+      swipeState.currentStep = parseInt(params[index]);
       handleResize();
     } else handleHistory();
   };
   const handleHistory = () => {
     const params = getSearchParams();
-    params['index'] = swipeState.currentStep.toString();
-    true ? changeHistory(params) : setHistory(params);
+    params[index] = swipeState.currentStep.toString();
+    config?.isHistory ? setHistory(params) : changeHistory(params);
+    if(config?.historyCallback) config.historyCallback();
   };
 
   return {
