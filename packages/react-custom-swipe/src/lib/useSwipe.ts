@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SwipeEvents from './events';
+import SwipeEvents, { ConfigProps } from './events';
 
 export interface UseSwipeEvents<T> {
   onTouchStart: React.TouchEventHandler<T>;
@@ -15,8 +15,9 @@ export interface UseSwipeEvents<T> {
 export default function useSwipe(
   dom: React.RefObject<HTMLElement>,
   length: number,
+  config?: ConfigProps,
 ) {
-  const Events = SwipeEvents(dom, length);
+  const Events = SwipeEvents(dom, length, config);
   window.addEventListener('resize', Events.resize);
   setTimeout(() => Events.init(), 0);
 
