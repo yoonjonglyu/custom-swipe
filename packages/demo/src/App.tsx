@@ -30,7 +30,7 @@ const Wrap = styled.div`
   overflow: hidden;
 `;
 const Contents = styled.div`
-  height: 500px;
+  height: 800px;
   overflow: auto;
 `;
 const dumy = [
@@ -62,14 +62,14 @@ const App: React.FC = () => {
       </h1>
       <Swipe
         item={item.map((src, key) => (
-          <div>
+          <Contents>
             <img
               key={key}
               src={src}
               alt={src}
               style={{ width: '100%', maxWidth: '100%' }}
             />
-            <Contents>
+            <div>
               <h2>example {key}</h2>
               {Array.from({ length: 5 }, (_, key) => (
                 <img
@@ -79,8 +79,8 @@ const App: React.FC = () => {
                   style={{ width: '100%', maxWidth: '100%' }}
                 />
               ))}
-            </Contents>
-          </div>
+            </div>
+          </Contents>
         ))}
         containerProps={{ style: { border: '1px solid' } }}
         itemProps={{ style: { border: '1px solid' } }}
