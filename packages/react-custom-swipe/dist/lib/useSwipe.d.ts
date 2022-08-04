@@ -1,4 +1,5 @@
 import React from 'react';
+import { ConfigProps } from './events';
 export interface UseSwipeEvents<T> {
     onTouchStart: React.TouchEventHandler<T>;
     onTouchMove: React.TouchEventHandler<T>;
@@ -8,4 +9,4 @@ export interface UseSwipeEvents<T> {
     onPointerMove: React.PointerEventHandler<T>;
     onPointerUp: React.PointerEventHandler<T>;
 }
-export default function useSwipe(dom: React.RefObject<HTMLElement>, length: number): UseSwipeEvents<HTMLElement | null>;
+export default function useSwipe(dom: React.RefObject<HTMLElement>, length: number, config?: ConfigProps): UseSwipeEvents<HTMLElement | null>;

@@ -28,7 +28,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 var Swipe = function Swipe(_ref) {
   var containerProps = _ref.containerProps,
       itemProps = _ref.itemProps,
-      item = _ref.item;
+      item = _ref.item,
+      config = _ref.config;
   var ref = /*#__PURE__*/(0, _react.createRef)();
   return /*#__PURE__*/_react["default"].createElement("div", (0, _extends2["default"])({
     className: "swipe-container"
@@ -55,7 +56,7 @@ var Swipe = function Swipe(_ref) {
       boxSizing: 'content-box'
     },
     ref: ref
-  }, (0, _useSwipe["default"])(ref, item.length)), item.map(function (item, key) {
+  }, (0, _useSwipe["default"])(ref, item.length, config)), item.map(function (item, key) {
     return /*#__PURE__*/_react["default"].createElement("li", (0, _extends2["default"])({
       key: key,
       className: "swipe-item"

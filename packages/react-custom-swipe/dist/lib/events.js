@@ -7,7 +7,7 @@ exports["default"] = SwipeEvents;
 
 var _uri = require("./uri");
 
-function SwipeEvents(Container, itemLength) {
+function SwipeEvents(Container, itemLength, config) {
   var swipeState = {
     isSwipe: false,
     startX: 0,
@@ -16,6 +16,7 @@ function SwipeEvents(Container, itemLength) {
     currentStep: 0,
     swipeTime: 0
   };
+  var index = config !== null && config !== void 0 && config.paramName ? config.paramName : 'index';
   /**
    * @description 스와이프 기능(플립액션)과 리사이즈 관련 된 로직들
    */
@@ -77,16 +78,17 @@ function SwipeEvents(Container, itemLength) {
   var handleInit = function handleInit() {
     var params = (0, _uri.getSearchParams)();
 
-    if (params['index'] !== undefined) {
-      swipeState.currentStep = parseInt(params['index']);
+    if (params[index] !== undefined && parseInt(params[index]) < itemLength) {
+      swipeState.currentStep = parseInt(params[index]);
       handleResize();
     } else handleHistory();
   };
 
   var handleHistory = function handleHistory() {
     var params = (0, _uri.getSearchParams)();
-    params['index'] = swipeState.currentStep.toString();
-    true ? (0, _uri.changeHistory)(params) : (0, _uri.setHistory)(params);
+    params[index] = swipeState.currentStep.toString();
+    config !== null && config !== void 0 && config.isHistory ? (0, _uri.setHistory)(params) : (0, _uri.changeHistory)(params);
+    if (config !== null && config !== void 0 && config.historyCallback) config.historyCallback(swipeState);
   };
 
   return {

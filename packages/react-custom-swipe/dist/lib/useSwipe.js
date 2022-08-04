@@ -9,8 +9,8 @@ exports["default"] = useSwipe;
 
 var _events = _interopRequireDefault(require("./events"));
 
-function useSwipe(dom, length) {
-  var Events = (0, _events["default"])(dom, length);
+function useSwipe(dom, length, config) {
+  var Events = (0, _events["default"])(dom, length, config);
   window.addEventListener('resize', Events.resize);
   setTimeout(function () {
     return Events.init();
