@@ -25,7 +25,13 @@ const Style = createGlobalStyle`
 const Wrap = styled.div`
   width: 100%;
   max-width: 720px;
+  max-height: 1800px;
   margin: 0 auto;
+  overflow: hidden;
+`;
+const Contents = styled.div`
+  height: 500px;
+  overflow: auto;
 `;
 const dumy = [
   cat1,
@@ -55,7 +61,7 @@ const App: React.FC = () => {
         swipe demo <button onClick={handleAddItem}>add item</button>
       </h1>
       <Swipe
-        item={item.map((src, key) => (  
+        item={item.map((src, key) => (
           <div>
             <img
               key={key}
@@ -63,9 +69,9 @@ const App: React.FC = () => {
               alt={src}
               style={{ width: '100%', maxWidth: '100%' }}
             />
-            <div>
+            <Contents>
               <h2>example {key}</h2>
-              {Array.from({ length: 10 }, (_, key) => (
+              {Array.from({ length: 5 }, (_, key) => (
                 <img
                   key={key}
                   src={src}
@@ -73,10 +79,16 @@ const App: React.FC = () => {
                   style={{ width: '100%', maxWidth: '100%' }}
                 />
               ))}
-            </div>
+            </Contents>
           </div>
         ))}
+        containerProps={{ style: { border: '1px solid' } }}
         itemProps={{ style: { border: '1px solid' } }}
+        config={{
+          isHistory: false,
+          paramName: 'index',
+          historyCallback: state => console.log('swipeState', state),
+        }}
       />
     </Wrap>
   );
