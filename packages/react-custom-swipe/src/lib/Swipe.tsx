@@ -1,14 +1,21 @@
 import React, { createRef } from 'react';
 
+import { ConfigProps } from './events';
 import useSwipe from './useSwipe';
 
 export interface SwipeProps {
   containerProps?: React.HTMLAttributes<HTMLDivElement>;
   itemProps?: React.HTMLAttributes<HTMLLIElement>;
   item: Array<React.ReactNode>;
+  config?: ConfigProps;
 }
 
-const Swipe: React.FC<SwipeProps> = ({ containerProps, itemProps, item }) => {
+const Swipe: React.FC<SwipeProps> = ({
+  containerProps,
+  itemProps,
+  item,
+  config,
+}) => {
   const ref = createRef<HTMLUListElement>();
 
   return (
@@ -38,7 +45,7 @@ const Swipe: React.FC<SwipeProps> = ({ containerProps, itemProps, item }) => {
           boxSizing: 'content-box',
         }}
         ref={ref}
-        {...useSwipe(ref, item.length)}>
+        {...useSwipe(ref, item.length, config)}>
         {item.map((item, key) => {
           return (
             <li
