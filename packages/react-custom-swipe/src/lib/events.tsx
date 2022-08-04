@@ -102,7 +102,10 @@ export default function SwipeEvents(
   };
   const handleInit = () => {
     const params = getSearchParams();
-    if (params['index'] !== undefined) {
+    if (
+      params['index'] !== undefined &&
+      parseInt(params['index']) < itemLength
+    ) {
       swipeState.currentStep = parseInt(params['index']);
       handleResize();
     } else handleHistory();
