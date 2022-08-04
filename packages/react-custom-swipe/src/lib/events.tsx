@@ -12,7 +12,7 @@ interface SwipeStateProps {
 export interface ConfigProps {
   isHistory: boolean;
   paramName?: string;
-  historyCallback?: Function;
+  historyCallback?: (state: SwipeStateProps) => void;
 }
 
 export default function SwipeEvents(
@@ -117,7 +117,7 @@ export default function SwipeEvents(
     const params = getSearchParams();
     params[index] = swipeState.currentStep.toString();
     config?.isHistory ? setHistory(params) : changeHistory(params);
-    if(config?.historyCallback) config.historyCallback();
+    if (config?.historyCallback) config.historyCallback(swipeState);
   };
 
   return {
