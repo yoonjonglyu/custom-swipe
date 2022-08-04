@@ -33,7 +33,13 @@ const App = () => {
       <h1>Component Demo</h1>
       <ReactSwipe
         item={[1, 2, 3, 4, 5, <div>item</div>, <img src={'src'} alt={'src'} />]}
-        itemProps={{ style: { border: '1px solid', minHeight: '360px' } }}
+        containerProps={{ style: { border: '1px solid' } }}
+        itemProps={{ style: { border: '1px solid' } }}
+        config={{
+          isHistory: false,
+          paramName: 'index',
+          historyCallback: (state) => console.log('swipeState', state),
+        }}
       />
     </div>
   );
@@ -43,10 +49,11 @@ const App = () => {
 2. Use Hook
 
 ```jsx
-import React, { createRef } from 'react';
+import React, { createRef, useState } from 'react';
 import { useSwipe } from 'react-custom-swipe';
 
 const App = () => {
+  const [item, setItem] = useState([<div>test</div>, <div>test2</div>, 1, '2']);
   const ref = createRef<HTMLUListElement>();
 
   return (
@@ -103,12 +110,20 @@ const App = () => {
 ## PROPS
 
 1. Swipe(component)
-   1. `items`: `Array<React.ReactNode>`
-   2. `containerProps?`: `React.HTMLAttributes<HTMLDivElement>`
-   3. `itemProps?`: `React.HTMLAttributes<HTMLLIElement>`
+   1. `items`: `Array<React.ReactNode>` swipe items.
+   2. `containerProps?`: `React.HTMLAttributes<HTMLDivElement>` container(Root Node) props as react components.
+   3. `itemProps?`: `React.HTMLAttributes<HTMLLIElement>` swipe item box(li node) props as react components.
+   4. `config?`: `ConfigProps` swipe option config.
+      1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
+      2. `paramName?`: `string` querystring key name(default: index).
+      3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
 2. useSwipe(hook)
-   1. `dom`: `React.RefObject<HTMLElement>`
-   2. `length`: `number`
+   1. `dom`: `React.RefObject<HTMLElement>` react ref props events target.
+   2. `length`: `number` swipe item length(maxlength).
+   3. `config?`: `ConfigProps` swipe option config.
+      1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
+      2. `paramName?`: `string` querystring key name(default: index).
+      3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
 
 ## Feature
 
