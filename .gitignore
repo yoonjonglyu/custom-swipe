@@ -3,3 +3,6 @@ node_modules
 
 # yarn & npm
 *.lock
+
+# dist
+dist
