@@ -18,7 +18,7 @@ export default function useSwipe(
   config?: ConfigProps,
 ) {
   const Events = SwipeEvents(dom, length, config);
-  window.addEventListener('resize', Events.resize);
+  if (window) window.addEventListener('resize', Events.resize);
   setTimeout(() => Events.init(), 0);
 
   return {
