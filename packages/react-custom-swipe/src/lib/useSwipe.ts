@@ -18,10 +18,9 @@ export default function useSwipe<T extends HTMLElement>(
   config?: ConfigProps,
 ): UseSwipeEvents<T> {
   const Events = SwipeEvents(dom, length, config);
-
+  Events.init();
+  
   useEffect(() => {
-    Events.init();
-
     const handleResize = () => Events.resize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
