@@ -17,7 +17,8 @@ const Swipe: React.FC<SwipeProps> = ({
   config,
 }) => {
   const ref = createRef<HTMLUListElement>();
-
+  const SwipeEvents = useSwipe(ref, item.length, config);
+  
   return (
     <div
       className='swipe-container'
@@ -45,7 +46,7 @@ const Swipe: React.FC<SwipeProps> = ({
           boxSizing: 'content-box',
         }}
         ref={ref}
-        {...useSwipe(ref, item.length, config)}>
+        {...SwipeEvents}>
         {item.map((item, key) => {
           return (
             <li

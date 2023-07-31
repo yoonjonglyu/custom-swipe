@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import SwipeEvents, { ConfigProps } from './events';
 
@@ -12,14 +12,20 @@ export interface UseSwipeEvents<T> {
   onPointerUp: React.PointerEventHandler<T>;
 }
 
-export default function useSwipe(
-  dom: React.RefObject<HTMLElement>,
+export default function useSwipe<T extends HTMLElement>(
+  dom: React.RefObject<T>,
   length: number,
   config?: ConfigProps,
-) {
+): UseSwipeEvents<T> {
   const Events = SwipeEvents(dom, length, config);
-  if (window) window.addEventListener('resize', Events.resize);
-  setTimeout(() => Events.init(), 0);
+
+  useEffect(() => {
+    Events.init();
+
+    const handleResize = () => Events.resize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return {
     onTouchStart: Events.mobileStart,
@@ -31,5 +37,5 @@ export default function useSwipe(
     onPointerUp: Events.desktopEnd,
     onPointerLeave: Events.desktopEnd,
     onPointerCancel: Events.desktopEnd,
-  } as unknown as UseSwipeEvents<typeof dom.current>;
+  } as unknown as UseSwipeEvents<T>;
 }
