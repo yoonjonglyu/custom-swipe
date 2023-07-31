@@ -50,6 +50,7 @@ const dumy = [
 
 const App: React.FC = () => {
   const [item, setItem] = useState(dumy);
+  const [test, setTest] = useState(false);
   const handleAddItem = () => {
     setItem(prev => [...prev, ...dumy]);
   };
@@ -59,12 +60,15 @@ const App: React.FC = () => {
       <Style />
       <h1>
         swipe demo <button onClick={handleAddItem}>add item</button>
+        <button onClick={() => setTest(prev => !prev)}>rerender</button>
       </h1>
       <Swipe
         item={item.map((src, key) => (
-          <Contents>
+          <Contents
+            key={key}
+            style={{ border: `1px solid ${test ? 'red' : 'blue'}` }}
+          >
             <img
-              key={key}
               src={src}
               alt={src}
               style={{ width: '100%', maxWidth: '100%' }}
