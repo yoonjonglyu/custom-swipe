@@ -55,6 +55,11 @@ import { useSwipe } from 'react-custom-swipe';
 const App = () => {
   const [item, setItem] = useState([<div>test</div>, <div>test2</div>, 1, '2']);
   const ref = createRef<HTMLUListElement>();
+  const SwipeEvents = useSwipe(ref, item.length, {
+          isHistory: false,
+          paramName: 'index',
+          historyCallback: (state) => console.log('swipeState', state),
+        });
 
   return (
     <div>
@@ -83,7 +88,7 @@ const App = () => {
             boxSizing: 'content-box',
           }}
           ref={ref}
-          {...useSwipe(ref, item.length)}>
+          {...SwipeEvents}>
           {item.map((item, key) => {
             return (
               <li
