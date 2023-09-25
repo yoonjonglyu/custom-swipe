@@ -42,15 +42,15 @@ class OtherEvents {
         this._config.historyCallback(this._state);
     }
   };
-  changeIndex = (value: number) => {
+  changeIndex = (value: number, target: HTMLElement) => {
     if (this._state.currentStep !== value) {
       this._state.currentStep = value;
       this.changeHistory();
+      this.resize(target);
     }
   };
   slide = (flag: 'L' | 'R', target: HTMLElement) => {
     flag === 'L' ? this._state.currentStep-- : this._state.currentStep++;
-
     this.changeHistory();
     this.resize(target);
   };

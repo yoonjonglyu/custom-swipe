@@ -38,6 +38,7 @@ export default function SwipeProvider<T extends HTMLElement>(
     init: (Container: T) => otherEvents.init(Container),
     slidehandler: (flag: 'L' | 'R', Container: T) =>
       otherEvents.slide(flag, Container),
-    changeIndex: (index: number) => otherEvents.changeIndex(index),
+    changeIndex: (index: number, Container: T) =>
+      otherEvents.changeIndex(index, Container),
   };
 }
