@@ -1,14 +1,7 @@
 import React from 'react';
 import { getSearchParams, setHistory, changeHistory } from './uri';
+import SwipeState, { SwipeStateProps } from './core/state';
 
-interface SwipeStateProps {
-  isSwipe: boolean | null;
-  startX: number;
-  startY: number;
-  currentX: number;
-  currentStep: number;
-  swipeTime: number;
-}
 export interface ConfigProps {
   isHistory: boolean;
   paramName?: string;
@@ -20,14 +13,7 @@ export default function SwipeEvents(
   itemLength: number,
   config?: ConfigProps,
 ) {
-  const swipeState = {
-    isSwipe: false,
-    startX: 0,
-    startY: 0,
-    currentX: 0,
-    currentStep: 0,
-    swipeTime: 0,
-  } as SwipeStateProps;
+  const swipeState = new SwipeState();
   const index = config?.paramName ? config.paramName : 'index';
   /**
    * @description 스와이프 기능(플립액션)과 리사이즈 관련 된 로직들
