@@ -9,12 +9,12 @@
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react",
-      "@babel/preset-typescript",
-      "minify"
+      "@babel/preset-typescript"
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"
-    ]
+    ],
+    "minified": true
   },
   "devDependencies": {
     "@babel/cli": "^7.18.6",
@@ -24,12 +24,11 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@types/react": "^18.0.14",
-    "babel-minify": "^0.5.2",
     "typescript": "^4.7.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish:npm": "rm -rf dist && mkdir dist && babel src -d dist --extensions \".ts,.tsx\"",
+    "publish:npm": "rm -rf dist && mkdir dist && babel src -d dist -x \".ts,.tsx\" --copy-files",
     "publish:type": "tsc --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
   "repository": {

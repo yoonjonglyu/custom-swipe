@@ -3,6 +3,8 @@ import React, { createRef } from 'react';
 import { ConfigProps } from 'swipe-core-provider';
 import useSwipe from './useSwipe';
 
+import './style.css';
+
 interface SwipeConfigProps extends ConfigProps {
   isButton?: boolean;
 }
@@ -25,71 +27,29 @@ const Swipe: React.FC<SwipeProps> = ({
 
   return (
     <div
-      className='swipe-container'
       {...containerProps}
-      style={{
-        position: 'relative',
-        display: 'flex',
-        padding: 0,
-        overflow: 'hidden',
-        zIndex: 1,
-        ...containerProps?.style,
-      }}>
+      className={`swipe-container ${containerProps?.className}`}>
       {config?.isButton ? (
         <div>
           <button
-            style={{
-              position: 'absolute',
-              top: '50%',
-              right: 10,
-              zIndex: 2,
-            }}
+            className='swipe-left-button'
             onClick={() => handleSlide('L')}>
             L
           </button>
           <button
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: 10,
-              zIndex: 2,
-            }}
+            className='swipe-right-button'
             onClick={() => handleSlide('R')}>
             R
           </button>
         </div>
       ) : null}
-      <ul
-        className='swipe-wrap'
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          display: 'flex',
-          width: '100%',
-          height: '100%',
-          margin: '0 auto',
-          padding: 0,
-          listStyle: 'none',
-          transitionProperty: 'transform',
-          boxSizing: 'content-box',
-        }}
-        ref={ref}
-        {...swipeEvents}>
+      <ul className='swipe-wrap' ref={ref} {...swipeEvents}>
         {item.map((item, key) => {
           return (
             <li
               key={key}
-              className='swipe-item'
               {...itemProps}
-              style={{
-                position: 'relative',
-                flexShrink: 0,
-                width: '100%',
-                height: '100%',
-                textAlign: 'center',
-                boxSizing: 'border-box',
-                ...itemProps?.style,
-              }}>
+              className={`swipe-item ${itemProps?.className}`}>
               {item}
             </li>
           );

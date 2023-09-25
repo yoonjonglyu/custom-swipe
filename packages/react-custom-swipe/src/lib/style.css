@@ -1,0 +1,43 @@
+@charset "utf-8";
+
+.swipe-container {
+  position: relative;
+  display: flex;
+  padding: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+.swipe-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  box-sizing: content-box;
+}
+.swipe-item {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+.swipe-carousel {
+  position: absolute;
+}
+.swipe-left-button {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  z-index: 2;
+}
+.swipe-right-button {
+  position: absolute;
+  top: 50%;
+  right: 10px;  
+  z-index: 2;
+}
