@@ -1,6 +1,7 @@
 import React from 'react';
 import { getSearchParams, setHistory, changeHistory } from './uri';
 import SwipeState, { SwipeStateProps } from './core/state';
+import { getStart, getMove, getEnd } from './core/swipe';
 
 export interface ConfigProps {
   isHistory: boolean;
@@ -18,16 +19,13 @@ export default function SwipeEvents(
 
   const handleStart = (e: Partial<TouchEvent & MouseEvent>) => {
     if (swipeState.isSwipe === 'wait') {
-      const x = e.targetTouches ? e.targetTouches[0].pageX : e.pageX || 0;
-      const y = e.targetTouches ? e.targetTouches[0].pageY : e.pageY || 0;
+      const { x, y } = getStart(e);
       swipeState.startSwipe(x, y);
     }
   };
   const handleMove = (e: Partial<TouchEvent & MouseEvent>) => {
     if (swipeState.isSwipe === 'pending' && Container.current !== null) {
-      const x = e.targetTouches ? e.targetTouches[0].pageX : e.pageX || 0;
-      const y = e.targetTouches ? e.targetTouches[0].pageY : e.pageY || 0;
-      const offset = x - swipeState.startX - swipeState.currentX;
+      const { x, y, offset } = getMove(e, swipeState);
       if (Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)) {
         Container.current.style.transition = 'none';
         Container.current.style.transform = `translateX(${offset}px)`;
@@ -36,9 +34,7 @@ export default function SwipeEvents(
   };
   const handleEnd = (e: Partial<TouchEvent & MouseEvent>) => {
     if (swipeState.isSwipe === 'pending' && Container.current !== null) {
-      const x = e.changedTouches ? e.changedTouches[0].pageX : e.pageX || 0;
-      const y = e.changedTouches ? e.changedTouches[0].pageY : e.pageY || 0;
-      const offset = swipeState.startX - x;
+      const { x, y, offset } = getEnd(e, swipeState);
 
       if (
         (Math.abs(offset) >= Container.current.clientWidth / 2 ||
