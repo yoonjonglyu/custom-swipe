@@ -1,7 +1,7 @@
 import React from 'react';
 import { getSearchParams, setHistory, changeHistory } from './uri';
 import SwipeState, { SwipeStateProps } from './core/state';
-import { getStart, getMove, getEnd } from './core/swipe';
+import { swipestart, swipeMove, swipeEnd } from './core/swipeEvents';
 
 export interface ConfigProps {
   isHistory: boolean;
@@ -18,39 +18,14 @@ export default function SwipeEvents(
   const index = config?.paramName ? config.paramName : 'index';
 
   const handleStart = (e: Partial<TouchEvent & MouseEvent>) => {
-    if (swipeState.isSwipe === 'wait') {
-      const { x, y } = getStart(e);
-      swipeState.startSwipe(x, y);
-    }
+    swipestart(e, swipeState);
   };
   const handleMove = (e: Partial<TouchEvent & MouseEvent>) => {
-    if (swipeState.isSwipe === 'pending' && Container.current !== null) {
-      const { x, y, offset } = getMove(e, swipeState);
-      if (Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)) {
-        Container.current.style.transition = 'none';
-        Container.current.style.transform = `translateX(${offset}px)`;
-      }
-    }
+    if (Container.current !== null) swipeMove(e, swipeState, Container.current);
   };
   const handleEnd = (e: Partial<TouchEvent & MouseEvent>) => {
-    if (swipeState.isSwipe === 'pending' && Container.current !== null) {
-      const { x, y, offset } = getEnd(e, swipeState);
-
-      if (
-        (Math.abs(offset) >= Container.current.clientWidth / 2 ||
-          Date.now() - swipeState.swipeTime < 200) &&
-        Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)
-      ) {
-        offset < 0 ? swipeState.currentStep-- : swipeState.currentStep++;
-      }
-
-      swipeState.endSwipe(
-        swipeState.currentStep *
-          parseFloat(getComputedStyle(Container.current).width),
-        333,
-      );
-      Container.current.style.transition = '333ms';
-      Container.current.style.transform = `translateX(-${swipeState.currentX}px)`;
+    if (Container.current !== null) {
+      swipeEnd(e, swipeState, Container.current);
       handleHistory();
     }
   };
