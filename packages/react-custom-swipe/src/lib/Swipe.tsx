@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 
-import { ConfigProps } from './core/otherEvent';
+import { ConfigProps } from 'swipe-core-provider';
 import useSwipe from './useSwipe';
 
 interface SwipeConfigProps extends ConfigProps {

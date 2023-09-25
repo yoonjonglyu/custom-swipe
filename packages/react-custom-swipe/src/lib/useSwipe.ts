@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
-import SwipeProvider from './core/provider';
-import { ConfigProps } from './core/otherEvent';
+import SwipeProvider, { ConfigProps } from 'swipe-core-provider';
 
 export interface UseSwipe<T> {
   swipeEvents: UseSwipeEvents<T>;
@@ -9,7 +8,7 @@ export interface UseSwipe<T> {
 }
 
 interface UseSwipeEvents<T> {
-  onTouchStart: React.TouchEventHandler<T>| undefined;
+  onTouchStart: React.TouchEventHandler<T> | undefined;
   onTouchMove: React.TouchEventHandler<T> | undefined;
   onTouchEnd: React.TouchEventHandler<T> | undefined;
   onTouchCancel: React.TouchEventHandler<T> | undefined;
