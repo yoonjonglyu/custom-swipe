@@ -55,7 +55,7 @@ import { useSwipe } from 'react-custom-swipe';
 const App = () => {
   const [item, setItem] = useState([<div>test</div>, <div>test2</div>, 1, '2']);
   const ref = createRef<HTMLUListElement>();
-  const SwipeEvents = useSwipe(ref, item.length, {
+  const { swipeEvents, handleSlide }  = useSwipe(ref, item.length, {
           isHistory: false,
           paramName: 'index',
           historyCallback: (state) => console.log('swipeState', state),
@@ -88,7 +88,7 @@ const App = () => {
             boxSizing: 'content-box',
           }}
           ref={ref}
-          {...SwipeEvents}>
+          {...swipeEvents}>
           {item.map((item, key) => {
             return (
               <li
@@ -122,6 +122,7 @@ const App = () => {
       1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
       2. `paramName?`: `string` querystring key name(default: index).
       3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
+      4. `isButton?`: `boolean` left and right slide button.
 2. useSwipe(hook)
    1. `dom`: `React.RefObject<HTMLElement>` react ref props events target.
    2. `length`: `number` swipe item length(maxlength).

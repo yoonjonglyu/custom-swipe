@@ -91,7 +91,7 @@ const App: React.FC = () => {
         config={{
           isHistory: false,
           paramName: 'index',
-          historyCallback: state => console.log('swipeState', state),
+          historyCallback: state => console.log('swipeState', state, state.isSwipe),
           isButton: true,
         }}
       />
