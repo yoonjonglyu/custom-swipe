@@ -39,6 +39,7 @@ const App = () => {
           isHistory: false,
           paramName: 'index',
           historyCallback: (state) => console.log('swipeState', state),
+          isCarousel: true,
         }}
       />
     </div>
@@ -54,61 +55,64 @@ import { useSwipe } from 'react-custom-swipe';
 
 const App = () => {
   const [item, setItem] = useState([<div>test</div>, <div>test2</div>, 1, '2']);
-  const ref = createRef<HTMLUListElement>();
-  const { swipeEvents, handleSlide }  = useSwipe(ref, item.length, {
-          isHistory: false,
-          paramName: 'index',
-          historyCallback: (state) => console.log('swipeState', state),
-        });
+  const ref = useRef<HTMLUListElement>(null);
+  const DotsRef = useRef<HTMLUListElement>(null);
+
+  const { swipeEvents, handleSlide, changeIndex } = useSwipe(ref, item.length, {
+    historyCallback: (state) => {
+      config?.historyCallback && config?.historyCallback(state);
+      handleDot(state.currentStep);
+    },
+    isHistory: config?.isHistory || false,
+    paramName: config?.paramName,
+  });
+
+  const handleDot = (index: number) => {
+    if (DotsRef.current !== null) {
+      DotsRef.current.childNodes.forEach((node: ChildNode, idx: number) => {
+        const Node = node as HTMLLIElement;
+        Node.className = index === idx ? 'active' : '';
+      });
+    }
+  };
+
+  useEffect(() => {
+    const index = new URLSearchParams(location.search).get('index');
+    if (index) handleDot(parseInt(index));
+  }, []);
 
   return (
-    <div>
-      <h1>Hook Demo</h1>
-      <div
-        className='swipe-container'
-        style={{
-          position: 'relative',
-          display: 'flex',
-          padding: 0,
-          overflow: 'hidden',
-          zIndex: 1,
-        }}>
-        <ul
-          className='swipe-wrap'
-          style={{
-            position: 'relative',
-            zIndex: 1,
-            display: 'flex',
-            width: '100%',
-            height: '100%',
-            margin: '0 auto',
-            padding: 0,
-            listStyle: 'none',
-            transitionProperty: 'transform',
-            boxSizing: 'content-box',
-          }}
-          ref={ref}
-          {...swipeEvents}>
-          {item.map((item, key) => {
-            return (
-              <li
-                key={key}
-                className='swipe-item'
-                style={{
-                  position: 'relative',
-                  flexShrink: 0,
-                  width: '100%',
-                  height: '100%',
-                  textAlign: 'center',
-                }}>
-                {item}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </div>
-  );
+    <div
+      {...containerProps}
+      className={`swipe-container ${containerProps?.className}`}>
+      {config?.isCarousel && !config.isHistory ? (
+        <div>
+          <button
+            className='swipe-button swipe-left-button'
+            onClick={() => handleSlide('L')}>
+            〈
+          </button>
+          <button
+            className='swipe-button swipe-right-button'
+            onClick={() => handleSlide('R')}>
+            〉
+          </button>
+          <Carousel itemLength={item.length} ref={DotsRef} />
+        </div>
+      ) : null}
+      <ul className='swipe-wrap' ref={ref} {...swipeEvents}>
+        {item.map((item, key) => {
+          return (
+            <li
+              key={key}
+              {...itemProps}
+              className={`swipe-item ${itemProps?.className}`}>
+              {item}
+            </li>
+          );
+        })}
+      </ul>
+    </div>)
 };
 ```
 
@@ -122,7 +126,7 @@ const App = () => {
       1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
       2. `paramName?`: `string` querystring key name(default: index).
       3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
-      4. `isButton?`: `boolean` left and right slide button.
+      4. `isCarousel?`: `boolean` use carousel mode need config isHistory flag false.
 2. useSwipe(hook)
    1. `dom`: `React.RefObject<HTMLElement>` react ref props events target.
    2. `length`: `number` swipe item length(maxlength).
@@ -130,12 +134,16 @@ const App = () => {
       1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
       2. `paramName?`: `string` querystring key name(default: index).
       3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
+3. `useSwipe`(hook) return
+   1. `swipeEvents`: `UseSwipeEvents<T>`; React Swipe Event Handlers.
+   2. `handleSlide`: `(flag: 'L' | 'R') => void`; use Slide handler.
+   3. `changeIndex`: `(index: number) => void`; use goto index handler.
 
 ## Feature
 
 1. swipe
 2. infinite swipe(scroll)
-3. etc
+3. carousel
 
 ## LICENSE
 

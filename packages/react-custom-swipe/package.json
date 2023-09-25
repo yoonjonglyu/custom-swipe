@@ -51,6 +51,6 @@
   "homepage": "https://github.com/yoonjonglyu/react-custom-swipe#readme",
   "dependencies": {
     "react": "^18.2.0",
-    "swipe-core-provider": "^1.0.1"
+    "swipe-core-provider": "^1.0.4-0"
   }
 }
