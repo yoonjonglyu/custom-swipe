@@ -1,7 +1,7 @@
 {
-  "name": "swipe-core",
+  "name": "swipe-core-provider",
   "version": "1.0.0",
-  "description": "> TODO: description",
+  "description": "isa, swipe,core",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
