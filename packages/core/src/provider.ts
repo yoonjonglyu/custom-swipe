@@ -34,14 +34,10 @@ export default function SwipeProvider<T extends HTMLElement>(
       swipeEnd(e, swipeState, Container);
       otherEvents.changeHistory();
     },
-    resize: (Container: T) => {
-      otherEvents.resize(Container);
-    },
-    init: (Container: T) => {
-      otherEvents.init(Container);
-    },
-    slidehandler: (flag: 'L' | 'R', Container: T) => {
-      otherEvents.slide(flag, Container);
-    },
+    resize: (Container: T) => otherEvents.resize(Container),
+    init: (Container: T) => otherEvents.init(Container),
+    slidehandler: (flag: 'L' | 'R', Container: T) =>
+      otherEvents.slide(flag, Container),
+    changeIndex: (index: number) => otherEvents.changeIndex(index),
   };
 }
