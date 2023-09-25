@@ -36,14 +36,27 @@ const Swipe: React.FC<SwipeProps> = ({
         ...containerProps?.style,
       }}>
       {config?.isButton ? (
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            zIndex: 999,
-          }}>
-          <button onClick={() => handleSlide('L')}>L</button>
-          <button onClick={() => handleSlide('R')}>R</button>
+        <div>
+          <button
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: 10,
+              zIndex: 2,
+            }}
+            onClick={() => handleSlide('L')}>
+            L
+          </button>
+          <button
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: 10,
+              zIndex: 2,
+            }}
+            onClick={() => handleSlide('R')}>
+            R
+          </button>
         </div>
       ) : null}
       <ul
