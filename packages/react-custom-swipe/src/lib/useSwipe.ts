@@ -5,6 +5,7 @@ import SwipeProvider, { ConfigProps } from 'swipe-core-provider';
 export interface UseSwipe<T> {
   swipeEvents: UseSwipeEvents<T>;
   handleSlide: (flag: 'L' | 'R') => void;
+  changeIndex: (index: number) => void;
 }
 
 interface UseSwipeEvents<T> {
@@ -27,8 +28,13 @@ export default function useSwipe<T extends HTMLElement>(
   const Events = SwipeProvider(length, config);
 
   useEffect(() => {
-    const init = setTimeout(() => Events.init(dom.current as T), 0);
-    return () => clearTimeout(init);
+    const initCb = () => Events.init(dom.current as T);
+    let init: any;
+    if (!config?.isHistory) {
+      init = setTimeout(initCb, 0);
+    } else init = setInterval(initCb, 10);
+    return () =>
+      !config?.isHistory ? clearTimeout(init) : clearInterval(init);
   });
   useEffect(() => {
     const handleResize = () => Events.resize(dom.current as T);
@@ -52,5 +58,9 @@ export default function useSwipe<T extends HTMLElement>(
     onPointerCancel: (e: MouseEvent) => Events.desktopEnd(e, dom.current as T),
   } as unknown as UseSwipeEvents<T>;
 
-  return { swipeEvents: events, handleSlide };
+  return {
+    swipeEvents: events,
+    handleSlide,
+    changeIndex: (index: number) => Events.changeIndex(index, dom.current as T),
+  };
 }

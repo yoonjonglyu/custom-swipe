@@ -1,12 +1,13 @@
-import React, { createRef } from 'react';
-
+import React, { useRef, useEffect } from 'react';
 import { ConfigProps } from 'swipe-core-provider';
+
 import useSwipe from './useSwipe';
+import Carousel from './Carousel';
 
 import './style.css';
 
 interface SwipeConfigProps extends ConfigProps {
-  isButton?: boolean;
+  isCarousel?: boolean;
 }
 
 export interface SwipeProps {
@@ -22,25 +23,49 @@ const Swipe: React.FC<SwipeProps> = ({
   item,
   config,
 }) => {
-  const ref = createRef<HTMLUListElement>();
-  const { swipeEvents, handleSlide } = useSwipe(ref, item.length, config);
+  const ref = useRef<HTMLUListElement>(null);
+  const DotsRef = useRef<HTMLUListElement>(null);
+
+  const { swipeEvents, handleSlide } = useSwipe(ref, item.length, {
+    historyCallback: (state) => {
+      config?.historyCallback && config?.historyCallback(state);
+      handleDot(state.currentStep);
+    },
+    isHistory: config?.isHistory || false,
+    paramName: config?.paramName,
+  });
+
+  const handleDot = (index: number) => {
+    if (DotsRef.current !== null) {
+      DotsRef.current.childNodes.forEach((node: ChildNode, idx: number) => {
+        const Node = node as HTMLLIElement;
+        Node.className = index === idx ? 'active' : '';
+      });
+    }
+  };
+
+  useEffect(() => {
+    const index = new URLSearchParams(location.search).get('index');
+    if (index) handleDot(parseInt(index));
+  }, []);
 
   return (
     <div
       {...containerProps}
       className={`swipe-container ${containerProps?.className}`}>
-      {config?.isButton ? (
+      {config?.isCarousel && !config.isHistory ? (
         <div>
           <button
-            className='swipe-left-button'
+            className='swipe-button swipe-left-button'
             onClick={() => handleSlide('L')}>
-            L
+            〈
           </button>
           <button
-            className='swipe-right-button'
+            className='swipe-button swipe-right-button'
             onClick={() => handleSlide('R')}>
-            R
+            〉
           </button>
+          <Carousel itemLength={item.length} ref={DotsRef} />
         </div>
       ) : null}
       <ul className='swipe-wrap' ref={ref} {...swipeEvents}>
