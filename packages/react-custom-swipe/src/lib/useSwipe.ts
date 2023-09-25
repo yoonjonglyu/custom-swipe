@@ -3,30 +3,28 @@ import React, { useEffect } from 'react';
 import SwipeProvider from './core/provider';
 import { ConfigProps } from './core/otherEvent';
 
-export interface UseSwipe<E> {
-  swipeEvents: UseSwipeEvents<E>;
+export interface UseSwipe<T> {
+  swipeEvents: UseSwipeEvents<T>;
   handleSlide: (flag: 'L' | 'R') => void;
 }
 
-type SwipeEventHandler<E> = (e: E) => void;
-
-interface UseSwipeEvents<E> {
-  onTouchStart: SwipeEventHandler<E>;
-  onTouchMove: SwipeEventHandler<E>;
-  onTouchEnd: SwipeEventHandler<E>;
-  onTouchCancel: SwipeEventHandler<E>;
-  onPointerDown: SwipeEventHandler<E>;
-  onPointerMove: SwipeEventHandler<E>;
-  onPointerUp: SwipeEventHandler<E>;
-  onPointerLeave: SwipeEventHandler<E>;
-  onPointerCancel: SwipeEventHandler<E>;
+interface UseSwipeEvents<T> {
+  onTouchStart: React.TouchEventHandler<T>| undefined;
+  onTouchMove: React.TouchEventHandler<T> | undefined;
+  onTouchEnd: React.TouchEventHandler<T> | undefined;
+  onTouchCancel: React.TouchEventHandler<T> | undefined;
+  onPointerDown: React.MouseEventHandler<T> | undefined;
+  onPointerMove: React.MouseEventHandler<T> | undefined;
+  onPointerUp: React.MouseEventHandler<T> | undefined;
+  onPointerLeave: React.MouseEventHandler<T> | undefined;
+  onPointerCancel: React.MouseEventHandler<T> | undefined;
 }
 
 export default function useSwipe<T extends HTMLElement>(
   dom: React.RefObject<T>,
   length: number,
   config?: ConfigProps,
-): UseSwipe<TouchEvent | MouseEvent> {
+): UseSwipe<T> {
   const Events = SwipeProvider(length, config);
 
   useEffect(() => {
@@ -53,7 +51,7 @@ export default function useSwipe<T extends HTMLElement>(
     onPointerUp: (e: MouseEvent) => Events.desktopEnd(e, dom.current as T),
     onPointerLeave: (e: MouseEvent) => Events.desktopEnd(e, dom.current as T),
     onPointerCancel: (e: MouseEvent) => Events.desktopEnd(e, dom.current as T),
-  } as UseSwipeEvents<TouchEvent | MouseEvent>;
+  } as unknown as UseSwipeEvents<T>;
 
   return { swipeEvents: events, handleSlide };
 }

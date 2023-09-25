@@ -1,4 +1,3 @@
-import React from 'react';
 import SwipeState from './state';
 import { swipestart, swipeMove, swipeEnd } from './swipeEvents';
 import OtherEvents, { ConfigProps } from './otherEvent';
