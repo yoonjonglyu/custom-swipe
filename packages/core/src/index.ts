@@ -1,4 +1,6 @@
 import SwipeProvider from './provider';
-const ProviderCoreSwipe = SwipeProvider;
+import { ConfigProps } from './otherEvent';
 
+const ProviderCoreSwipe = SwipeProvider;
+export { ConfigProps };
 export default ProviderCoreSwipe;
