@@ -92,6 +92,7 @@ const App: React.FC = () => {
           isHistory: false,
           paramName: 'index',
           historyCallback: state => console.log('swipeState', state),
+          isButton: true,
         }}
       />
     </Wrap>

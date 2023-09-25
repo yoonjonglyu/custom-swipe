@@ -119,6 +119,13 @@ export default function SwipeEvents(
     config?.isHistory ? setHistory(params) : changeHistory(params);
     if (config?.historyCallback) config.historyCallback(swipeState);
   };
+  const handleSlide = (flag: 'L' | 'R') => {
+    if (flag === 'L' && swipeState.currentStep > 0) swipeState.currentStep--;
+    if (flag === 'R' && swipeState.currentStep < itemLength - 1)
+      swipeState.currentStep++;
+    handleHistory();
+    handleInit();
+  };
 
   return {
     desktopStart: (e: MouseEvent) => {
@@ -143,5 +150,8 @@ export default function SwipeEvents(
       handleResize();
     },
     init: () => handleInit(),
+    slidehandler: (flag: 'L' | 'R') => {
+      handleSlide(flag);
+    },
   };
 }

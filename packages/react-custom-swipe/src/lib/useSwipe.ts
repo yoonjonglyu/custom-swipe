@@ -2,7 +2,12 @@ import React, { useEffect } from 'react';
 
 import SwipeEvents, { ConfigProps } from './events';
 
-export interface UseSwipeEvents<T> {
+export interface UseSwipe<T> {
+  swipeEvents: UseSwipeEvents<T>;
+  handleSlide: (flag: 'L' | 'R') => void;
+}
+
+interface UseSwipeEvents<T> {
   onTouchStart: React.TouchEventHandler<T>;
   onTouchMove: React.TouchEventHandler<T>;
   onTouchEnd: React.TouchEventHandler<T>;
@@ -16,21 +21,23 @@ export default function useSwipe<T extends HTMLElement>(
   dom: React.RefObject<T>,
   length: number,
   config?: ConfigProps,
-): UseSwipeEvents<T> {
+): UseSwipe<T> {
   const Events = SwipeEvents(dom, length, config);
 
   useEffect(() => {
     const init = setTimeout(() => Events.init(), 0);
     return () => clearTimeout(init);
   });
-
   useEffect(() => {
     const handleResize = () => Events.resize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  return {
+  const handleSlide = (flag: 'L' | 'R') => {
+    Events.slidehandler(flag);
+  };
+  const events = {
     onTouchStart: Events.mobileStart,
     onTouchMove: Events.mobileMove,
     onTouchEnd: Events.mobileEnd,
@@ -41,4 +48,6 @@ export default function useSwipe<T extends HTMLElement>(
     onPointerLeave: Events.desktopEnd,
     onPointerCancel: Events.desktopEnd,
   } as unknown as UseSwipeEvents<T>;
+  
+  return { swipeEvents: events, handleSlide };
 }

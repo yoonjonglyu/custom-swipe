@@ -3,11 +3,15 @@ import React, { createRef } from 'react';
 import { ConfigProps } from './events';
 import useSwipe from './useSwipe';
 
+interface SwipeConfigProps extends ConfigProps {
+  isButton?: boolean;
+}
+
 export interface SwipeProps {
   containerProps?: React.HTMLAttributes<HTMLDivElement>;
   itemProps?: React.HTMLAttributes<HTMLLIElement>;
   item: Array<React.ReactNode>;
-  config?: ConfigProps;
+  config?: SwipeConfigProps;
 }
 
 const Swipe: React.FC<SwipeProps> = ({
@@ -17,8 +21,8 @@ const Swipe: React.FC<SwipeProps> = ({
   config,
 }) => {
   const ref = createRef<HTMLUListElement>();
-  const SwipeEvents = useSwipe(ref, item.length, config);
-  
+  const { swipeEvents, handleSlide } = useSwipe(ref, item.length, config);
+
   return (
     <div
       className='swipe-container'
@@ -31,6 +35,17 @@ const Swipe: React.FC<SwipeProps> = ({
         zIndex: 1,
         ...containerProps?.style,
       }}>
+      {config?.isButton ? (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            zIndex: 999,
+          }}>
+          <button onClick={() => handleSlide('L')}>L</button>
+          <button onClick={() => handleSlide('R')}>R</button>
+        </div>
+      ) : null}
       <ul
         className='swipe-wrap'
         style={{
@@ -46,7 +61,7 @@ const Swipe: React.FC<SwipeProps> = ({
           boxSizing: 'content-box',
         }}
         ref={ref}
-        {...SwipeEvents}>
+        {...swipeEvents}>
         {item.map((item, key) => {
           return (
             <li
