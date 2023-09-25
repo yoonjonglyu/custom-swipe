@@ -28,7 +28,7 @@
   "homepage": "https://yoonjonglyu.github.io/react-custom-swipe/",
   "dependencies": {
     "react": "^18.2.0",
-    "react-custom-swipe": "^1.0.3",
+    "react-custom-swipe": "^1.1.1",
     "react-dom": "^18.2.0",
     "styled-components": "^5.3.5"
   },

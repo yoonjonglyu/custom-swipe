@@ -62,7 +62,7 @@ const App: React.FC = () => {
         swipe demo <button onClick={handleAddItem}>add item</button>
         <button onClick={() => setTest(prev => !prev)}>rerender</button>
       </h1>
-      <Swipe
+      <ReactSwipe
         item={item.map((src, key) => (
           <Contents
             key={key}
@@ -92,7 +92,7 @@ const App: React.FC = () => {
           isHistory: false,
           paramName: 'index',
           historyCallback: state => console.log('swipeState', state, state.isSwipe),
-          isButton: true,
+          isButton: false,
         }}
       />
     </Wrap>
