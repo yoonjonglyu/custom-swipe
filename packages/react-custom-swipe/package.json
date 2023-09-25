@@ -9,7 +9,8 @@
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react",
-      "@babel/preset-typescript"
+      "@babel/preset-typescript",
+      "minify"
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"
@@ -23,6 +24,7 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@types/react": "^18.0.14",
+    "babel-minify": "^0.5.2",
     "typescript": "^4.7.4"
   },
   "scripts": {
