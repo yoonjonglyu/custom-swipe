@@ -1,0 +1,5 @@
+# swipe-core
+
+## LICENSE
+
+MIT
