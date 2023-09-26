@@ -32,6 +32,9 @@ const Wrap = styled.div`
 const Contents = styled.div`
   height: 800px;
   overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 const dumy = [
   cat1,
@@ -50,7 +53,8 @@ const dumy = [
 
 const App: React.FC = () => {
   const [item, setItem] = useState(dumy);
-  const [test, setTest] = useState(false);
+  const [isCarousel, setIsCarousel] = useState(true);
+  const [isHistory, setIsHistory] = useState(false);
   const handleAddItem = () => {
     setItem(prev => [...prev, ...dumy]);
   };
@@ -59,15 +63,15 @@ const App: React.FC = () => {
     <Wrap>
       <Style />
       <h1>
-        swipe demo <button onClick={handleAddItem}>add item</button>
-        <button onClick={() => setTest(prev => !prev)}>rerender</button>
+        swipe demo
+        <button onClick={handleAddItem}>add item</button>
+        <button onClick={() => setIsHistory(prev => !prev)}>isHistory</button>
+        <button onClick={() => setIsCarousel(prev => !prev)}>isCarousel</button>
+        {isHistory ? 'new history' : 'change history'}
       </h1>
-      <ReactSwipe
+      <Swipe
         item={item.map((src, key) => (
-          <Contents
-            key={key}
-            style={{ border: `1px solid ${test ? 'red' : 'blue'}` }}
-          >
+          <Contents key={key}>
             <img
               src={src}
               alt={src}
@@ -89,10 +93,11 @@ const App: React.FC = () => {
         containerProps={{ style: { border: '1px solid' } }}
         itemProps={{ style: { border: '1px solid' } }}
         config={{
-          isHistory: false,
+          isHistory: isHistory,
           paramName: 'index',
-          historyCallback: state => console.log('swipeState', state, state.isSwipe),
-          isButton: false,
+          historyCallback: state =>
+            console.log('swipeState', state, state.isSwipe),
+            isCarousel: isCarousel,
         }}
       />
     </Wrap>

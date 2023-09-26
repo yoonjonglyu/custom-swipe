@@ -28,10 +28,6 @@ const config = {
           },
           {
             loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-            },
           },
         ],
       },
