@@ -141,9 +141,9 @@ const App = () => {
 
 ## Feature
 
-1. swipe
-2. infinite swipe(scroll)
-3. carousel
+1. Swipe
+2. Infinite swipe(scroll)
+3. Carousel
 
 ## LICENSE
 
