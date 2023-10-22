@@ -2,9 +2,11 @@
 import { ref } from 'vue';
 import useSwipe from '../composables/useSwipe';
 
-defineProps<{ items: Array<any> }>();
+const props = defineProps<{ items: Array<any> }>();
 const swipeRef = ref();
-useSwipe(swipeRef);
+const { handleSlide } = useSwipe(swipeRef, props.items.length, { isHistory: false });
+console.log(handleSlide)
+
 </script>
 
 <template>
