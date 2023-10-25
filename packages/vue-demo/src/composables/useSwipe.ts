@@ -1,4 +1,4 @@
-import { onMounted, onBeforeUnmount, Ref } from 'vue';
+import { onMounted, onBeforeUnmount, Ref, onUpdated } from 'vue';
 import SwipeProvider, { ConfigProps } from 'swipe-core-provider';
 
 export interface useSwipeProps {
@@ -8,10 +8,9 @@ export interface useSwipeProps {
 
 export default function useSwipe(
   ref: Ref<HTMLElement>,
-  itemLength: number,
   config: ConfigProps,
 ): useSwipeProps {
-  const Events = SwipeProvider(itemLength, config);
+  let Events = SwipeProvider(1, config);
   const initCb = () => Events.init(ref.value);
   const handleResize = () => Events.resize(ref.value);
   let init: any;
@@ -26,8 +25,13 @@ export default function useSwipe(
     onPointerLeave: (e: MouseEvent) => Events.desktopEnd(e, ref.value),
     onPointerCancel: (e: MouseEvent) => Events.desktopEnd(e, ref.value),
   };
+  onUpdated(() => {
+    Events = SwipeProvider(ref.value.children.length, config);
+    initCb();
+  });
   onMounted(() => {
     // init
+    Events = SwipeProvider(ref.value.children.length, config);
     if (!config?.isHistory) {
       init = setTimeout(initCb, 0);
     } else init = setInterval(initCb, 10);
