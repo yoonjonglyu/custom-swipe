@@ -1,7 +1,7 @@
 import { onMounted, onBeforeUnmount, Ref, onUpdated } from 'vue';
 import SwipeProvider, { ConfigProps } from 'swipe-core-provider';
 
-export interface useSwipeProps {
+export interface UseSwipeProps {
   handleSlide: (flag: 'L' | 'R') => void;
   changeIndex: (index: number) => void;
 }
@@ -9,7 +9,7 @@ export interface useSwipeProps {
 export default function useSwipe(
   ref: Ref<HTMLElement>,
   config: ConfigProps,
-): useSwipeProps {
+): UseSwipeProps {
   let Events = SwipeProvider(1, config);
   const initCb = () => Events.init(ref.value);
   const handleResize = () => Events.resize(ref.value);

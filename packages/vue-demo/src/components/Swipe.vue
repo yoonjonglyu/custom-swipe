@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import SwipeWrap from './SwipeWrap.vue';
-import SwipeItem from './SwipeItem.vue';
+import SwipeWrap from '../../lib/components/SwipeWrap.vue';
+import SwipeItem from '../../lib/components/SwipeItem.vue';
 
 defineProps<{ items: Array<any> }>();
 const swipeConfig = {
