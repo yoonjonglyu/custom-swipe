@@ -1,17 +1,11 @@
-export interface SwipeStateProps {
-  isSwipe: 'pending' | 'wait' | 'disable';
-  startX: number;
-  startY: number;
-  currentX: number;
-  currentStep: number;
-  swipeTime: number;
-}
+import type { SwipeStateProps } from './type';
 
 class SwipeState implements SwipeStateProps {
   private _isSwipe: 'pending' | 'wait' | 'disable';
   private _startXY: { x: number; y: number };
   private _current: {
     currentX: number;
+    currentY: number;
     currentStep: number;
     swipeTime: number;
   };
@@ -20,7 +14,7 @@ class SwipeState implements SwipeStateProps {
   constructor(itemLength: number) {
     this._isSwipe = 'wait';
     this._startXY = { x: 0, y: 0 };
-    this._current = { currentX: 0, currentStep: 0, swipeTime: 0 };
+    this._current = { currentX: 0, currentY: 0, currentStep: 0, swipeTime: 0 };
     this._itemLength = itemLength;
   }
 
@@ -36,6 +30,9 @@ class SwipeState implements SwipeStateProps {
   get currentX() {
     return this._current.currentX;
   }
+  get currentY() {
+    return this._current.currentY;
+  }
   get currentStep() {
     return this._current.currentStep;
   }
@@ -44,6 +41,9 @@ class SwipeState implements SwipeStateProps {
   }
   set currentX(value: number) {
     this._current.currentX = value;
+  }
+  set currentY(value: number) {
+    this._current.currentY = value;
   }
   set currentStep(value: number) {
     if (value >= 0 && value < this._itemLength)
@@ -55,10 +55,11 @@ class SwipeState implements SwipeStateProps {
     this._isSwipe = 'pending';
     this._current.swipeTime = Date.now();
   }
-  endSwipe(currentX: number, disableTime: number) {
+  endSwipe(currentX: number, currentY: number, disableTime: number) {
     this._current.swipeTime = 0;
     this._isSwipe = 'disable';
     this._current.currentX = currentX;
+    this._current.currentY = currentY;
     setTimeout(() => (this._isSwipe = 'wait'), disableTime);
   }
 }

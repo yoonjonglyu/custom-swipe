@@ -1,15 +1,15 @@
+import type { ConfigProps } from './type';
 import SwipeState from './state';
 import { swipestart, swipeMove, swipeEnd } from './swipeEvents';
-import OtherEvents, { ConfigProps } from './otherEvent';
+import OtherEvents from './otherEvent';
 import { checkMobile } from './checkUserAgent';
 
 export default function SwipeProvider<T extends HTMLElement>(
   itemLength: number,
   config?: ConfigProps,
 ) {
-  const index = config?.paramName ? config.paramName : 'index';
   const swipeState = new SwipeState(itemLength);
-  const otherEvents = new OtherEvents(swipeState, index, config);
+  const otherEvents = new OtherEvents(swipeState, config);
 
   return {
     desktopStart: (e: MouseEvent) => {

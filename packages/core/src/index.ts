@@ -1,6 +1,6 @@
 import SwipeProvider from './provider';
-import { ConfigProps } from './otherEvent';
+import type { ConfigProps } from './type/index';
 
 const ProviderCoreSwipe = SwipeProvider;
-export { ConfigProps };
+export type { ConfigProps };
 export default ProviderCoreSwipe;

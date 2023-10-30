@@ -1,4 +1,4 @@
-import { SwipeStateProps } from './state';
+import type { SwipeStateProps } from './type';
 
 export const getStart = (e: Partial<TouchEvent & MouseEvent>) => {
   const x = e.targetTouches ? e.targetTouches[0].pageX : e.pageX || 0;
@@ -11,8 +11,10 @@ export const getMove = (
 ) => {
   const x = e.targetTouches ? e.targetTouches[0].pageX : e.pageX || 0;
   const y = e.targetTouches ? e.targetTouches[0].pageY : e.pageY || 0;
-  const offset = x - swipeState.startX - swipeState.currentX;
-
+  const offset = {
+    x: x - swipeState.startX - swipeState.currentX,
+    y: y - swipeState.startY - swipeState.currentY,
+  };
   return { x, y, offset };
 };
 export const getEnd = (
@@ -21,6 +23,10 @@ export const getEnd = (
 ) => {
   const x = e.changedTouches ? e.changedTouches[0].pageX : e.pageX || 0;
   const y = e.changedTouches ? e.changedTouches[0].pageY : e.pageY || 0;
-  const offset = swipeState.startX - x;
+  const offset = {
+    x: swipeState.startX - x,
+    y: swipeState.startY - y,
+  };
+
   return { x, y, offset };
 };

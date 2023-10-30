@@ -1,20 +1,16 @@
-import { SwipeStateProps } from './state';
+import type { ConfigProps, SwipeStateProps } from './type';
 import { getSearchParams, setHistory, changeHistory } from './uri';
-
-export interface ConfigProps {
-  isHistory: boolean;
-  paramName?: string;
-  historyCallback?: (state: SwipeStateProps) => void;
-}
 
 class OtherEvents {
   private _state: SwipeStateProps;
   private _index: string;
-  private _config?: ConfigProps;
-  constructor(state: SwipeStateProps, index: string, config?: ConfigProps) {
+  private _isHistory: boolean;
+  private _historyCallback?: (state: SwipeStateProps) => void;
+  constructor(state: SwipeStateProps, config?: ConfigProps) {
     this._state = state;
-    this._index = index;
-    this._config = config;
+    this._index = config?.paramName || 'index';
+    this._isHistory = config?.isHistory || false;
+    this._historyCallback = config?.historyCallback;
   }
 
   resize = (target: HTMLElement) => {
@@ -37,9 +33,8 @@ class OtherEvents {
     const params = getSearchParams();
     if (this._state.currentStep !== parseInt(params[this._index])) {
       params[this._index] = this._state.currentStep.toString();
-      this._config?.isHistory ? setHistory(params) : changeHistory(params);
-      if (this._config?.historyCallback)
-        this._config.historyCallback(this._state);
+      this._isHistory ? setHistory(params) : changeHistory(params);
+      if (!!this._historyCallback) this._historyCallback(this._state);
     }
   };
   changeIndex = (value: number, target: HTMLElement) => {

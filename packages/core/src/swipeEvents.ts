@@ -19,7 +19,7 @@ export const swipeMove = (
     const { x, y, offset } = getMove(e, swipeState);
     if (Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)) {
       target.style.transition = 'none';
-      target.style.transform = `translateX(${offset}px)`;
+      target.style.transform = `translateX(${offset.x}px)`;
     }
   }
 };
@@ -32,15 +32,16 @@ export const swipeEnd = (
     const { x, y, offset } = getEnd(e, swipeState);
 
     if (
-      (Math.abs(offset) >= target.clientWidth / 2 ||
+      (Math.abs(offset.x) >= target.clientWidth / 2 ||
         Date.now() - swipeState.swipeTime < 200) &&
       Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)
     ) {
-      offset < 0 ? swipeState.currentStep-- : swipeState.currentStep++;
+      offset.x < 0 ? swipeState.currentStep-- : swipeState.currentStep++;
     }
 
     swipeState.endSwipe(
       swipeState.currentStep * parseFloat(getComputedStyle(target).width),
+      swipeState.currentStep * parseFloat(getComputedStyle(target).height),
       333,
     );
     target.style.transition = '333ms';
