@@ -13,6 +13,9 @@
     ],
     "plugins": [
       "@babel/plugin-transform-runtime"
+    ],
+    "ignore": [
+      "**/*.d.ts"
     ]
   },
   "devDependencies": {
@@ -26,8 +29,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish:npm": "rm -rf dist && mkdir dist && babel src -d dist --extensions \".ts,.tsx\"",
-    "publish:type": "tsc --declaration --allowJs --emitDeclarationOnly --outDir dist"
+    "publish:npm": "rm -rf dist && mkdir dist && babel src -d dist --extensions \".ts\" --copy-files",
+    "publish:type": "tsc --declaration --allowJs --emitDeclarationOnly --outDir dist "
   },
   "repository": {
     "type": "git",
