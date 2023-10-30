@@ -1,6 +1,6 @@
 {
   "name": "react-custom-swipe",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "react custom swipe as components and Hooks",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -51,6 +51,6 @@
   "homepage": "https://github.com/yoonjonglyu/react-custom-swipe#readme",
   "dependencies": {
     "react": "^18.2.0",
-    "swipe-core-provider": "^1.0.4-0"
+    "swipe-core-provider": "^1.0.5"
   }
 }
