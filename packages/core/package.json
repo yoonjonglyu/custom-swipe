@@ -8,7 +8,6 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react",
       "@babel/preset-typescript",
       "minify"
     ],
@@ -21,9 +20,7 @@
     "@babel/core": "^7.18.6",
     "@babel/plugin-transform-runtime": "^7.18.6",
     "@babel/preset-env": "^7.18.6",
-    "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
-    "@types/react": "^18.0.14",
     "babel-minify": "^0.5.2",
     "typescript": "^4.7.4"
   },
@@ -49,7 +46,5 @@
     "url": "https://github.com/yoonjonglyu/react-custom-swipe/issues"
   },
   "homepage": "https://github.com/yoonjonglyu/react-custom-swipe#readme",
-  "dependencies": {
-    "react": "^18.2.0"
-  }
+  "dependencies": {}
 }
