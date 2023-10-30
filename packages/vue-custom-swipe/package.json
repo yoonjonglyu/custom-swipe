@@ -6,9 +6,12 @@
   "homepage": "https://github.com/yoonjonglyu/react-custom-swipe/tree/main/packages/vue-custom-swipe#readme",
   "license": "MIT",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/vue-csutom-swipe.umd.cjs",
   "module": "./dist/vue-csutom-swipe.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/vue-csutom-swipe.js",
@@ -25,9 +28,11 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@types/node": "^20.8.9",
     "@vitejs/plugin-vue": "^4.2.3",
-    "typescript": "^5.0.2",
+    "typescript": "^5.2.2",
     "vite": "^4.4.5",
+    "vite-plugin-dts": "^3.6.1",
     "vue-tsc": "^1.8.5"
   },
   "repository": {
