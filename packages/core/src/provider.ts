@@ -8,7 +8,8 @@ export default function SwipeProvider<T extends HTMLElement>(
   itemLength: number,
   config?: ConfigProps,
 ) {
-  const swipeState = new SwipeState(itemLength);
+  const direction = config?.direction || 'row';
+  const swipeState = new SwipeState(itemLength, direction);
   const otherEvents = new OtherEvents(swipeState, config);
 
   return {

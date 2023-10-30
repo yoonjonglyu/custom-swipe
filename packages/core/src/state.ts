@@ -10,12 +10,14 @@ class SwipeState implements SwipeStateProps {
     swipeTime: number;
   };
   private _itemLength: number;
+  private _direction: 'row' | 'column';
 
-  constructor(itemLength: number) {
+  constructor(itemLength: number, direction: 'row' | 'column') {
     this._isSwipe = 'wait';
     this._startXY = { x: 0, y: 0 };
     this._current = { currentX: 0, currentY: 0, currentStep: 0, swipeTime: 0 };
     this._itemLength = itemLength;
+    this._direction = direction;
   }
 
   get isSwipe() {
@@ -38,6 +40,9 @@ class SwipeState implements SwipeStateProps {
   }
   get swipeTime() {
     return this._current.swipeTime;
+  }
+  get direction() {
+    return this._direction;
   }
   set currentX(value: number) {
     this._current.currentX = value;

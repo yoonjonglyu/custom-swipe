@@ -6,7 +6,7 @@ class OtherEvents {
   private _index: string;
   private _isHistory: boolean;
   private _historyCallback?: (state: SwipeStateProps) => void;
-  constructor(state: SwipeStateProps, config?: ConfigProps) {
+  constructor(state: SwipeStateProps, config?: Omit<ConfigProps, 'direction'>) {
     this._state = state;
     this._index = config?.paramName || 'index';
     this._isHistory = config?.isHistory || false;
@@ -16,8 +16,14 @@ class OtherEvents {
   resize = (target: HTMLElement) => {
     this._state.currentX =
       this._state.currentStep * parseFloat(getComputedStyle(target).width);
+    this._state.currentY =
+      this._state.currentStep *
+      parseFloat(getComputedStyle(target.children[0]).height);
     target.style.transition = 'none';
-    target.style.transform = `translateX(-${this._state.currentX}px)`;
+    target.style.transform =
+      this._state.direction === 'row'
+        ? `translateX(-${this._state.currentX}px)`
+        : `translateY(-${this._state.currentY}px)`;
   };
   init = (target: HTMLElement) => {
     const params = getSearchParams();

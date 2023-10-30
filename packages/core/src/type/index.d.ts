@@ -12,4 +12,5 @@ export interface SwipeStateProps {
   currentY: number;
   currentStep: number;
   swipeTime: number;
+  direction: 'row' | 'column';
 }
