@@ -18,6 +18,9 @@
   list-style: none;
   box-sizing: content-box;
 }
+.swipe-container .column{
+  flex-direction: column !important;
+}
 .swipe-item {
   position: relative;
   flex-shrink: 0;

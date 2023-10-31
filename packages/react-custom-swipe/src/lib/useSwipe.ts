@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-
 import SwipeProvider, { ConfigProps } from 'swipe-core-provider';
 
 export interface UseSwipe<T> {
@@ -38,6 +37,9 @@ export default function useSwipe<T extends HTMLElement>(
   });
   useEffect(() => {
     const handleResize = () => Events.resize(dom.current as T);
+    if (dom.current) {
+      const target = dom.current as HTMLElement;
+    }
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [length]);
