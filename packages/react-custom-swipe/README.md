@@ -123,17 +123,19 @@ const App = () => {
    2. `containerProps?`: `React.HTMLAttributes<HTMLDivElement>` container(Root Node) props as react components.
    3. `itemProps?`: `React.HTMLAttributes<HTMLLIElement>` swipe item box(li node) props as react components.
    4. `config?`: `ConfigProps` swipe option config.
-      1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
+      1. `isHistory?`: `boolean` history change or push(default: false)(true ? push : replace).
       2. `paramName?`: `string` querystring key name(default: index).
       3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
       4. `isCarousel?`: `boolean` use carousel mode need config isHistory flag false.
+      5. `direction?`: `row | column` use vertical swipe option.(default: row)
 2. useSwipe(hook)
    1. `dom`: `React.RefObject<HTMLElement>` react ref props events target.
    2. `length`: `number` swipe item length(maxlength).
    3. `config?`: `ConfigProps` swipe option config.
-      1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
+      1. `isHistory?`: `boolean` history change or push(default: false)(true ? push : replace).
       2. `paramName?`: `string` querystring key name(default: index).
       3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
+      4. `direction?`: `row | column` use vertical swipe option.(default: row)
 3. `useSwipe`(hook) return
    1. `swipeEvents`: `UseSwipeEvents<T>`; React Swipe Event Handlers.
    2. `handleSlide`: `(flag: 'L' | 'R') => void`; use Slide handler.
