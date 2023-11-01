@@ -8,8 +8,8 @@
     "lerna": "^5.2.0"
   },
   "scripts": {
-    "build": "yarn workspace react-custom-swipe publish:npm",
-    "postbuild": "yarn workspace react-custom-swipe publish:type",
-    "publish:swipe": "yarn workspace react-custom-swipe publish"
+    "reactbuild": "yarn workspace react-custom-swipe publish:npm",
+    "postreactbuild": "yarn workspace react-custom-swipe publish:type",
+    "reactpublish:swipe": "yarn workspace react-custom-swipe publish"
   }
 }

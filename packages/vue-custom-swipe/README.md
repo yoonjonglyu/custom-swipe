@@ -3,7 +3,7 @@
 vue-custom-swipe is light and simple custom Vue library.  
 Basic Swipe and Infinite Scroll Swipe are provided as components and composable.  
 use querystring remember item index.  
-[demo](https://yoonjonglyu.github.io/react-custom-swipe/)
+[demo](https://yoonjonglyu.github.io/custom-swipe/)
 
 ## Install
 
@@ -108,7 +108,6 @@ const { handleSlide, changeIndex } = useSwipe(swipeRef, { ...config });
       1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
       2. `paramName?`: `string` querystring key name(default: index).
       3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
-      4. `isCarousel?`: `boolean` use carousel mode need config isHistory flag false.
 2. useSwipe(composable)
    1. `dom`: `Ref<HTMLElement>` Vue ref props events target.
    2. `config?`: `ConfigProps` swipe option config.

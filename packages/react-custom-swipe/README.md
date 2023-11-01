@@ -3,7 +3,7 @@
 react-custom-swipe is light and simple custom React library.  
 Basic Swipe and Infinite Scroll Swipe are provided as components and custom hook.  
 use querystring remember item index.  
-[demo](https://yoonjonglyu.github.io/react-custom-swipe/)
+[demo](https://yoonjonglyu.github.io/custom-swipe/)
 
 ## Install
 
@@ -59,12 +59,11 @@ const App = () => {
   const DotsRef = useRef<HTMLUListElement>(null);
 
   const { swipeEvents, handleSlide, changeIndex } = useSwipe(ref, item.length, {
+    ...config,
     historyCallback: (state) => {
       config?.historyCallback && config?.historyCallback(state);
       handleDot(state.currentStep);
     },
-    isHistory: config?.isHistory || false,
-    paramName: config?.paramName,
   });
 
   const handleDot = (index: number) => {

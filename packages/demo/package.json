@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yoonjonglyu/webpack-init-template.git"
+    "url": "git+https://github.com/yoonjonglyu/custom-swipe.git"
   },
   "keywords": [
     "webpack"
@@ -23,9 +23,9 @@
   "author": "ISA",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yoonjonglyu/webpack-init-template/issues"
+    "url": "https://yoonjonglyu.github.io/custom-swipe/issues"
   },
-  "homepage": "https://yoonjonglyu.github.io/react-custom-swipe/",
+  "homepage": "https://yoonjonglyu.github.io/custom-swipe/",
   "dependencies": {
     "react": "^18.2.0",
     "react-custom-swipe": "^1.2.0",

@@ -3,7 +3,7 @@
   "version": "1.0.4",
   "description": "vue custom swipe as components and composable",
   "author": "ISA <yunjonglyu@gmail.com> (yunjongryu)",
-  "homepage": "https://github.com/yoonjonglyu/react-custom-swipe/tree/main/packages/vue-custom-swipe#readme",
+  "homepage": "https://github.com/yoonjonglyu/custom-swipe/",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -38,10 +38,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yoonjonglyu/react-custom-swipe.git"
+    "url": "git+https://github.com/yoonjonglyu/custom-swipe.git"
   },
   "bugs": {
-    "url": "https://github.com/yoonjonglyu/react-custom-swipe/issues"
+    "url": "https://github.com/yoonjonglyu/custom-swipe/issues"
   },
   "keywords": [
     "vue",

@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yoonjonglyu/react-custom-swipe.git"
+    "url": "git+https://github.com/yoonjonglyu/custom-swipe.git"
   },
   "keywords": [
     "react",
@@ -46,9 +46,9 @@
   "author": "ISA",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yoonjonglyu/react-custom-swipe/issues"
+    "url": "https://github.com/yoonjonglyu/custom-swipe/issues"
   },
-  "homepage": "https://github.com/yoonjonglyu/react-custom-swipe#readme",
+  "homepage": "https://github.com/yoonjonglyu/custom-swipe#readme",
   "dependencies": {
     "react": "^18.2.0",
     "swipe-core-provider": "^1.0.6"
