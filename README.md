@@ -1,4 +1,4 @@
-# Custom-swipe
+# Custom-Swipe
 
 custom-swipe is light and simple custom library.  
 Basic Swipe and Infinite Scroll Swipe are provided as React and Vue.  
