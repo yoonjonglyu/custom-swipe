@@ -5,8 +5,6 @@ import SwipeItem from '../../lib/components/SwipeItem.vue';
 
 defineProps<{ items: Array<any> }>();
 const swipeConfig = {
-  isHistory: false,
-  paramName: 'ss',
   historyCallback: (state: any) => { console.log(state) },
 };
 </script>
@@ -14,9 +12,11 @@ const swipeConfig = {
 <template>
   <SwipeWrap :config="swipeConfig">
     <SwipeItem v-for="i in items" :key="i">
-      {{ i }}
+      <img :src="i" alt="img" />
     </SwipeItem>
   </SwipeWrap>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
+  

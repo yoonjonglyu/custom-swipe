@@ -1,17 +1,52 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue';
 import { ConfigProps } from 'swipe-core-provider';
 import useSwipe from '../composables/useSwipe';
 
 
 const { config } = defineProps<{ config: ConfigProps }>();
 const swipeRef = ref();
-useSwipe(swipeRef, { ...config });
+const dotRef = ref();
+const dotsCount = ref(0);
 
+const { handleSlide } = useSwipe(swipeRef, {
+  ...config, historyCallback: (state) => {
+    config?.historyCallback && config?.historyCallback(state);
+    handleDot(state.currentStep);
+  },
+});
+
+const handleDot = (index: number) => {
+  if (dotRef.value !== null) {
+    dotRef.value.childNodes.forEach((node: ChildNode, idx: number) => {
+      const Node = node as HTMLLIElement;
+      Node.className = index === idx ? 'active' : '';
+    });
+  }
+};
+onMounted(() => {
+  dotsCount.value = swipeRef.value.children.length - 1;
+});
+onUpdated(() => {
+  handleDot(parseInt(new URLSearchParams(location.search).get(config.paramName || 'index') || '0'));
+});
 </script>
 
 <template>
   <div class='swipe-container'>
+    <div class='swipe-carousel'>
+      <button class='swipe-button swipe-left-button' @click="handleSlide('L')">
+        〈
+      </button>
+      <button class='swipe-button swipe-right-button' @click="handleSlide('R')">
+        〉
+      </button>
+      <ul class='carousel-dots' ref="dotRef">
+        <li v-for="i in dotsCount" :key="i">
+          {{ i }}
+        </li>
+      </ul>
+    </div>
     <ul class='swipe-wrap' ref="swipeRef">
       <slot></slot>
     </ul>
@@ -37,10 +72,6 @@ useSwipe(swipeRef, { ...config });
   padding: 0;
   list-style: none;
   box-sizing: content-box;
-}
-
-.swipe-carousel {
-  position: absolute;
 }
 
 .swipe-button {

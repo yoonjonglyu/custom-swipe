@@ -14,6 +14,6 @@
   width: 100%;
   height: 100%;
   text-align: center;
-  box-sizing: border-box;
+  box-sizing: border-box;-webkit-user-drag: none;
 }
 </style>

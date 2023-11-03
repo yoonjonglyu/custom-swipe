@@ -24,7 +24,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "swipe-core-provider": "^1.0.5",
+    "swipe-core-provider": "^1.0.7",
     "vue": "^3.3.4"
   },
   "devDependencies": {
