@@ -133,7 +133,7 @@ img {
 
 1. Swipe
 2. Infinite swipe(scroll)
-3. etc
+3. Basic Carousel
 
 ## LICENSE
 
