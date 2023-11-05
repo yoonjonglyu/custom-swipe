@@ -29,9 +29,11 @@ import { SwipeItem, SwipeWrap } from 'vue-custom-swipe';
 
 defineProps<{ items: Array<any> }>();
 const swipeConfig = {
-  isHistory: false,
-  paramName: 'index',
+  isHistory: false, // default false
+  paramName: 'index', // default index
   historyCallback: (state: any) => { console.log(state) },
+  isCarousel: false, // defalut false
+  direction: 'row' // default row
 };
 </script>
 
@@ -64,7 +66,7 @@ const { handleSlide, changeIndex } = useSwipe(swipeRef, { ...config });
   <div class='swipe-container'>
     <ul class='swipe-wrap' ref="swipeRef">
       <li class="swipe-item" v-for="i in items" :key="i">
-        {{ i }}
+        <img :src="i" alt="img" />
       </li>
     </ul>
   </div>
@@ -78,7 +80,6 @@ const { handleSlide, changeIndex } = useSwipe(swipeRef, { ...config });
   overflow: hidden;
   z-index: 1;
 }
-
 .swipe-wrap {
   position: relative;
   z-index: 1;
@@ -90,6 +91,9 @@ const { handleSlide, changeIndex } = useSwipe(swipeRef, { ...config });
   list-style: none;
   box-sizing: content-box;
 }
+.swipe-container .column {
+  flex-direction: column !important;
+}
 .swipe-item {
   position: relative;
   flex-shrink: 0;
@@ -97,7 +101,10 @@ const { handleSlide, changeIndex } = useSwipe(swipeRef, { ...config });
   height: 100%;
   text-align: center;
   box-sizing: border-box;
-  -webkit-user-drag: none;
+
+}
+img {
+-webkit-user-drag: none;
 }
 </style>
 ```
