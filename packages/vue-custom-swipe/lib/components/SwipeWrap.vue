@@ -15,7 +15,7 @@ const dotsCount = ref(0);
 const { handleSlide } = useSwipe(swipeRef, {
   ...config, historyCallback: (state) => {
     config?.historyCallback && config?.historyCallback(state);
-    handleDot(state.currentStep);
+    if (config.isCarousel && !config.isHistory) handleDot(state.currentStep);
   },
 });
 

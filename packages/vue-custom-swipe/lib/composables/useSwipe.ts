@@ -36,16 +36,30 @@ export default function useSwipe(
       init = setTimeout(initCb, 0);
     } else init = setInterval(initCb, 10);
     // swipe pc
-    ref.value.addEventListener('mousedown', events.onPointerDown);
-    ref.value.addEventListener('mousemove', events.onPointerMove);
-    ref.value.addEventListener('mouseup', events.onPointerUp);
-    ref.value.addEventListener('mouseleave', events.onPointerUp);
+    ref.value.addEventListener('mousedown', events.onPointerDown, {
+      passive: true,
+    });
+    ref.value.addEventListener('mousemove', events.onPointerMove, {
+      passive: true,
+    });
+    ref.value.addEventListener('mouseup', events.onPointerUp, {
+      passive: true,
+    });
+    ref.value.addEventListener('mouseleave', events.onPointerUp, {
+      passive: true,
+    });
     // swipe mobile
-    ref.value.addEventListener('touchstart', events.onTouchStart);
-    ref.value.addEventListener('touchmove', events.onTouchMove);
-    ref.value.addEventListener('touchend', events.onTouchEnd);
+    ref.value.addEventListener('touchstart', events.onTouchStart, {
+      passive: true,
+    });
+    ref.value.addEventListener('touchmove', events.onTouchMove, {
+      passive: true,
+    });
+    ref.value.addEventListener('touchend', events.onTouchEnd, {
+      passive: true,
+    });
     // resize
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
   });
   onBeforeUnmount(() => {
     // init

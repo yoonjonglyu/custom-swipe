@@ -20,5 +20,9 @@ const swipeConfig = {
   </SwipeWrap>
 </template>
 
-<style scoped></style>
+<style scoped>
+img {
+  -webkit-user-drag: none;
+}
+</style>
   

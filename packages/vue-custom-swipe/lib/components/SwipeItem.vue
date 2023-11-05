@@ -15,6 +15,5 @@
   height: 100%;
   text-align: center;
   box-sizing: border-box;
-  -webkit-user-drag: none;
 }
 </style>
