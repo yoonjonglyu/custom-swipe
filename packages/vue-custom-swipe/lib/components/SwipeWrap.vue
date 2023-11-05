@@ -3,8 +3,11 @@ import { ref, onMounted, onUpdated } from 'vue';
 import { ConfigProps } from 'swipe-core-provider';
 import useSwipe from '../composables/useSwipe';
 
+export interface SwipeWrapProps extends ConfigProps {
+  isCarousel: boolean;
+}
 
-const { config } = defineProps<{ config: ConfigProps }>();
+const { config } = defineProps<{ config: SwipeWrapProps }>();
 const swipeRef = ref();
 const dotRef = ref();
 const dotsCount = ref(0);
@@ -34,7 +37,7 @@ onUpdated(() => {
 
 <template>
   <div class='swipe-container'>
-    <div class='swipe-carousel'>
+    <div v-if="config.isCarousel && !config.isHistory" class='swipe-carousel'>
       <button class='swipe-button swipe-left-button' @click="handleSlide('L')">
         〈
       </button>
@@ -47,7 +50,7 @@ onUpdated(() => {
         </li>
       </ul>
     </div>
-    <ul class='swipe-wrap' ref="swipeRef">
+    <ul :class="{ 'swipe-wrap': true, 'column': config.direction === 'column' }" ref="swipeRef">
       <slot></slot>
     </ul>
   </div>
@@ -72,6 +75,10 @@ onUpdated(() => {
   padding: 0;
   list-style: none;
   box-sizing: content-box;
+}
+
+.swipe-container .column {
+  flex-direction: column !important;
 }
 
 .swipe-button {

@@ -5,8 +5,11 @@ import SwipeItem from '../../lib/components/SwipeItem.vue';
 
 defineProps<{ items: Array<any> }>();
 const swipeConfig = {
+  isHistory: false,
   historyCallback: (state: any) => { console.log(state) },
-};
+  isCarousel: false,
+  direction: 'row',
+} as any;
 </script>
 
 <template>
@@ -17,6 +20,5 @@ const swipeConfig = {
   </SwipeWrap>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
   

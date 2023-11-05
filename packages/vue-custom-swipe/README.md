@@ -97,6 +97,7 @@ const { handleSlide, changeIndex } = useSwipe(swipeRef, { ...config });
   height: 100%;
   text-align: center;
   box-sizing: border-box;
+  -webkit-user-drag: none;
 }
 </style>
 ```
@@ -108,12 +109,15 @@ const { handleSlide, changeIndex } = useSwipe(swipeRef, { ...config });
       1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
       2. `paramName?`: `string` querystring key name(default: index).
       3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
+      4. `isCarousel?`: `boolean` use carousel mode need config isHistory flag false.
+      5. `direction?`: `row | column` use vertical swipe option.(default: row)
 2. useSwipe(composable)
    1. `dom`: `Ref<HTMLElement>` Vue ref props events target.
    2. `config?`: `ConfigProps` swipe option config.
       1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
       2. `paramName?`: `string` querystring key name(default: index).
       3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
+      4. `direction?`: `row | column` use vertical swipe option.(default: row)
 3. `useSwipe`(composable) return
    1. `handleSlide`: `(flag: 'L' | 'R') => void`; use Slide handler.
    2. `changeIndex`: `(index: number) => void`; use goto index handler.
