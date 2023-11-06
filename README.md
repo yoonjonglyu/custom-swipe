@@ -1,15 +1,19 @@
-![custom_swipe_logo](./swipe.png)
-# Custom-Swipe
+<img src="./swipe.png" width="100%" title="custom_swipe_logo"/>
+
+![Static Badge](https://img.shields.io/badge/React-gray?logo=react) ![Static Badge](https://img.shields.io/badge/Vue-gray?logo=vue.js) ![Static Badge](https://img.shields.io/badge/TypeScript-gray?logo=typescript) ![Static Badge](https://img.shields.io/badge/JavaScript-gray?logo=javascript)
+
+![Static Badge](https://img.shields.io/github/languages/code-size/yoonjonglyu/custom-swipe)
 
 custom-swipe is light and simple custom library.  
 Basic Swipe and Infinite Scroll Swipe are provided as React and Vue.  
 [demo](https://yoonjonglyu.github.io/custom-swipe/)
 
-## Support
-1. react-custom-swipe.
-2. vue-custom-swipe.
+## Supports
 
-## Feature
+1. [react-custom-swipe.](https://github.com/yoonjonglyu/custom-swipe/tree/main/packages/react-custom-swipe)
+2. [vue-custom-swipe.](https://github.com/yoonjonglyu/custom-swipe/tree/main/packages/vue-custom-swipe)
+
+## Features
 
 1. Swipe
 2. Infinite swipe(scroll)
@@ -18,4 +22,4 @@ Basic Swipe and Infinite Scroll Swipe are provided as React and Vue.
 ## LICENSE
 
 - MIT
-See [LICENSE](LICENSE) for details.
+  See [LICENSE](LICENSE) for details.
