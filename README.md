@@ -1,4 +1,5 @@
-<img src="./swipe.png" width="100%" title="custom_swipe_logo"/>
+<p align="center"><img src="./swipe.png"title="custom_swipe_logo" alt="swipe_logo" />
+</p>
 
 ![Static Badge](https://img.shields.io/badge/React-gray?logo=react) ![Static Badge](https://img.shields.io/badge/Vue-gray?logo=vue.js) ![Static Badge](https://img.shields.io/badge/TypeScript-gray?logo=typescript) ![Static Badge](https://img.shields.io/badge/JavaScript-gray?logo=javascript)
 
