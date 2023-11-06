@@ -1,3 +1,4 @@
+![custom_swipe_logo](./swipe.png)
 # Custom-Swipe
 
 custom-swipe is light and simple custom library.  
