@@ -30,7 +30,8 @@ const Swipe: React.FC<SwipeProps> = ({
     ...config,
     historyCallback: (state) => {
       config?.historyCallback && config?.historyCallback(state);
-      handleDot(state.currentStep);
+      if (config?.isCarousel && !config?.isHistory)
+        handleDot(state.currentStep);
     },
   });
 
@@ -44,7 +45,9 @@ const Swipe: React.FC<SwipeProps> = ({
   };
 
   useEffect(() => {
-    const index = new URLSearchParams(location.search).get(config?.paramName || 'index');
+    const index = new URLSearchParams(location.search).get(
+      config?.paramName || 'index',
+    );
     if (index) handleDot(parseInt(index));
   }, []);
 
