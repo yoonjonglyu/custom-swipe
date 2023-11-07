@@ -1,5 +1,5 @@
 
-<p align="center"><img src="../../swipe.png"title="custom_swipe_logo" alt="swipe_logo" />
+<p align="center"><img src="https://github.com/yoonjonglyu/custom-swipe/blob/main/swipe.png"title="custom_swipe_logo" alt="swipe_logo" />
 </p>
 <p algin="center">
 
