@@ -1,3 +1,7 @@
+<p align="center"><img src="../../swipe.png"title="custom_swipe_logo" alt="swipe_logo" />
+</p>
+<p algin="center">
+
 # vue-custom-swipe
 
 vue-custom-swipe is light and simple custom Vue library.  
@@ -129,11 +133,11 @@ img {
    1. `handleSlide`: `(flag: 'L' | 'R') => void`; use Slide handler.
    2. `changeIndex`: `(index: number) => void`; use goto index handler.
 
-## Feature
+## Features
 
 1. Swipe
 2. Infinite swipe(scroll)
-3. Basic Carousel
+3. Carousel
 
 ## LICENSE
 

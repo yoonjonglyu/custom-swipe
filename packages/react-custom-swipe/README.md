@@ -1,3 +1,8 @@
+
+<p align="center"><img src="../../swipe.png"title="custom_swipe_logo" alt="swipe_logo" />
+</p>
+<p algin="center">
+
 # react-custom-swipe
 
 react-custom-swipe is light and simple custom React library.  
@@ -140,7 +145,7 @@ const App = () => {
    2. `handleSlide`: `(flag: 'L' | 'R') => void`; use Slide handler.
    3. `changeIndex`: `(index: number) => void`; use goto index handler.
 
-## Feature
+## Features
 
 1. Swipe
 2. Infinite swipe(scroll)
