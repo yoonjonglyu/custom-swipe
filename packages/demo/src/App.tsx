@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 import Swipe from '../../react-custom-swipe/src';
 import ReactSwipe from 'react-custom-swipe';
+
+import Sidebar from './components/Sidebar';
 
 import cat1 from './image/cat1.jpg';
 import cat2 from './image/cat2.jpg';
@@ -17,11 +19,6 @@ import cat10 from './image/cat10.jpg';
 import iu1 from './image/iu1.jpg';
 import iu2 from './image/iu2.jpg';
 
-const Style = createGlobalStyle`
-  *{
-    -webkit-user-drag: none;
-  }
-`;
 const Wrap = styled.div`
   width: 100%;
   max-width: 720px;
@@ -53,22 +50,20 @@ const dumy = [
 
 const App: React.FC = () => {
   const [item, setItem] = useState(dumy);
-  const [isCarousel, setIsCarousel] = useState(true);
-  const [isHistory, setIsHistory] = useState(false);
+  const [config, setConfig] = useState<{
+    isHistory: boolean;
+    isCarousel: boolean;
+    direction: 'row' | 'column';
+  }>({ isHistory: false, isCarousel: true, direction: 'row' });
+  
   const handleAddItem = () => {
     setItem(prev => [...prev, ...dumy]);
   };
 
   return (
     <Wrap>
-      <Style />
-      <h1>
-        swipe demo
-        <button onClick={handleAddItem}>add item</button>
-        <button onClick={() => setIsHistory(prev => !prev)}>isHistory</button>
-        <button onClick={() => setIsCarousel(prev => !prev)}>isCarousel</button>
-        {isHistory ? 'new history' : 'change history'}
-      </h1>
+      <h1>custom swipe demo</h1>
+      <Sidebar handleAddItem={handleAddItem} handleConfig={setConfig} />
       <Swipe
         item={item.map((src, key) => (
           <Contents key={key}>
@@ -93,11 +88,9 @@ const App: React.FC = () => {
         containerProps={{ style: { border: '1px solid' } }}
         itemProps={{ style: { border: '1px solid' } }}
         config={{
-          isHistory: isHistory,
           paramName: 'index',
-          historyCallback: state =>
-            console.log('swipeState', state, state.isSwipe),
-            isCarousel: isCarousel,
+          historyCallback: state => console.log('swipeState', state),
+          ...config,
         }}
       />
     </Wrap>
