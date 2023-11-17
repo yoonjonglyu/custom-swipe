@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Swipe from '../../react-custom-swipe/src';
 import ReactSwipe from 'react-custom-swipe';
 
+import Post from './components/Post';
 import Sidebar from './components/Sidebar';
 
 import cat1 from './image/cat1.jpg';
@@ -16,8 +17,6 @@ import cat7 from './image/cat7.jpg';
 import cat8 from './image/cat8.jpg';
 import cat9 from './image/cat9.png';
 import cat10 from './image/cat10.jpg';
-import iu1 from './image/iu1.jpg';
-import iu2 from './image/iu2.jpg';
 
 const Wrap = styled.div`
   width: 100%;
@@ -26,13 +25,7 @@ const Wrap = styled.div`
   margin: 0 auto;
   overflow: hidden;
 `;
-const Contents = styled.div`
-  height: 800px;
-  overflow: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
+
 const dumy = [
   cat1,
   cat2,
@@ -43,9 +36,7 @@ const dumy = [
   cat7,
   cat8,
   cat9,
-  cat10,
-  iu1,
-  iu2,
+  cat10
 ];
 
 const App: React.FC = () => {
@@ -55,7 +46,7 @@ const App: React.FC = () => {
     isCarousel: boolean;
     direction: 'row' | 'column';
   }>({ isHistory: false, isCarousel: true, direction: 'row' });
-  
+
   const handleAddItem = () => {
     setItem(prev => [...prev, ...dumy]);
   };
@@ -66,24 +57,7 @@ const App: React.FC = () => {
       <Sidebar handleAddItem={handleAddItem} handleConfig={setConfig} />
       <Swipe
         item={item.map((src, key) => (
-          <Contents key={key}>
-            <img
-              src={src}
-              alt={src}
-              style={{ width: '100%', maxWidth: '100%' }}
-            />
-            <div>
-              <h2>example {key}</h2>
-              {Array.from({ length: 5 }, (_, key) => (
-                <img
-                  key={key}
-                  src={src}
-                  alt={src}
-                  style={{ width: '100%', maxWidth: '100%' }}
-                />
-              ))}
-            </div>
-          </Contents>
+          <Post src={src} key={key} />
         ))}
         containerProps={{ style: { border: '1px solid' } }}
         itemProps={{ style: { border: '1px solid' } }}

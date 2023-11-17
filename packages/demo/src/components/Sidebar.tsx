@@ -31,21 +31,35 @@ const Sidebar: React.FC<SidebarProps> = ({ handleAddItem, handleConfig }) => {
     <Side>
       <ul>
         <li>
-          <button onClick={() => setIsHistory(prev => !prev)}>isHistory</button>
+          <label>
+            <input
+              type="checkbox"
+              checked={isHistory}
+              onChange={() => setIsHistory(prev => !prev)}
+            />
+            <span>History</span>
+          </label>
         </li>
         <li>
-          <button onClick={() => setIsCarousel(prev => !prev)}>
-            isCarousel
-          </button>
+          <label>
+            <input
+              type="checkbox"
+              checked={isCarousel}
+              onChange={() => setIsCarousel(prev => !prev)}
+              disabled={isHistory}
+            />
+            <span>Carousel</span>
+          </label>
         </li>
         <li>
-          <button
-            onClick={() =>
-              setDirection(prev => (prev === 'row' ? 'column' : 'row'))
-            }
-          >
-            direction {direction}
-          </button>
+          <label>
+            <input
+              type="checkbox"
+              checked={direction === 'row'}
+              onChange={() => setDirection(prev => (prev === 'row' ? 'column' : 'row'))}
+            />
+            <span>direction {direction}</span>
+          </label>
         </li>
         <li>
           <button onClick={handleAddItem}>add item</button>
