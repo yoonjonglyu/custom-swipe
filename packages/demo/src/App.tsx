@@ -26,18 +26,7 @@ const Wrap = styled.div`
   overflow: hidden;
 `;
 
-const dumy = [
-  cat1,
-  cat2,
-  cat3,
-  cat4,
-  cat5,
-  cat6,
-  cat7,
-  cat8,
-  cat9,
-  cat10
-];
+const dumy = [cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10];
 
 const App: React.FC = () => {
   const [item, setItem] = useState(dumy);
@@ -53,14 +42,16 @@ const App: React.FC = () => {
 
   return (
     <Wrap>
-      <h1>custom swipe demo</h1>
       <Sidebar handleAddItem={handleAddItem} handleConfig={setConfig} />
       <Swipe
         item={item.map((src, key) => (
-          <Post src={src} key={key} />
+          <Post src={src} key={key} idx={key} />
         ))}
-        containerProps={{ style: { border: '1px solid' } }}
-        itemProps={{ style: { border: '1px solid' } }}
+        containerProps={{
+          style: {
+            height: '800px'
+          },
+        }}
         config={{
           paramName: 'index',
           historyCallback: state => console.log('swipeState', state),
