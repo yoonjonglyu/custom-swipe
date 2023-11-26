@@ -9,11 +9,16 @@ const Wrap = styled.article`
   }
 `;
 const PostHeader = styled.header`
-  position: relative;
-  height: 200px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  height: 164px;
+  margin-bottom: 22px;
+  border-bottom: 0.5px solid #80808085;
   & ul {
     list-style: none;
-    padding: 35px 0 20px 0;
+    margin: 0;
+    padding: 8px;
   }
   & ul li {
     margin: 8px;
@@ -23,17 +28,16 @@ const PostHeader = styled.header`
   }
 `;
 const Avartar = styled.div`
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  width: 150px;
-  height: 150px;
+  float: left;
+  width: 120px;
+  height: 120px;
+  margin: 18px 18px;
   border-radius: 50%;
   overflow: hidden;
   background: #dbdbdb;
   & img {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     object-fit: cover;
   }
 `;
@@ -57,7 +61,7 @@ const Post: React.FC<PostProps> = ({ src, idx }) => {
         </Avartar>
         <ul>
           <li>
-            <strong>swipe user</strong> <strong className='tag'>#{idx}</strong>
+            <strong>Swipe User</strong> <strong className="tag">#{idx}</strong>
           </li>
           <li>Meow~ Meow~</li>
         </ul>
