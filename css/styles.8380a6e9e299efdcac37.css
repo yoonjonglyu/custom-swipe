@@ -18,6 +18,9 @@
   list-style: none;
   box-sizing: content-box;
 }
+.swipe-container .column{
+  flex-direction: column !important;
+}
 .swipe-item {
   position: relative;
   flex-shrink: 0;
@@ -25,6 +28,9 @@
   height: 100%;
   text-align: center;
   box-sizing: border-box;
+}
+.swipe-item img {
+  -webkit-user-drag: none;
 }
 .swipe-carousel {
   position: absolute;
@@ -72,4 +78,4 @@
 }
 
 
-/*# sourceMappingURL=styles.21acdaf3d663b3f52a08.css.map*/
+/*# sourceMappingURL=styles.8380a6e9e299efdcac37.css.map*/
