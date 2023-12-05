@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
 	import Swipe from "../components/Swipe.svelte";
+	const item = ['1','2','3','4','5'];
 </script>
 
 <svelte:head>
@@ -8,7 +9,9 @@
 </svelte:head>
 
 <section>
-	<Swipe />
+	<Swipe item={item} config={{direction:'row'}}>
+		<img slot="swipeitem" let:swipe src={swipe} alt={swipe} />
+	</Swipe>
 </section>
 
 <style>
