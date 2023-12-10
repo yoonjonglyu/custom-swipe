@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { afterUpdate } from 'svelte';
   import useSwipe from '../hooks/useSwipe';
   import type { ConfigProps } from 'swipe-core-provider';
 
@@ -8,15 +9,56 @@
   export let item: Array<any>;
   export let config: SwipeConfigProps | undefined = undefined;
   let swipeRef: HTMLUListElement;
-  useSwipe<HTMLUListElement>(() => swipeRef, {
+  let dotRef: HTMLUListElement;
+  const { handleSlide } = useSwipe(() => swipeRef, {
     ...config,
     historyCallback: (state) => {
       config?.historyCallback && config?.historyCallback(state);
+      if (config?.isCarousel && !config.isHistory) handleDot(state.currentStep);
     },
+  });
+
+  const handleDot = (index: number) => {
+    if (dotRef !== undefined) {
+      dotRef.childNodes.forEach((node: ChildNode, idx: number) => {
+        const Node = node as HTMLLIElement;
+         index === idx ? Node.classList.add('active') : Node.classList.remove('active');
+      });
+    }
+  };
+  afterUpdate(() => {
+    handleDot(
+      parseInt(
+        new URLSearchParams(location.search).get(
+          config?.paramName || 'index',
+        ) || '0',
+      ),
+    );
   });
 </script>
 
 <div class="swipe-container">
+  {#if config?.isCarousel && !config.isHistory}
+  <div class="swipe-carousel">
+    <button
+      class="swipe-button swipe-left-button"
+      on:click={() => handleSlide('L')}
+    >
+      〈
+    </button>
+    <button
+      class="swipe-button swipe-right-button"
+      on:click={() => handleSlide('R')}
+    >
+      〉
+    </button>
+    <ul class="carousel-dots" bind:this={dotRef}>
+      {#each item as Swipe}
+        <li></li>
+      {/each}
+    </ul>
+  </div>
+  {/if}
   <ul
     class={`swipe-wrap ${config?.direction === 'column' ? 'column' : 'row'}`}
     bind:this={swipeRef}
@@ -63,9 +105,6 @@
   :global(.swipe-item img) {
     -webkit-user-drag: none;
   }
-  .swipe-carousel {
-    position: absolute;
-  }
   .swipe-button {
     position: absolute;
     top: 50%;
@@ -93,7 +132,8 @@
     font-size: 0;
     z-index: 2;
   }
-  .carousel-dots li {
+
+  :global(.carousel-dots li) {
     display: inline-block;
     width: 8px;
     height: 8px;
@@ -104,7 +144,8 @@
     background: rgba(8, 8, 8, 0.199);
     border-radius: 100%;
   }
-  .carousel-dots .active {
+
+  :global(.carousel-dots .active) {
     background: rgb(103 39 39);
   }
 </style>
