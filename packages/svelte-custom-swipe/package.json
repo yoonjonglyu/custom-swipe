@@ -13,6 +13,7 @@
 		"@neoconfetti/svelte": "^1.0.0",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.27.4",
+		"@sveltejs/vite-plugin-svelte": "^3.0.1",
 		"@types/cookie": "^0.5.1",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
@@ -23,5 +24,14 @@
 	"type": "module",
 	"dependencies": {
 		"swipe-core-provider": "^1.0.8"
+	},
+	"license": "MIT",
+	"files": ["dist"],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		}
 	}
+	
 }
