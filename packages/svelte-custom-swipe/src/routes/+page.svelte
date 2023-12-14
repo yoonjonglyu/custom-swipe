@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Swipe from '../components/Swipe.svelte';
+  import Swipe from '../../lib/index';
   import cat1 from '../image/cat1.jpg';
   import cat2 from '../image/cat2.jpg';
   import cat3 from '../image/cat3.jpg';
