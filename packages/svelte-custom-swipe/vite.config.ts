@@ -1,7 +1,7 @@
 import { resolve } from 'path';
-import { sveltekit } from '@sveltejs/kit/vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   build: {
@@ -19,7 +19,7 @@ export default defineConfig({
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
-				exports: 'named',
+        exports: 'named',
         globals: {
           svelte: 'svelte',
           'swipe-core-provider': 'swipe-core-provider',
@@ -32,5 +32,5 @@ export default defineConfig({
       allow: ['lib'],
     },
   },
-  plugins: [svelte()],
+  plugins: [dts(), svelte()],
 });
