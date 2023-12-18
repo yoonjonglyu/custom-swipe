@@ -13,13 +13,13 @@ Basic Swipe and Infinite Scroll Swipe are provided
 1.yarn
 
 ```shell
-yarn add svelte-custom-swipe
+yarn add -D svelte-custom-swipe
 ```
 
 2.npm
 
 ```shell
-npm install svelte-custom-swipe
+npm install -D svelte-custom-swipe
 ```
 
 ## Use Example
