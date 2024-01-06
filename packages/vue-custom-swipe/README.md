@@ -4,7 +4,7 @@
 
 # vue-custom-swipe
 
-vue-custom-swipe is light and simple custom Vue library.  
+vue-custom-swipe is light and Headless Vue library.  
 Basic Swipe and Infinite Scroll Swipe are provided as components and composable.  
 use querystring remember item index.  
 [demo](https://yoonjonglyu.github.io/custom-swipe/)
