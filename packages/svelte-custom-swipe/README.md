@@ -14,16 +14,28 @@ Swipe Feature provided as components and Custom Hook.
 1.yarn
 
 ```shell
-yarn add -D svelte-custom-swipe
+yarn add svelte-custom-swipe
 ```
 
 2.npm
 
 ```shell
-npm install -D svelte-custom-swipe
+npm install svelte-custom-swipe
 ```
 
 ## Use Example
+
+0. Fix SSR Cannot use import statement outside a Module
+```js
+// vite config
+export default defineConfig({
+	plugins: [sveltekit()],
+  // ...
+	ssr: {
+		noExternal: ['swipe-core-provider']// ssr Cannot use import statement outside a module 
+	}
+});
+```
 
 1. Use Component
 
