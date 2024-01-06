@@ -1,6 +1,6 @@
 <script lang="ts">
   import { afterUpdate } from 'svelte';
-  import useSwipe from '../hooks/useSwipe';
+  import useSwipe from '../hooks/useSwipe.ts';
   import type { ConfigProps } from 'swipe-core-provider';
 
   interface SwipeConfigProps extends ConfigProps {

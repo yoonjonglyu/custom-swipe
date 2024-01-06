@@ -11,7 +11,8 @@ export default function useSwipe<T extends HTMLElement>(
   ref: () => T,
   config: ConfigProps,
 ): UseSwipeProps {
-  let Events = SwipeProvider(1, config);
+  // svelte issue
+  let Events = SwipeProvider.default !== undefined ? SwipeProvider.default(1, config) : SwipeProvider(1,config);
   const initCb = () => Events.init(ref());
   const handleResize = () => Events.resize(ref());
   let init: any;

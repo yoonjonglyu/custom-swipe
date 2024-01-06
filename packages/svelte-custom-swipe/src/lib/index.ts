@@ -1,4 +1,4 @@
-import useSwipe from './hooks/useSwipe';
+import useSwipe from './hooks/useSwipe.ts';
 import Swipe from './components/Swipe.svelte';
 import type { ConfigProps } from 'swipe-core-provider';
 
