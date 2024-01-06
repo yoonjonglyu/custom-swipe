@@ -4,9 +4,18 @@
 
 # vue-custom-swipe
 
-vue-custom-swipe is light and Headless Vue library.  
-Basic Swipe and Infinite Scroll Swipe are provided as components and composable.  
-use querystring remember item index.  
+# Custom-Swipe: A Lightweight and Headless Frontend Library
+
+Custom-Swipe is a versatile solution designed for seamless user interactions in web applications. Whether you're building a responsive web app or enhancing the user experience on various devices, Custom-Swipe offers a range of swipe features. It serves as both a basic component for easy integration and a powerful headless hook for developers seeking granular control.
+
+## Key Features
+
+- **Lightweight:** Minimize your bundle size with our lightweight library.
+- **Responsive:** Ensure smooth interactions across various devices and screen sizes.
+- **Customizable:** Tailor swipe behavior to suit your application's specific needs.
+- **Headless Hook:** For developers who prefer a programmatic approach, our headless hook provides extensive control over swipe events.
+
+Explore the possibilities with Custom-Swipe and elevate your frontend development experience.
 [demo](https://yoonjonglyu.github.io/custom-swipe/)
 
 ## Install
