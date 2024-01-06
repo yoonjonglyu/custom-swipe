@@ -1,6 +1,6 @@
 {
   "name": "swipe-core-provider",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "isa, swipe,core",
   "main": "dist/index.js",
   "module": "dist/index.js",
