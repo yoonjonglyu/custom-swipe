@@ -1,0 +1,26 @@
+{
+  "name": "custom-swipe",
+  "version": "0.0.1",
+  "description": "> TODO: description",
+  "author": "Isa <yunjonglyu@gmail.com> (yunjongryu)",
+  "homepage": "https://github.com/yoonjonglyu/custom-swipe#readme",
+  "license": "ISC",
+  "main": "lib/custom-swipe.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoonjonglyu/custom-swipe.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/custom-swipe.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/yoonjonglyu/custom-swipe/issues"
+  }
+}
