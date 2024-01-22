@@ -1,5 +1,5 @@
 import useSwipe from './useSwipe';
-// Create a class for the element
+
 class CustomSwipe extends HTMLElement {
   constructor() {
     // Always call super first in constructor
@@ -9,7 +9,6 @@ class CustomSwipe extends HTMLElement {
   connectedCallback() {
     // Create a shadow root
     const shadow = this.attachShadow({ mode: 'open' });
-    
 
     const container = document.createElement('div');
     container.setAttribute('class', 'swipe-container');
@@ -111,4 +110,5 @@ class CustomSwipe extends HTMLElement {
 }
 
 // Define the new element
-customElements.define('custom-swipe', CustomSwipe);
+const defineSwipe = () => customElements.define('custom-swipe', CustomSwipe);
+export default defineSwipe;
