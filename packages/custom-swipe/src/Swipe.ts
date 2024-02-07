@@ -1,27 +1,58 @@
+import type { ConfigProps } from 'swipe-core-provider';
+import type { UseSwipe } from './useSwipe';
 import useSwipe from './useSwipe';
 
 class CustomSwipe extends HTMLElement {
+  shadow: ShadowRoot;
+  _template: HTMLDivElement;
+  _swipeEvents: UseSwipe<HTMLUListElement>['events'] | null;
+  _wrap: HTMLUListElement;
+  _config: ConfigProps;
   constructor() {
-    // Always call super first in constructor
     super();
+    this.shadow = this.attachShadow({ mode: 'open' });
+    this._swipeEvents = null;
+    this._config = {};
+    this._template = this.createTemplate();
+    this._wrap = this.createWrap();
+    this.setTemplate();
   }
 
   connectedCallback() {
-    // Create a shadow root
-    const shadow = this.attachShadow({ mode: 'open' });
+    this.render();
+  }
+  disconnectedCallback() {
+    this.clearSwipe();
+  }
+  static get observedAttributes() {
+    return ['children', 'direction', 'ishistory', 'swipecss', 'paramname'];
+  }
+  attributeChangedCallback(name: string, oldValue: String, newValue: string) {
+    this.render();
+  }
 
-    const container = document.createElement('div');
-    container.setAttribute('class', 'swipe-container');
-
-    const wrap = document.createElement('ul');
-    wrap.setAttribute('class', 'swipe-wrap');
-    useSwipe(wrap, {});
-    container.appendChild(wrap);
-
-    const item = document.createElement('li');
-    item.setAttribute('class', 'swipe-item');
-    wrap.appendChild(item);
-    // Create some CSS to apply to the shadow dom
+  render() {
+    this._config = this.getConfig();
+    const wrap = this.shadow.querySelector('.swipe-wrap') as HTMLUListElement;
+    wrap.innerHTML = '';
+    Object.values(this.children).forEach((item) => {
+      const itemNode = this.createItem();
+      itemNode.appendChild(item);
+      wrap.appendChild(itemNode);
+    });
+    this._config.direction === 'column'
+      ? wrap.setAttribute('class', 'swipe-wrap column')
+      : wrap.setAttribute('class', 'swipe-wrap row');
+    this.clearSwipe();
+    this.setSwipe();
+  }
+  setTemplate() {
+    this.setStyle();
+    this._template.appendChild(this._wrap);
+    this.shadow.appendChild(this._template.cloneNode(true));
+  }
+  setStyle() {
+    const inlineCSS = this.getAttribute('swipecss') || '';
     const style = document.createElement('style');
     style.textContent = `
     .swipe-container {
@@ -100,12 +131,54 @@ class CustomSwipe extends HTMLElement {
     .carousel-dots .active {
       background: rgb(103 39 39);
     }
+    ${inlineCSS}
     `;
+    this.shadow.appendChild(style);
+  }
+  createTemplate() {
+    const template = document.createElement('div');
+    template.setAttribute('class', 'swipe-container');
+    return template;
+  }
+  createWrap() {
+    const wrap = document.createElement('ul');
+    wrap.setAttribute('class', 'swipe-wrap');
+    return wrap;
+  }
+  createItem() {
+    const item = document.createElement('li');
+    item.setAttribute('class', 'swipe-item');
+    return item;
+  }
 
-    // Attach the created elements to the shadow dom
-    shadow.appendChild(style);
-    console.log(style.isConnected);
-    shadow.appendChild(container);
+  setSwipe() {
+    const wrap = this.shadow.querySelector('.swipe-wrap') as HTMLUListElement;
+    const { events } = useSwipe(wrap, this._config);
+    this._swipeEvents = events;
+    for (const [key, value] of Object.entries(this._swipeEvents)) {
+      wrap.addEventListener(key, value, { passive: true });
+    }
+  }
+  clearSwipe() {
+    if (this._swipeEvents === null) return;
+    const wrap = this.shadow.querySelector('.swipe-wrap') as HTMLUListElement;
+    for (const [key, value] of Object.entries(this._swipeEvents)) {
+      wrap.removeEventListener(key, value);
+    }
+  }
+  getConfig() {
+    const isHistory: boolean = !!(this.getAttribute('ishistory') || false);
+    const paramName = this.getAttribute('paramname') || 'index';
+    const direction: 'column' | 'row' =
+      this.getAttribute('direction') === 'column' ? 'column' : 'row';
+    //const historyCallback = this.getAttribute('historycallback') || cb;
+
+    return {
+      isHistory,
+      paramName,
+      direction,
+      //historyCallback,
+    };
   }
 }
 
