@@ -25,7 +25,7 @@ class CustomSwipe extends HTMLElement {
     this.clearSwipe();
   }
   static get observedAttributes() {
-    return ['children', 'direction', 'ishistory', 'swipecss', 'paramname'];
+    return ['children', 'direction', 'ishistory', 'swipecss', 'paramname', 'historycb'];
   }
   attributeChangedCallback(name: string, oldValue: String, newValue: string) {
     this.render();
@@ -37,7 +37,7 @@ class CustomSwipe extends HTMLElement {
     wrap.innerHTML = '';
     Object.values(this.children).forEach((item) => {
       const itemNode = this.createItem();
-      itemNode.appendChild(item);
+      itemNode.appendChild(item.cloneNode(true));
       wrap.appendChild(itemNode);
     });
     this._config.direction === 'column'
@@ -171,13 +171,14 @@ class CustomSwipe extends HTMLElement {
     const paramName = this.getAttribute('paramname') || 'index';
     const direction: 'column' | 'row' =
       this.getAttribute('direction') === 'column' ? 'column' : 'row';
-    //const historyCallback = this.getAttribute('historycallback') || cb;
+    const cb: any = this.getAttribute('historycb');
+    const historyCallback: any = cb !== null ? globalThis.window[cb] : () => {};
 
     return {
       isHistory,
       paramName,
       direction,
-      //historyCallback,
+      historyCallback,
     };
   }
 }
