@@ -162,7 +162,9 @@ class CustomSwipe extends HTMLElement {
     const wrap = this.shadow.querySelector('.swipe-wrap') as HTMLUListElement;
     const events = useSwipe(wrap, this._config);
     this._swipeEvents = events;
-    window.addEventListener('resize', this._swipeEvents.resize, { passive: true });
+    window.addEventListener('resize', this._swipeEvents.resize, {
+      passive: true,
+    });
     for (const [key, value] of Object.entries(this._swipeEvents.events)) {
       wrap.addEventListener(key, value, { passive: true });
     }
@@ -181,15 +183,21 @@ class CustomSwipe extends HTMLElement {
     const paramName = this.getAttribute('paramname') || 'index';
     const direction: 'column' | 'row' =
       this.getAttribute('direction') === 'column' ? 'column' : 'row';
-    const cb: any = this.getAttribute('historycb');
-    const historyCallback: any = cb !== null ? globalThis.window[cb] : () => {};
-
+    const HistoryCallBack = (state: any) =>
+      this.dispatchEvent(this.createSwipeEvents(state));
+      
     return {
       isHistory,
       paramName,
       direction,
-      historyCallback,
+      HistoryCallBack,
     };
+  }
+  createSwipeEvents(args: any) {
+    return new CustomEvent('swipecb', {
+      detail: args,
+      composed: true,
+    });
   }
 }
 
