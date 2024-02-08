@@ -5,6 +5,8 @@ export interface UseSwipe<T> {
   events: UseSwipeEvents;
   handleSlide: (flag: 'L' | 'R') => void;
   changeIndex: (index: number) => void;
+  init: VoidFunction;
+  resize: VoidFunction;
 }
 
 interface UseSwipeEvents {
@@ -31,9 +33,6 @@ function useSwipe<T extends HTMLElement>(
     ...config,
   };
   const Core = SwipeProvider(ref.children.length || 0, _config);
-  Core.init(ref);
-  
-  globalThis.window?.addEventListener('resize', () => Core.resize(ref));
 
   const events = {
     touchstart: (e: TouchEvent) => Core.mobileStart(e),
@@ -51,6 +50,8 @@ function useSwipe<T extends HTMLElement>(
     events,
     handleSlide: (flag: 'L' | 'R') => Core.slidehandler(flag, ref),
     changeIndex: (index: number) => Core.changeIndex(index, ref),
+    init: () => Core.init(ref),
+    resize: () => Core.resize(ref),
   };
 }
 

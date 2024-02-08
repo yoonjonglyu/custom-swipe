@@ -5,7 +5,7 @@ import useSwipe from './useSwipe';
 class CustomSwipe extends HTMLElement {
   shadow: ShadowRoot;
   _template: HTMLDivElement;
-  _swipeEvents: UseSwipe<HTMLUListElement>['events'] | null;
+  _swipeEvents: UseSwipe<HTMLUListElement> | null;
   _wrap: HTMLUListElement;
   _config: ConfigProps;
   constructor() {
@@ -25,7 +25,14 @@ class CustomSwipe extends HTMLElement {
     this.clearSwipe();
   }
   static get observedAttributes() {
-    return ['children', 'direction', 'ishistory', 'swipecss', 'paramname', 'historycb'];
+    return [
+      'children',
+      'direction',
+      'ishistory',
+      'swipecss',
+      'paramname',
+      'historycb',
+    ];
   }
   attributeChangedCallback(name: string, oldValue: String, newValue: string) {
     this.render();
@@ -153,16 +160,19 @@ class CustomSwipe extends HTMLElement {
 
   setSwipe() {
     const wrap = this.shadow.querySelector('.swipe-wrap') as HTMLUListElement;
-    const { events } = useSwipe(wrap, this._config);
+    const events = useSwipe(wrap, this._config);
     this._swipeEvents = events;
-    for (const [key, value] of Object.entries(this._swipeEvents)) {
+    window.addEventListener('resize', this._swipeEvents.resize, { passive: true });
+    for (const [key, value] of Object.entries(this._swipeEvents.events)) {
       wrap.addEventListener(key, value, { passive: true });
     }
+    setTimeout(this._swipeEvents.init, 0);
   }
   clearSwipe() {
     if (this._swipeEvents === null) return;
     const wrap = this.shadow.querySelector('.swipe-wrap') as HTMLUListElement;
-    for (const [key, value] of Object.entries(this._swipeEvents)) {
+    window.removeEventListener('resize', this._swipeEvents.resize);
+    for (const [key, value] of Object.entries(this._swipeEvents.events)) {
       wrap.removeEventListener(key, value);
     }
   }
