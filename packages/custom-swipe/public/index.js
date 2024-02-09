@@ -1,52 +1,78 @@
-import SwipeCoreProvider from 'https://cdn.jsdelivr.net/npm/swipe-core-provider@1.0.10/+esm';
+import SwipeProvider from 'https://cdn.jsdelivr.net/npm/swipe-core-provider@1.0.10/+esm';
 
 function useSwipe(ref, config) {
-  const _config = { isHistory: true, paramName: 'index', ...config };
-  const Core = SwipeCoreProvider(ref.children.length || 0, _config);
+  const _config = { isHistory: false, paramName: 'index', ...config };
+  const Core = SwipeProvider(ref.children.length || 0, _config);
   const events = {
-    onTouchStart: (e) => Core.mobileStart(e),
-    onTouchMove: (e) => Core.mobileMove(e, ref),
-    onTouchEnd: (e) => Core.mobileEnd(e, ref),
-    onTouchCancel: (e) => Core.mobileEnd(e, ref),
-    onPointerDown: (e) => Core.desktopStart(e),
-    onPointerMove: (e) => Core.desktopMove(e, ref),
-    onPointerUp: (e) => Core.desktopEnd(e, ref),
-    onPointerLeave: (e) => Core.desktopEnd(e, ref),
-    onPointerCancel: (e) => Core.desktopEnd(e, ref),
+    touchstart: (e) => Core.mobileStart(e),
+    touchmove: (e) => Core.mobileMove(e, ref),
+    touchend: (e) => Core.mobileEnd(e, ref),
+    touchcancel: (e) => Core.mobileEnd(e, ref),
+    pointerdown: (e) => Core.desktopStart(e),
+    pointermove: (e) => Core.desktopMove(e, ref),
+    pointerup: (e) => Core.desktopEnd(e, ref),
+    pointerleave: (e) => Core.desktopEnd(e, ref),
+    pointercancel: (e) => Core.desktopEnd(e, ref),
   };
   return {
+    events,
     handleSlide: (flag) => Core.slidehandler(flag, ref),
     changeIndex: (index) => Core.changeIndex(index, ref),
+    init: () => Core.init(ref),
+    resize: () => Core.resize(ref),
   };
-}
-class SwipeItem extends HTMLElement {
-  constructor() {
-    super();
-  }
-  connectedCallback() {}
 }
 class CustomSwipe extends HTMLElement {
   constructor() {
-    // Always call super first in constructor
     super();
+    this.shadow = this.attachShadow({ mode: 'open' });
+    this._swipeEvents = null;
+    this._config = {};
+    this._template = this.createTemplate();
+    this._wrap = this.createWrap();
+    this.setTemplate();
   }
   connectedCallback() {
-    // Create a shadow root
-    const shadow = this.attachShadow({ mode: 'open' });
-    const container = document.createElement('div');
-    container.setAttribute('class', 'swipe-container');
-    const wrap = document.createElement('ul');
-    wrap.setAttribute('class', 'swipe-wrap');
-    useSwipe(wrap, {});
-    container.appendChild(wrap);
-
-    [1, 2, 3, 4, 5].map((node) => {
-      const item = document.createElement('li');
-      item.setAttribute('class', 'swipe-item');
-      item.textContent= node;
-      wrap.appendChild(item);
+    this.render();
+  }
+  disconnectedCallback() {
+    this.clearSwipe();
+  }
+  static get observedAttributes() {
+    return [
+      'children',
+      'direction',
+      'ishistory',
+      'swipecss',
+      'paramname',
+      'historycb',
+    ];
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    this.render();
+  }
+  render() {
+    this._config = this.getConfig();
+    const wrap = this.shadow.querySelector('.swipe-wrap');
+    wrap.innerHTML = '';
+    Object.values(this.children).forEach((item) => {
+      const itemNode = this.createItem();
+      itemNode.appendChild(item.cloneNode(true));
+      wrap.appendChild(itemNode);
     });
-
+    this._config.direction === 'column'
+      ? wrap.setAttribute('class', 'swipe-wrap column')
+      : wrap.setAttribute('class', 'swipe-wrap row');
+    this.clearSwipe();
+    this.setSwipe();
+  }
+  setTemplate() {
+    this.setStyle();
+    this._template.appendChild(this._wrap);
+    this.shadow.appendChild(this._template.cloneNode(true));
+  }
+  setStyle() {
+    const inlineCSS = this.getAttribute('swipecss') || '';
     const style = document.createElement('style');
     style.textContent = `
     .swipe-container {
@@ -125,10 +151,56 @@ class CustomSwipe extends HTMLElement {
     .carousel-dots .active {
       background: rgb(103 39 39);
     }
-    `; // Attach the created elements to the shadow dom
-    shadow.appendChild(style);
-    console.log(style.isConnected);
-    shadow.appendChild(container);
+    ${inlineCSS}
+    `;
+    this.shadow.appendChild(style);
+  }
+  createTemplate() {
+    const template = document.createElement('div');
+    template.setAttribute('class', 'swipe-container');
+    return template;
+  }
+  createWrap() {
+    const wrap = document.createElement('ul');
+    wrap.setAttribute('class', 'swipe-wrap');
+    return wrap;
+  }
+  createItem() {
+    const item = document.createElement('li');
+    item.setAttribute('class', 'swipe-item');
+    return item;
+  }
+  setSwipe() {
+    const wrap = this.shadow.querySelector('.swipe-wrap');
+    const events = useSwipe(wrap, this._config);
+    this._swipeEvents = events;
+    window.addEventListener('resize', this._swipeEvents.resize, {
+      passive: true,
+    });
+    for (const [key, value] of Object.entries(this._swipeEvents.events)) {
+      wrap.addEventListener(key, value, { passive: true });
+    }
+    setTimeout(this._swipeEvents.init, 0);
+  }
+  clearSwipe() {
+    if (this._swipeEvents === null) return;
+    const wrap = this.shadow.querySelector('.swipe-wrap');
+    window.removeEventListener('resize', this._swipeEvents.resize);
+    for (const [key, value] of Object.entries(this._swipeEvents.events)) {
+      wrap.removeEventListener(key, value);
+    }
+  }
+  getConfig() {
+    const isHistory = !!(this.getAttribute('ishistory') || false);
+    const paramName = this.getAttribute('paramname') || 'index';
+    const direction =
+      this.getAttribute('direction') === 'column' ? 'column' : 'row';
+    const historyCallback = (state) => //console.log(state)
+      this.dispatchEvent(this.createSwipeEvents(state));
+    return { isHistory, paramName, direction, historyCallback };
+  }
+  createSwipeEvents(args) {
+    return new CustomEvent('swipecb', { detail: args, composed: true, bubbles: true });
   }
 } // Define the new element
 const defineSwipe = () => customElements.define('custom-swipe', CustomSwipe);
