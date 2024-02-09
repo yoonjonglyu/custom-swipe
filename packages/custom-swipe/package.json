@@ -1,12 +1,23 @@
 {
   "name": "custom-swipe",
   "version": "0.0.1",
-  "description": "> TODO: description",
+  "description": "HTML webcomponents version swipe feature components",
   "author": "Isa <yunjonglyu@gmail.com> (yunjongryu)",
   "homepage": "https://github.com/yoonjonglyu/custom-swipe#readme",
   "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "react",
+    "swipe",
+    "simple",
+    "custom",
+    "react-custom-swipe",
+    "basicSwipe"
   ],
   "repository": {
     "type": "git",
