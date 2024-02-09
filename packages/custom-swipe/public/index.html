@@ -11,7 +11,8 @@
         height: 200px;
         background-color: aqua;
         border: red 1px solid;} "
-      historycb="hello"
+      paramname="index"
+      isHistory="false"
     >
       <p class="item">1</p>
       <p class="item">2</p>
@@ -37,7 +38,9 @@
   <script type="module" src="./index.js"></script>
   <script>
     const swipes = document.querySelectorAll('custom-swipe');
-    swipes[0].addEventListener('swipecb', (e) => {console.log(e.detail)})
-    console.log(swipes)
+    swipes[0].addEventListener('swipecb', (e) => {
+      console.log(e.detail);
+    });
+    console.log(swipes);
   </script>
 </html>
