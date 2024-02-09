@@ -37,27 +37,41 @@ npm install custom-swipe
 1. Use Component
 
 ```HTML
-<custom-swipe
-  direction="column"
-  swipecss=".swipe-container{height: 200px; background: blue;} .item {width: 100%;
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <h1>swipe</h1>
+    <custom-swipe
+      direction="column"
+      swipecss=".swipe-container{height: 200px; background: blue;} .item {width: 100%;
   height: 200px;
   background-color: aqua;
   border: red 1px solid;} "
-  paramname="index"
-  isHistory="false"
->
-  <p class="item">1</p>
-  <p class="item">2</p>
-  <p class="item">3</p>
-</custom-swipe>
-<script>
-  import { defineSwipe } from 'custom-swipe';
-  defineSwipe();
-  const swipe = document.querySelector('custom-swipe');
-  swipe.addEventListener('swipecb', (e) => {
-    console.log(e.detail);
-  });
-</script>
+      paramname="index"
+      isHistory="false"
+    >
+      <p class="item">1</p>
+      <p class="item">2</p>
+      <p class="item">3</p>
+    </custom-swipe>
+  </body>
+  <script type="module">
+    import {
+      useSwipe,
+      defineSwipe,
+    } from 'https://cdn.jsdelivr.net/npm/custom-swipe@0.0.1/+esm';
+    defineSwipe();
+    const swipe = document.querySelector('custom-swipe');
+    swipe.addEventListener('swipecb', (e) => {
+      console.log(e.detail);
+    });
+  </script>
+</html>
+
 ```
 
 2. Use Hook
