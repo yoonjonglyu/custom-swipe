@@ -30,8 +30,7 @@ class CustomSwipe extends HTMLElement {
       'direction',
       'ishistory',
       'swipecss',
-      'paramname',
-      'historycb',
+      'paramname'
     ];
   }
   attributeChangedCallback(name: string, oldValue: String, newValue: string) {
@@ -183,20 +182,21 @@ class CustomSwipe extends HTMLElement {
     const paramName = this.getAttribute('paramname') || 'index';
     const direction: 'column' | 'row' =
       this.getAttribute('direction') === 'column' ? 'column' : 'row';
-    const HistoryCallBack = (state: any) =>
+    const historyCallback = (state: any) =>
       this.dispatchEvent(this.createSwipeEvents(state));
       
     return {
       isHistory,
       paramName,
       direction,
-      HistoryCallBack,
+      historyCallback,
     };
   }
   createSwipeEvents(args: any) {
     return new CustomEvent('swipecb', {
       detail: args,
       composed: true,
+      bubbles: true,
     });
   }
 }
