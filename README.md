@@ -24,9 +24,11 @@ Explore the possibilities with Custom-Swipe and elevate your frontend developmen
 
 ## Supports
 
-1. [react-custom-swipe.](https://github.com/yoonjonglyu/custom-swipe/tree/main/packages/react-custom-swipe)
-2. [vue-custom-swipe.](https://github.com/yoonjonglyu/custom-swipe/tree/main/packages/vue-custom-swipe)
-3. [svelte-custom-swipe.](https://github.com/yoonjonglyu/custom-swipe/tree/main/packages/svelte-custom-swipe)
+1. [custom-swipe.](https://github.com/yoonjonglyu/custom-swipe/tree/main/packages/custom-swipe)
+2. [react-custom-swipe.](https://github.com/yoonjonglyu/custom-swipe/tree/main/packages/react-custom-swipe)
+3. [vue-custom-swipe.](https://github.com/yoonjonglyu/custom-swipe/tree/main/packages/vue-custom-swipe)
+4. [svelte-custom-swipe.](https://github.com/yoonjonglyu/custom-swipe/tree/main/packages/svelte-custom-swipe)
+
 
 ## Features
 
