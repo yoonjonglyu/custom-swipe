@@ -3,7 +3,7 @@
 <p algin="center">
 
 ![Static Badge](https://img.shields.io/badge/React-gray?logo=react) ![Static Badge](https://img.shields.io/badge/Vue-gray?logo=vue.js) ![Static Badge](https://img.shields.io/badge/TypeScript-gray?logo=typescript) ![Static Badge](https://img.shields.io/badge/JavaScript-gray?logo=javascript) ![Static Badge](https://img.shields.io/badge/svelte-gray?logo=svelte) 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/owner/my-element)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/custom-swipe)
 
 
 </p>
