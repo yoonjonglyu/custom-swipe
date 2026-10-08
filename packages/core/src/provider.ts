@@ -9,8 +9,9 @@ export default function SwipeProvider<T extends HTMLElement>(
   config?: ConfigProps,
 ) {
   const direction = config?.direction || 'row';
-  const swipeState = new SwipeState(itemLength, direction);
+  const swipeState = new SwipeState(itemLength, direction, !!config?.isInfinite);
   const otherEvents = new OtherEvents(swipeState, config);
+
 
   let lastTouchTime = 0;
 

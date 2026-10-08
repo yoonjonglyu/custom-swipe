@@ -14,8 +14,17 @@
     "build:svelte": "yarn workspace svelte-custom-swipe build",
     "build:custom": "yarn workspace custom-swipe publish:npm && yarn workspace custom-swipe publish:type",
     "build:all": "yarn build:core && yarn build:react && yarn build:vue && yarn build:svelte && yarn build:custom",
+    "test:core": "yarn workspace swipe-core-provider test",
+    "test": "yarn test:core",
+
     "reactbuild": "yarn workspace react-custom-swipe publish:npm",
     "postreactbuild": "yarn workspace react-custom-swipe publish:type",
-    "reactpublish:swipe": "yarn workspace react-custom-swipe publish"
+    "reactpublish:swipe": "yarn workspace react-custom-swipe publish",
+    "publish:core": "yarn workspace swipe-core-provider publish",
+    "publish:react": "yarn workspace react-custom-swipe publish",
+    "publish:vue": "yarn workspace vue-custom-swipe publish",
+    "publish:svelte": "yarn workspace svelte-custom-swipe publish",
+    "publish:custom": "yarn workspace custom-swipe publish"
   }
 }
+

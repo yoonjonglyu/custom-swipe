@@ -1,6 +1,6 @@
 {
   "name": "svelte-custom-swipe",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run package",
@@ -38,8 +38,9 @@
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "swipe-core-provider": "^1.0.9"
+    "swipe-core-provider": "^1.1.0"
   },
+
   "keywords": [
     "svelte",
     "swipe",

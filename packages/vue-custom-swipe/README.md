@@ -1,153 +1,84 @@
-<p align="center"><img src="https://github.com/yoonjonglyu/custom-swipe/blob/main/swipe.png"title="custom_swipe_logo" alt="swipe_logo" />
-</p>
-<p algin="center">
-
 # vue-custom-swipe
 
-# Custom-Swipe: A Lightweight and Headless Frontend Library
+Lightweight, responsive, and headless Vue 3 swipe library with URL history synchronization and infinite looping.
 
-Custom-Swipe is a versatile solution designed for seamless user interactions in web applications. Whether you're building a responsive web app or enhancing the user experience on various devices, Custom-Swipe offers a range of swipe features. It serves as both a basic component for easy integration and a powerful headless hook for developers seeking granular control.
+[![npm version](https://img.shields.io/npm/v/vue-custom-swipe.svg)](https://www.npmjs.com/package/vue-custom-swipe)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Key Features
+[Live Demo](https://yoonjonglyu.github.io/custom-swipe/)
 
-- **Lightweight:** Minimize your bundle size with our lightweight library.
-- **Responsive:** Ensure smooth interactions across various devices and screen sizes.
-- **Customizable:** Tailor swipe behavior to suit your application's specific needs.
-- **Headless Hook:** For developers who prefer a programmatic approach, our headless hook provides extensive control over swipe events.
+## Installation
 
-Explore the possibilities with Custom-Swipe and elevate your frontend development experience.
-[demo](https://yoonjonglyu.github.io/custom-swipe/)
-
-## Install
-
-1.yarn
-
-```shell
+```bash
+npm install vue-custom-swipe
+# or
 yarn add vue-custom-swipe
 ```
 
-2.npm
+## Quick Start
 
-```shell
-npm install vue-custom-swipe
-```
+### 1. Component (`Swipe`)
 
-## Use Example
+```vue
+<script setup>
+import { Swipe } from 'vue-custom-swipe';
+import 'vue-custom-swipe/dist/index.css';
 
-1. Use Component
-
-```jsx
-<script lang="ts" setup>
-import { SwipeItem, SwipeWrap } from 'vue-custom-swipe';
-
-defineProps<{ items: Array<any> }>();
-const swipeConfig = {
-  isHistory: false, // default false
-  paramName: 'index', // default index
-  historyCallback: (state: any) => { console.log(state) },
-  isCarousel: false, // defalut false
-  direction: 'row' // default row
+const config = {
+  direction: 'row',
+  isCarousel: true,
+  isInfinite: true,
+  isHistory: true,
+  paramName: 'index',
 };
 </script>
 
 <template>
-  <SwipeWrap :config="swipeConfig">
-    <SwipeItem v-for="i in items" :key="i">
-      {{ i }}
-    </SwipeItem>
-  </SwipeWrap>
+  <Swipe :config="config">
+    <li class="swipe-item">Slide 1</li>
+    <li class="swipe-item">Slide 2</li>
+    <li class="swipe-item">Slide 3</li>
+  </Swipe>
 </template>
-
-<style scoped></style>
 ```
 
-2. Use Composable
+### 2. Composable (`useSwipe`)
 
-```jsx
-<script lang="ts" setup>
+```vue
+<script setup>
 import { ref } from 'vue';
-import { useSwipe, UseSwipeProps } from 'vue-custom-swipe';
+import { useSwipe } from 'vue-custom-swipe';
 
-
-const { config } = defineProps<{ config: UseSwipeProps }>();
-const swipeRef = ref();
-const { handleSlide, changeIndex } = useSwipe(swipeRef, { ...config });
-
+const listRef = ref(null);
+const { handleSlide, changeIndex } = useSwipe(listRef, {
+  direction: 'row',
+  isInfinite: true,
+});
 </script>
 
 <template>
-  <div class='swipe-container'>
-    <ul class='swipe-wrap' ref="swipeRef">
-      <li class="swipe-item" v-for="i in items" :key="i">
-        <img :src="i" alt="img" />
-      </li>
+  <div>
+    <button @click="handleSlide('L')">Prev</button>
+    <button @click="handleSlide('R')">Next</button>
+
+    <ul ref="listRef" class="swipe-wrap">
+      <li class="swipe-item">Slide 1</li>
+      <li class="swipe-item">Slide 2</li>
+      <li class="swipe-item">Slide 3</li>
     </ul>
   </div>
 </template>
-
-<style scoped>
-.swipe-container {
-  position: relative;
-  display: flex;
-  padding: 0;
-  overflow: hidden;
-  z-index: 1;
-}
-.swipe-wrap {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  padding: 0;
-  list-style: none;
-  box-sizing: content-box;
-}
-.swipe-container .column {
-  flex-direction: column !important;
-}
-.swipe-item {
-  position: relative;
-  flex-shrink: 0;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  box-sizing: border-box;
-
-}
-img {
--webkit-user-drag: none;
-}
-</style>
 ```
 
-## PROPS
+## Configuration API (`ConfigProps`)
 
-1. SwipeWrap(components)
-   1. `config?`: `ConfigProps` swipe option config.
-      1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
-      2. `paramName?`: `string` querystring key name(default: index).
-      3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
-      4. `isCarousel?`: `boolean` use carousel mode need config isHistory flag false.
-      5. `direction?`: `row | column` use vertical swipe option.(default: row)
-2. useSwipe(composable)
-   1. `dom`: `Ref<HTMLElement>` Vue ref props events target.
-   2. `config?`: `ConfigProps` swipe option config.
-      1. `isHistory`: `boolean` history change or push(default: false)(true ? push : replace).
-      2. `paramName?`: `string` querystring key name(default: index).
-      3. `historyCallback?`: `(state: SwipeStateProps) => void` swipeEnd event custom callback props swipe state.
-      4. `direction?`: `row | column` use vertical swipe option.(default: row)
-3. `useSwipe`(composable) return
-   1. `handleSlide`: `(flag: 'L' | 'R') => void`; use Slide handler.
-   2. `changeIndex`: `(index: number) => void`; use goto index handler.
+- `direction`: `'row' | 'column'` (default: `'row'`) - Swipe axis.
+- `isInfinite`: `boolean` (default: `false`) - Infinite looping.
+- `isHistory`: `boolean` (default: `false`) - Browser URL query string and history synchronization.
+- `paramName`: `string` (default: `'index'`) - Query parameter name.
+- `isCarousel`: `boolean` (default: `false`) - Renders navigation buttons and pagination dots.
+- `historyCallback`: `(state: SwipeStateProps) => void` - Callback on transition end.
 
-## Features
+## License
 
-1. Swipe
-2. Infinite swipe(scroll)
-3. Carousel
-
-## LICENSE
-
-MIT
+MIT © [Isa (YoonJong Ryu)](https://github.com/yoonjonglyu)

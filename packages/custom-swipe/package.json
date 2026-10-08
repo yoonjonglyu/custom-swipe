@@ -1,6 +1,6 @@
 {
   "name": "custom-swipe",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "HTML webcomponents version swipe feature components",
   "author": "Isa <yunjonglyu@gmail.com> (yunjongryu)",
   "homepage": "https://github.com/yoonjonglyu/custom-swipe#readme",
@@ -24,7 +24,7 @@
     "url": "git+https://github.com/yoonjonglyu/custom-swipe.git"
   },
   "scripts": {
-    "publish:npm": "rm -rf dist && mkdir dist && babel src -d dist -x \".ts,.tsx\" --copy-files",
+    "publish:npm": "rimraf dist && babel src -d dist -x \".ts,.tsx\" --copy-files",
     "publish:type": "tsc --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
   "bugs": {
@@ -37,8 +37,9 @@
     "minified": true
   },
   "dependencies": {
-    "swipe-core-provider": "^1.0.10"
+    "swipe-core-provider": "^1.1.0"
   },
+
   "devDependencies": {
     "@babel/cli": "^7.23.4",
     "@babel/core": "^7.23.7",

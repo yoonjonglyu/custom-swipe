@@ -3,6 +3,7 @@ export interface ConfigProps {
   paramName?: string;
   historyCallback?: (state: SwipeStateProps) => void;
   direction?: 'row' | 'column';
+  isInfinite?: boolean;
 }
 export interface SwipeStateProps {
   isSwipe: 'pending' | 'wait' | 'disable';
@@ -13,4 +14,6 @@ export interface SwipeStateProps {
   currentStep: number;
   swipeTime: number;
   direction: 'row' | 'column';
+  isInfinite?: boolean;
 }
+

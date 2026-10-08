@@ -17,12 +17,13 @@
 
 | 패키지 디렉토리 | NPM 패키지명 | 버전 | 설명 및 주요 기술 스택 |
 |---|---|---|---|
-| `packages/core` | `swipe-core-provider` | `1.0.10` | 플랫폼 독립적인 핵심 스와이프 엔진 (상태 머신, 좌표/오프셋 계산, 히스토리 연동) |
-| `packages/react-custom-swipe` | `react-custom-swipe` | `1.2.7` | React 18용 훅(`useSwipe`) 및 `<Swipe />`, `<Carousel />` 컴포넌트 |
-| `packages/vue-custom-swipe` | `vue-custom-swipe` | `1.0.11` | Vue 3용 컴포저블(`useSwipe`) 및 `<Swipe />` 컴포넌트 (Vite 4 기반 UMD/ESM 듀얼 빌드) |
-| `packages/svelte-custom-swipe` | `svelte-custom-swipe` | `0.0.9` | Svelte 4용 훅(`useSwipe`) 및 컴포넌트 (SvelteKit + `@sveltejs/package` 기반) |
-| `packages/custom-swipe` | `custom-swipe` | `0.0.2` | 바닐라 JS 및 표준 웹 컴포넌트(`defineSwipe`) 지원 |
+| `packages/core` | `swipe-core-provider` | `1.1.0` | 플랫폼 독립적인 핵심 스와이프 엔진 (상태 머신, 좌표/오프셋 계산, 히스토리 연동) |
+| `packages/react-custom-swipe` | `react-custom-swipe` | `1.3.0` | React 18용 훅(`useSwipe`) 및 `<Swipe />`, `<Carousel />` 컴포넌트 |
+| `packages/vue-custom-swipe` | `vue-custom-swipe` | `1.1.0` | Vue 3용 컴포저블(`useSwipe`) 및 `<Swipe />` 컴포넌트 (Vite 4 기반 UMD/ESM 듀얼 빌드) |
+| `packages/svelte-custom-swipe` | `svelte-custom-swipe` | `0.1.0` | Svelte 4용 훅(`useSwipe`) 및 컴포넌트 (SvelteKit + `@sveltejs/package` 기반) |
+| `packages/custom-swipe` | `custom-swipe` | `0.1.0` | 바닐라 JS 및 표준 웹 컴포넌트(`defineSwipe`) 지원 |
 | `packages/demo` | `react-custom-swipe-demo` | `1.0.0` | React + Styled-components + Webpack 5 기반 GitHub Pages 배포용 라이브 데모 |
+
 
 ---
 
@@ -150,15 +151,22 @@ custom-swipe/
 8. **루트 빌드 스크립트 및 모노레포 타입 경로 매핑 추가**:
    - 루트 `package.json`에 `build:core`, `build:react`, `build:vue`, `build:svelte`, `build:all` 추가.
    - 각 패키지의 `tsconfig.json`에 `paths` 매핑을 적용하여 모노레포 내부 의존성 타입 해석 안정화.
+9. **단위 테스트 스위트(Jest) 구축 및 15개 케이스 통과**:
+   - `packages/core`에 Jest + Babel 환경을 구축하고 `SwipeState`, `swipeData`, `uri`, `provider`에 대한 15개 단위 테스트 작성 및 통과 (`yarn test:core`).
+10. **무한 루프 스와이프 (`isInfinite`) 기능 완성**:
+    - `isInfinite: true` 옵션 추가로 경계(0번 및 마지막 인덱스) 초과 시 첫 번째/마지막 슬라이드로 매끄럽게 순환하는 모듈로 계산 로직 탑재.
+11. **크로스 플랫폼 빌드 호환성 개선 (`rimraf`)**:
+    - Windows 환경에서 실패하던 Unix `rm -rf` 명령어를 크로스 플랫폼 CLI인 `rimraf dist`로 교체하여 OS 제약 없는 빌드 보장.
+12. **GitHub Actions CI 워크플로우 구성 (`.github/workflows/ci.yml`)**:
+    - Node 18, Node 20 매트릭스 환경에서 자동 의존성 설치, 단위 테스트(`test:core`), 전체 패키지 빌드(`build:all`)를 검증하는 지속적 통합 파이프라인 완성.
 
 ---
 
 ## 8. 향후 권장 작업 (Roadmap)
 
-1. **테스트 인프라 구축**:
-   - `packages/core`의 터치 판정 및 상태 머신에 대한 단위 테스트(`vitest` 등) 도입.
-2. **모노레포 빌드 도구 현대화**:
+1. **모노레포 빌드 도구 현대화**:
    - Lerna 5 + Yarn v1 환경을 최신 pnpm Workspaces 또는 Turborepo로 전환하여 빌드 캐싱 및 패키지 간 의존성 최적화.
-3. **최신 프레임워크 런타임 검증**:
+2. **최신 프레임워크 런타임 검증**:
    - React 19, Vue 3.4+, Svelte 5(Runes API) 공식 호환성 검증 및 추가.
+
 
