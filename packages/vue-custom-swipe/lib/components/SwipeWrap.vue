@@ -13,14 +13,15 @@ const dotRef = ref();
 const dotsCount = ref(0);
 
 const { handleSlide } = useSwipe(swipeRef, {
-  ...config, historyCallback: (state) => {
+  ...config,
+  historyCallback: (state: any) => {
     config?.historyCallback && config?.historyCallback(state);
-    if (config.isCarousel && !config.isHistory) handleDot(state.currentStep);
+    if (config?.isCarousel) handleDot(state.currentStep);
   },
 });
 
 const handleDot = (index: number) => {
-  if (dotRef.value !== null) {
+  if (dotRef.value) {
     dotRef.value.childNodes.forEach((node: ChildNode, idx: number) => {
       const Node = node as HTMLLIElement;
       Node.className = index === idx ? 'active' : '';
@@ -28,17 +29,23 @@ const handleDot = (index: number) => {
   }
 };
 onMounted(() => {
-  dotsCount.value = swipeRef.value.children.length - 1;
+  if (swipeRef.value) {
+    dotsCount.value = Math.max(0, swipeRef.value.children.length - 1);
+  }
 });
 onUpdated(() => {
-  handleDot(parseInt(new URLSearchParams(location.search).get(config.paramName || 'index') || '0'));
+  if (typeof window === 'undefined') return;
+  const param = new URLSearchParams(window.location.search).get(config?.paramName || 'index') || '0';
+  const parsed = parseInt(param, 10);
+  if (!Number.isNaN(parsed)) handleDot(parsed);
 });
 </script>
 
 <template>
   <div class='swipe-container'>
-    <div v-if="config.isCarousel && !config.isHistory" class='swipe-carousel'>
+    <div v-if="config.isCarousel" class='swipe-carousel'>
       <button class='swipe-button swipe-left-button' @click="handleSlide('L')">
+
         〈
       </button>
       <button class='swipe-button swipe-right-button' @click="handleSlide('R')">

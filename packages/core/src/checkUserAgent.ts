@@ -1,3 +1,5 @@
-export const checkMobile = () => {
-  return /iPhone|iPad|Android/g.test(navigator.userAgent);
+export const checkMobile = (): boolean => {
+  if (typeof navigator === 'undefined') return false;
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 };
+

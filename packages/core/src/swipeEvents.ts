@@ -14,66 +14,75 @@ export const swipeMove = (
   swipeState: SwipeState,
   target: HTMLElement,
 ) => {
-  if (swipeState.isSwipe !== 'pending') return;
+  if (swipeState.isSwipe !== 'pending' || !target) return;
   const { x, y, offset } = getMove(e, swipeState);
-  const shake =
-    swipeState.direction === 'row'
-      ? Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)
-      : Math.abs(swipeState.startY - y) > Math.abs(swipeState.startX - x);
+  const isRowDirection = swipeState.direction === 'row';
+  const shake = isRowDirection
+    ? Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)
+    : Math.abs(swipeState.startY - y) > Math.abs(swipeState.startX - x);
   if (shake) {
     target.style.transition = 'none';
-    target.style.transform =
-      swipeState.direction === 'row'
-        ? `translateX(${offset.x}px)`
-        : `translateY(${offset.y}px)`;
+    target.style.transform = isRowDirection
+      ? `translateX(${offset.x}px)`
+      : `translateY(${offset.y}px)`;
   }
 };
+
 export const swipeEnd = (
   e: Partial<TouchEvent & MouseEvent>,
   swipeState: SwipeState,
   target: HTMLElement,
 ) => {
-  if (swipeState.isSwipe !== 'pending') return;
+  if (swipeState.isSwipe !== 'pending' || !target) return;
   const { x, y, offset } = getEnd(e, swipeState);
-  swipeState.direction === 'row'
-    ? verticalSwipe(x, y, offset)
-    : horizontalSwipe(x, y, offset);
+  const isRow = swipeState.direction === 'row';
+
+  if (isRow) {
+    handleRowSwipe(x, offset);
+  } else {
+    handleColumnSwipe(y, offset);
+  }
+
+  const targetWidth = parseFloat(getComputedStyle(target).width) || target.clientWidth || 0;
+  const firstChild = target.children[0] as HTMLElement | undefined;
+  const childHeight = firstChild
+    ? parseFloat(getComputedStyle(firstChild).height) || firstChild.clientHeight || 0
+    : target.clientHeight || 0;
+
   swipeState.endSwipe(
-    swipeState.currentStep * parseFloat(getComputedStyle(target).width),
-    swipeState.currentStep *
-      parseFloat(getComputedStyle(target.children[0]).height),
+    swipeState.currentStep * targetWidth,
+    swipeState.currentStep * childHeight,
     333,
   );
   target.style.transition = '333ms';
-  target.style.transform =
-    swipeState.direction === 'row'
-      ? `translateX(-${swipeState.currentX}px)`
-      : `translateY(-${swipeState.currentY}px)`;
+  target.style.transform = isRow
+    ? `translateX(-${swipeState.currentX}px)`
+    : `translateY(-${swipeState.currentY}px)`;
 
-  function verticalSwipe(
-    x: number,
-    y: number,
-    offset: { x: number; y: number },
+  function handleRowSwipe(
+    currentX: number,
+    off: { x: number; y: number },
   ) {
     if (
-      (Math.abs(offset.x) >= target.clientWidth / 2 ||
+      (Math.abs(off.x) >= target.clientWidth / 2 ||
         Date.now() - swipeState.swipeTime < 200) &&
-      Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - x)
+      Math.abs(swipeState.startY - y) < Math.abs(swipeState.startX - currentX)
     ) {
-      offset.x < 0 ? swipeState.currentStep-- : swipeState.currentStep++;
+      off.x < 0 ? swipeState.currentStep-- : swipeState.currentStep++;
     }
   }
-  function horizontalSwipe(
-    x: number,
-    y: number,
-    offset: { x: number; y: number },
+
+  function handleColumnSwipe(
+    currentY: number,
+    off: { x: number; y: number },
   ) {
     if (
-      (Math.abs(offset.y) >= target.clientHeight / 2 ||
+      (Math.abs(off.y) >= target.clientHeight / 2 ||
         Date.now() - swipeState.swipeTime < 200) &&
-      Math.abs(swipeState.startY - y) > Math.abs(swipeState.startX - x)
+      Math.abs(swipeState.startY - currentY) > Math.abs(swipeState.startX - x)
     ) {
-      offset.y < 0 ? swipeState.currentStep-- : swipeState.currentStep++;
+      off.y < 0 ? swipeState.currentStep-- : swipeState.currentStep++;
     }
   }
 };
+

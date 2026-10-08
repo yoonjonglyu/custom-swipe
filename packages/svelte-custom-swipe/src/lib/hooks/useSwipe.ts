@@ -28,36 +28,43 @@ export default function useSwipe<T extends HTMLElement>(
     onPointerCancel: (e: MouseEvent) => Events.desktopEnd(e, ref()),
   };
   afterUpdate(() => {
-    Events = SwipeProvider(ref().children.length, config);
+    const el = ref();
+    if (!el) return;
+    Events = SwipeProvider(el.children.length, config);
     initCb();
   });
   onMount(() => {
+    const el = ref();
+    if (!el) return;
     // init
-    Events = SwipeProvider(ref().children.length, config);
-    if (!config?.isHistory) {
-      init = setTimeout(initCb, 0);
-    } else init = setInterval(initCb, 10);
+    Events = SwipeProvider(el.children.length, config);
+    init = setTimeout(initCb, 0);
+
+    if (config?.isHistory && typeof window !== 'undefined') {
+      window.addEventListener('popstate', initCb);
+    }
+
     // swipe pc
-    ref().addEventListener('mousedown', events.onPointerDown, {
+    el.addEventListener('mousedown', events.onPointerDown, {
       passive: true,
     });
-    ref().addEventListener('mousemove', events.onPointerMove, {
+    el.addEventListener('mousemove', events.onPointerMove, {
       passive: true,
     });
-    ref().addEventListener('mouseup', events.onPointerUp, {
+    el.addEventListener('mouseup', events.onPointerUp, {
       passive: true,
     });
-    ref().addEventListener('mouseleave', events.onPointerUp, {
+    el.addEventListener('mouseleave', events.onPointerUp, {
       passive: true,
     });
     // swipe mobile
-    ref().addEventListener('touchstart', events.onTouchStart, {
+    el.addEventListener('touchstart', events.onTouchStart, {
       passive: true,
     });
-    ref().addEventListener('touchmove', events.onTouchMove, {
+    el.addEventListener('touchmove', events.onTouchMove, {
       passive: true,
     });
-    ref().addEventListener('touchend', events.onTouchEnd, {
+    el.addEventListener('touchend', events.onTouchEnd, {
       passive: true,
     });
     // resize
@@ -65,13 +72,36 @@ export default function useSwipe<T extends HTMLElement>(
   });
   onDestroy(() => {
     // init
-    !config?.isHistory ? clearTimeout(init) : clearInterval(init);
+    clearTimeout(init);
+    if (config?.isHistory && typeof window !== 'undefined') {
+      window.removeEventListener('popstate', initCb);
+    }
+    // swipe listeners cleanup
+    const el = ref();
+    if (el) {
+      el.removeEventListener('mousedown', events.onPointerDown);
+      el.removeEventListener('mousemove', events.onPointerMove);
+      el.removeEventListener('mouseup', events.onPointerUp);
+      el.removeEventListener('mouseleave', events.onPointerUp);
+      el.removeEventListener('touchstart', events.onTouchStart);
+      el.removeEventListener('touchmove', events.onTouchMove);
+      el.removeEventListener('touchend', events.onTouchEnd);
+    }
     // resize
-    if (globalThis.window) window.removeEventListener('resize', handleResize);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', handleResize);
+    }
   });
 
   return {
-    handleSlide: (flag: 'L' | 'R') => Events.slidehandler(flag, ref()),
-    changeIndex: (index: number) => Events.changeIndex(index, ref()),
+    handleSlide: (flag: 'L' | 'R') => {
+      const el = ref();
+      if (el) Events.slidehandler(flag, el);
+    },
+    changeIndex: (index: number) => {
+      const el = ref();
+      if (el) Events.changeIndex(index, el);
+    },
   };
 }
+

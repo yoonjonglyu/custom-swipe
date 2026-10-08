@@ -26,15 +26,20 @@ export default function useSwipe(
     onPointerCancel: (e: MouseEvent) => Events.desktopEnd(e, ref.value),
   };
   onUpdated(() => {
+    if (!ref.value) return;
     Events = SwipeProvider(ref.value.children.length, config);
     initCb();
   });
   onMounted(() => {
+    if (!ref.value) return;
     // init
     Events = SwipeProvider(ref.value.children.length, config);
-    if (!config?.isHistory) {
-      init = setTimeout(initCb, 0);
-    } else init = setInterval(initCb, 10);
+    init = setTimeout(initCb, 0);
+
+    if (config?.isHistory && typeof window !== 'undefined') {
+      window.addEventListener('popstate', initCb);
+    }
+
     // swipe pc
     ref.value.addEventListener('mousedown', events.onPointerDown, {
       passive: true,
@@ -63,19 +68,25 @@ export default function useSwipe(
   });
   onBeforeUnmount(() => {
     // init
-    !config?.isHistory ? clearTimeout(init) : clearInterval(init);
+    clearTimeout(init);
+    if (config?.isHistory && typeof window !== 'undefined') {
+      window.removeEventListener('popstate', initCb);
+    }
     // swipe
-    ref.value.removeEventListener('mousedown', events.onPointerDown);
-    ref.value.removeEventListener('mousemove', events.onPointerMove);
-    ref.value.removeEventListener('mouseup', events.onPointerUp);
-    ref.value.removeEventListener('mouseleave', events.onPointerUp);
-    // swipe mobile
-    ref.value.removeEventListener('touchstart', events.onTouchStart);
-    ref.value.removeEventListener('touchmove', events.onTouchMove);
-    ref.value.removeEventListener('touchend', events.onTouchEnd);
+    if (ref.value) {
+      ref.value.removeEventListener('mousedown', events.onPointerDown);
+      ref.value.removeEventListener('mousemove', events.onPointerMove);
+      ref.value.removeEventListener('mouseup', events.onPointerUp);
+      ref.value.removeEventListener('mouseleave', events.onPointerUp);
+      // swipe mobile
+      ref.value.removeEventListener('touchstart', events.onTouchStart);
+      ref.value.removeEventListener('touchmove', events.onTouchMove);
+      ref.value.removeEventListener('touchend', events.onTouchEnd);
+    }
     // resize
     window.removeEventListener('resize', handleResize);
   });
+
 
   const handleSlide = (flag: 'L' | 'R') => {
     Events.slidehandler(flag, ref.value);

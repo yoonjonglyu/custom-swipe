@@ -24,45 +24,82 @@ export default function useSwipe<T extends HTMLElement>(
   length: number,
   config?: ConfigProps,
 ): UseSwipe<T> {
-  const Events = SwipeProvider(length, config);
+  const eventsInstance = React.useMemo(
+    () => SwipeProvider<T>(length, config),
+    [length, config?.direction, config?.isHistory, config?.paramName],
+  );
 
   useEffect(() => {
-    const initCb = () => Events.init(dom.current as T);
-    let init: any;
-    if (!config?.isHistory) {
-      init = setTimeout(initCb, 0);
-    } else init = setInterval(initCb, 10);
-    return () =>
-      !config?.isHistory ? clearTimeout(init) : clearInterval(init);
-  });
-  useEffect(() => {
-    const handleResize = () => Events.resize(dom.current as T);
-    if (dom.current) {
-      const target = dom.current as HTMLElement;
+    if (!dom.current) return;
+    const initCb = () => {
+      if (dom.current) eventsInstance.init(dom.current);
+    };
+
+    // Initial positioning
+    const timer = setTimeout(initCb, 0);
+
+    // Listen to history changes if isHistory is enabled
+    if (config?.isHistory && typeof window !== 'undefined') {
+      window.addEventListener('popstate', initCb);
     }
+
+    return () => {
+      clearTimeout(timer);
+      if (config?.isHistory && typeof window !== 'undefined') {
+        window.removeEventListener('popstate', initCb);
+      }
+    };
+  }, [eventsInstance, config?.isHistory]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (dom.current) eventsInstance.resize(dom.current);
+    };
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [length]);
+  }, [eventsInstance]);
 
-  const handleSlide = (flag: 'L' | 'R') => {
-    Events.slidehandler(flag, dom.current as T);
-  };
+  const handleSlide = React.useCallback(
+    (flag: 'L' | 'R') => {
+      if (dom.current) eventsInstance.slidehandler(flag, dom.current);
+    },
+    [eventsInstance],
+  );
 
-  const events = {
-    onTouchStart: (e: TouchEvent) => Events.mobileStart(e),
-    onTouchMove: (e: TouchEvent) => Events.mobileMove(e, dom.current as T),
-    onTouchEnd: (e: TouchEvent) => Events.mobileEnd(e, dom.current as T),
-    onTouchCancel: (e: TouchEvent) => Events.mobileEnd(e, dom.current as T),
-    onPointerDown: (e: MouseEvent) => Events.desktopStart(e),
-    onPointerMove: (e: MouseEvent) => Events.desktopMove(e, dom.current as T),
-    onPointerUp: (e: MouseEvent) => Events.desktopEnd(e, dom.current as T),
-    onPointerLeave: (e: MouseEvent) => Events.desktopEnd(e, dom.current as T),
-    onPointerCancel: (e: MouseEvent) => Events.desktopEnd(e, dom.current as T),
-  } as unknown as UseSwipeEvents<T>;
+  const changeIndex = React.useCallback(
+    (index: number) => {
+      if (dom.current) eventsInstance.changeIndex(index, dom.current);
+    },
+    [eventsInstance],
+  );
+
+  const events: UseSwipeEvents<T> = React.useMemo(
+    () => ({
+      onTouchStart: (e) => eventsInstance.mobileStart(e.nativeEvent as TouchEvent),
+      onTouchMove: (e) =>
+        dom.current && eventsInstance.mobileMove(e.nativeEvent as TouchEvent, dom.current),
+      onTouchEnd: (e) =>
+        dom.current && eventsInstance.mobileEnd(e.nativeEvent as TouchEvent, dom.current),
+      onTouchCancel: (e) =>
+        dom.current && eventsInstance.mobileEnd(e.nativeEvent as TouchEvent, dom.current),
+      onPointerDown: (e) => eventsInstance.desktopStart(e.nativeEvent as MouseEvent),
+      onPointerMove: (e) =>
+        dom.current && eventsInstance.desktopMove(e.nativeEvent as MouseEvent, dom.current),
+      onPointerUp: (e) =>
+        dom.current && eventsInstance.desktopEnd(e.nativeEvent as MouseEvent, dom.current),
+      onPointerLeave: (e) =>
+        dom.current && eventsInstance.desktopEnd(e.nativeEvent as MouseEvent, dom.current),
+      onPointerCancel: (e) =>
+        dom.current && eventsInstance.desktopEnd(e.nativeEvent as MouseEvent, dom.current),
+    }),
+    [eventsInstance],
+  );
 
   return {
     swipeEvents: events,
     handleSlide,
-    changeIndex: (index: number) => Events.changeIndex(index, dom.current as T),
+    changeIndex,
   };
 }
+

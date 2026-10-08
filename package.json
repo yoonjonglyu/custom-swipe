@@ -8,6 +8,12 @@
     "lerna": "^5.2.0"
   },
   "scripts": {
+    "build:core": "yarn workspace swipe-core-provider publish:npm && yarn workspace swipe-core-provider publish:type",
+    "build:react": "yarn workspace react-custom-swipe publish:npm && yarn workspace react-custom-swipe publish:type",
+    "build:vue": "yarn workspace vue-custom-swipe build",
+    "build:svelte": "yarn workspace svelte-custom-swipe build",
+    "build:custom": "yarn workspace custom-swipe publish:npm && yarn workspace custom-swipe publish:type",
+    "build:all": "yarn build:core && yarn build:react && yarn build:vue && yarn build:svelte && yarn build:custom",
     "reactbuild": "yarn workspace react-custom-swipe publish:npm",
     "postreactbuild": "yarn workspace react-custom-swipe publish:type",
     "reactpublish:swipe": "yarn workspace react-custom-swipe publish"

@@ -12,9 +12,9 @@
   let dotRef: HTMLUListElement;
   const { handleSlide } = useSwipe(() => swipeRef, {
     ...config,
-    historyCallback: (state) => {
+    historyCallback: (state: any) => {
       config?.historyCallback && config?.historyCallback(state);
-      if (config?.isCarousel && !config.isHistory) handleDot(state.currentStep);
+      if (config?.isCarousel) handleDot(state.currentStep);
     },
   });
 
@@ -22,23 +22,23 @@
     if (dotRef !== undefined) {
       dotRef.childNodes.forEach((node: ChildNode, idx: number) => {
         const Node = node as HTMLLIElement;
-         index === idx ? Node.classList.add('active') : Node.classList.remove('active');
+        index === idx ? Node.classList.add('active') : Node.classList.remove('active');
       });
     }
   };
   afterUpdate(() => {
-    handleDot(
-      parseInt(
-        new URLSearchParams(location.search).get(
-          config?.paramName || 'index',
-        ) || '0',
-      ),
-    );
+    if (typeof window === 'undefined') return;
+    const param = new URLSearchParams(window.location.search).get(
+      config?.paramName || 'index',
+    ) || '0';
+    const parsed = parseInt(param, 10);
+    if (!Number.isNaN(parsed)) handleDot(parsed);
   });
 </script>
 
 <div class="swipe-container">
-  {#if config?.isCarousel && !config.isHistory}
+  {#if config?.isCarousel}
+
   <div class="swipe-carousel">
     <button
       class="swipe-button swipe-left-button"

@@ -30,8 +30,9 @@ const Swipe: React.FC<SwipeProps> = ({
     ...config,
     historyCallback: (state) => {
       config?.historyCallback && config?.historyCallback(state);
-      if (config?.isCarousel && !config?.isHistory)
+      if (config?.isCarousel) {
         handleDot(state.currentStep);
+      }
     },
   });
 
@@ -45,24 +46,30 @@ const Swipe: React.FC<SwipeProps> = ({
   };
 
   useEffect(() => {
-    const index = new URLSearchParams(location.search).get(
+    if (typeof window === 'undefined') return;
+    const index = new URLSearchParams(window.location.search).get(
       config?.paramName || 'index',
     );
-    if (index) handleDot(parseInt(index));
-  }, []);
+    if (index) {
+      const parsed = parseInt(index, 10);
+      if (!Number.isNaN(parsed)) handleDot(parsed);
+    }
+  }, [config?.paramName]);
 
   return (
     <div
       {...containerProps}
       className={`swipe-container ${containerProps?.className || ''}`}>
-      {config?.isCarousel && !config.isHistory ? (
+      {config?.isCarousel ? (
         <div>
           <button
+            type='button'
             className='swipe-button swipe-left-button'
             onClick={() => handleSlide('L')}>
             〈
           </button>
           <button
+            type='button'
             className='swipe-button swipe-right-button'
             onClick={() => handleSlide('R')}>
             〉
@@ -70,6 +77,7 @@ const Swipe: React.FC<SwipeProps> = ({
           <Carousel itemLength={item.length} ref={DotsRef} />
         </div>
       ) : null}
+
       <ul
         className={`swipe-wrap ${config?.direction || ''}`}
         ref={ref}

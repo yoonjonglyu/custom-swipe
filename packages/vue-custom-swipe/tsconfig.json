@@ -13,6 +13,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "swipe-core-provider": ["../core/src/index.ts"]
+    },
+
 
     /* Linting */
     "strict": true,

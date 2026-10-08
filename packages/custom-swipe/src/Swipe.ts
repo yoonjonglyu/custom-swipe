@@ -39,9 +39,10 @@ class CustomSwipe extends HTMLElement {
 
   render() {
     this._config = this.getConfig();
-    const wrap = this.shadow.querySelector('.swipe-wrap') as HTMLUListElement;
+    const wrap = this.shadow.querySelector('.swipe-wrap') as HTMLUListElement | null;
+    if (!wrap) return;
     wrap.innerHTML = '';
-    Object.values(this.children).forEach((item) => {
+    Array.from(this.children).forEach((item) => {
       const itemNode = this.createItem();
       itemNode.appendChild(item.cloneNode(true));
       wrap.appendChild(itemNode);
@@ -52,6 +53,7 @@ class CustomSwipe extends HTMLElement {
     this.clearSwipe();
     this.setSwipe();
   }
+
   setTemplate() {
     this.setStyle();
     this._template.appendChild(this._wrap);
@@ -178,13 +180,14 @@ class CustomSwipe extends HTMLElement {
     }
   }
   getConfig() {
-    const isHistory: boolean = !!(this.getAttribute('ishistory') || false);
+    const isHistoryAttr = this.getAttribute('ishistory');
+    const isHistory = isHistoryAttr !== null && isHistoryAttr !== 'false';
     const paramName = this.getAttribute('paramname') || 'index';
     const direction: 'column' | 'row' =
       this.getAttribute('direction') === 'column' ? 'column' : 'row';
     const historyCallback = (state: any) =>
       this.dispatchEvent(this.createSwipeEvents(state));
-      
+
     return {
       isHistory,
       paramName,
@@ -192,6 +195,7 @@ class CustomSwipe extends HTMLElement {
       historyCallback,
     };
   }
+
   createSwipeEvents(args: any) {
     return new CustomEvent('swipecb', {
       detail: args,
