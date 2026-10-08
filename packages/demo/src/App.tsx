@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Swipe from '../../react-custom-swipe/src';
-import ReactSwipe from 'react-custom-swipe';
+import Swipe from 'react-custom-swipe';
 
 import Post from './components/Post';
 import Sidebar from './components/Sidebar';

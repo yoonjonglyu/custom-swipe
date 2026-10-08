@@ -1,3 +1,4 @@
+const path = require('path');
 const commonPaths = require('./common-paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -9,6 +10,10 @@ const config = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      'swipe-core-provider': path.resolve(__dirname, '../../core/src'),
+      'react-custom-swipe': path.resolve(__dirname, '../../react-custom-swipe/src'),
+    },
   },
   module: {
     rules: [
